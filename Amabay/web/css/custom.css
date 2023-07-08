@@ -1,0 +1,14 @@
+/* By default, the normal logo is displayed */
+.logo img {
+    content: url('../images/logo.png');
+}
+
+/* When the viewport width is 768px or less (typical breakpoint for tablets and mobile devices), 
+   the mobile logo is displayed */
+@media screen and (max-width: 768px) {
+    .logo img {
+        content: url('../images/logo-mobile.png');
+    }
+    .block-search .minisearch input#search{position:static;}
+    .block-search .minisearch .label{display:none;}
+}
