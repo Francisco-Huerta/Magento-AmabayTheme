@@ -21,7 +21,6 @@ use Magento\Framework\App\Action\Action;
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $viewModel = $objectManager->get(\Bidder\Core\ViewModel\Customer::class);
 $isLoggedIn = $viewModel->isLoggedIn();
-var_dump('List.phtml $isLoggedIn', $isLoggedIn);
 $userId = $viewModel->getCustomerId();
 $_productCollection = $block->getLoadedProductCollection();
 $_onHomePage = $block->getOnHomePage();
