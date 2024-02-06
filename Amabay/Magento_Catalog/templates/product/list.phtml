@@ -124,10 +124,6 @@ if ($isSold) {
 
     $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion);
     extract($auctionsData);
-    if ($query) {
-        var_dump($query);
-        var_dump('auctionsWithProductAndNotApproved size: ', $auctionsWithProductAndNotApproved->getSize());
-    }
     // Prepare data for the loop
     $auctionBlocks = [
         ['data' => $auctionsByUser, 'title' => 'Mis subastas vigentes'],
