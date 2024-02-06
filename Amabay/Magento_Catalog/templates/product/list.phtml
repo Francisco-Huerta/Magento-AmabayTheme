@@ -31,10 +31,9 @@ if (isset($_COOKIE['userRegion'])) {
 } else {
     $userRegion = 'RM';
 }
-// $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion);
-// extract($auctionsData);
 $isSold = $this->getRequest()->getParam('sold', false);
 $isNotSold = $this->getRequest()->getParam('not_sold', false);
+$query = $this->getRequest()->getParam('q', false);
 
 // Define a function to render auction blocks
 function renderAuctionBlock($auctionCollection, $title, $viewModel, $viewMode, $block, $NotBiddedByCurrentUser = false)
@@ -122,8 +121,13 @@ if ($isSold) {
         ['data' => $auctionSortedByRegion, 'title' => 'Subastas vigentes'],
     ];
 } else {
+
     $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion);
     extract($auctionsData);
+    if ($query) {
+        var_dump($query);
+        var_dump('auctionsWithProductAndNotApproved size: ', $auctionsWithProductAndNotApproved->getSize());
+    }
     // Prepare data for the loop
     $auctionBlocks = [
         ['data' => $auctionsByUser, 'title' => 'Mis subastas vigentes'],
