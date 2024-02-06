@@ -1,3 +1,43 @@
-<?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <!-- <css src="css/custom.css" /> -->
+        <!-- <script src="js/custom.js"/> -->
+        <script src="js/region_setter"/>
+    </head>
+    <body>
+        <!-- <referenceBlock name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="my-account-link" template="Magento_Theme::html/my-account-link.phtml"/>
+        </referenceBlock> -->
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="customer.profile.view" template="Bidder_Core::profile.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="store.menu">
+            <!-- Your new profile view block -->
+            <block class="Magento\Framework\View\Element\Template" name="profile.view" template="Magento_Theme::html/profile-view.phtml" before="-">
+                <arguments>
+                    <argument name="customer_view_model" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Template" name="store.menu.logo" template="Magento_Theme::html/mobile_menu_logo.phtml" after="-" />
+        </referenceBlock>
+        <referenceContainer name="footer-container">
+            <container name="footer" as="footer" label="Page Footer" htmlTag="div" htmlClass="footer content">
+                <block class="Magento\Framework\View\Element\Template" name="custom.footer" template="Magento_Theme::html/custom_footer.phtml" />
+                <!-- <block class="Magento\Customer\Block\Form\Login" name="custom_customer_form_login" template="Magento_Theme::form/login.phtml">
+                    <arguments>
+                        <argument name="login_button_view_model" xsi:type="object">Magento\Customer\ViewModel\LoginButton</argument>
+                    </arguments>
+                </block> -->
+            </container>
+        </referenceContainer>
+        <!-- <referenceBlock name="store.links" remove="true"/> -->
+        <!-- Not show links (third option in menu)-->
+        <!-- <referenceBlock name="store.menu" remove="true" /> -->
+        <!-- Not show links (third option in menu)-->
+        <!-- <referenceBlock name="catalog.topnav" remove="true"/> -->
+    </body>
 </page>

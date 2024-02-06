@@ -1,0 +1,29 @@
+<script>
+    require([
+        'jquery',
+        'domReady!'
+    ], function($) {
+        'use strict';
+
+        var observeSlider = function() {
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length) {
+                        setTimeout(function() {
+                            $('.header-background').css('background-image', 'none');
+                        }, 300);
+                        observer.disconnect();
+                    }
+                });
+            });
+            var config = {
+                childList: true,
+                subtree: true
+            };
+            observer.observe($('.pagebuilder-slider')[0], config);
+        };
+        if ($('.pagebuilder-slider').length) {
+            observeSlider();
+        }
+    });
+</script>

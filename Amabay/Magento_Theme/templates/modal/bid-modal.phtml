@@ -1,0 +1,131 @@
+<div id="bid-modal" style="display:none;">
+    <form action="<?= /* @noEscape */ $block->getAuctionFormAction() ?>" method="post" id="bid-form">
+        <div class="modal-image-container">
+            <img class="modal-image-photo" src="" loading="lazy" width="700" height="525" alt="">
+        </div>
+        <h1 class="product-name"></h1>
+        <div class="offer-square">
+            <?= /* @noEscape */ __('MEJOR OFERTA ACTUAL') ?>
+        </div>
+        <div class="price-info">
+            CLP $ <?= '$formattedPrice' ?: 'No disponible' ?>
+        </div>
+        <div class="auction-end">
+            <?= '$auctionEndMessage'; ?>
+        </div>
+        <div class="input-box">
+            <input type="text" name="bidding_amount" id="bidding_amount" class="input-text required-entry mpbidding_amount" placeholder="<?= /* @noEscape */ __('Ingresa tu oferta'); ?>" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;" />
+            <button class="action primary buy-now-button" title="<?= /* @noEscape */ __('Bidding') ?>" type="submit">
+                <span><?= /* @noEscape */ __('Hacer oferta') ?></span>
+            </button>
+            <div class="bid-message-placeholder" style="min-height: 50px;"></div>
+        </div>
+        <!-- Add any other necessary hidden inputs here, similar to your other forms. -->
+        <input type="hidden" name="entity_id" value="" />
+        <input type="hidden" name="product_id" value="" />
+        <input type="hidden" name="pro_name" value="" />
+        <input type="hidden" name="auto_auction_opt" value="" />
+        <input type="hidden" name="pro_url" value="" />
+        <input type="hidden" name="stop_auction_time_stamp" value="">
+    </form>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Customer/js/customer-data',
+        'Magento_Ui/js/modal/modal',
+        'mage/translate'
+    ], function($, customerData, modal) {
+        // Convert div into modal
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            // title: $.mage.__('Realizar oferta por'),
+            buttons: [] // No buttons, as we have them inside our form already
+        };
+
+        var popup = modal(options, $('#bid-modal'));
+        $('#bid-form').submit(function(event) {
+            event.preventDefault();
+
+            var bidForm = $(this);
+            console.log('ajax url', bidForm.attr('action'));
+            var bidButton = bidForm.find('.action.primary');
+            var originalButtonText = bidButton.text();
+            var biddingAmount = parseFloat(bidForm.find('#bidding_amount').val());
+
+            // Instantly update the button text when clicked
+            bidButton.text($.mage.__('Bidding...'));
+            bidButton.attr('disabled', true);
+
+            $.ajax({
+                url: bidForm.attr('action'),
+                data: bidForm.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                complete: function(xhr, textStatus) {
+                    // Fetch the message from cookie
+                    var messages = $.cookieStorage.get('mage-messages');
+
+                    if (messages && messages.length) {
+                        var lastMessage = messages[messages.length - 1]; // Get the last message
+                        // Display the message in the modal
+                        $('.bid-message-placeholder').html('<div class="message ' + lastMessage.type + '"><div>' + lastMessage.text + '</div></div>');
+
+                        // If the bid was successful
+                        if (lastMessage.type === "success") {
+                            // Format the bidding amount
+                            var formattedBidAmount = biddingAmount.toLocaleString('de-DE', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
+                            });
+                            // Update the price-info div
+                            $('.price-info').html('CLP $ ' + formattedBidAmount);
+                        }
+
+                        // Clear the messages from the cookie
+                        $.cookieStorage.set('mage-messages', '');
+                    }
+
+                    // Refresh customer data related to messages
+                    customerData.reload(['messages']);
+
+                    // Reset the bid button after displaying the message
+                    // setTimeout(function() {
+                    bidButton.text(originalButtonText);
+                    bidButton.attr('disabled', false);
+                    // }, 2000); // Reset button text after 2 seconds
+                }
+            });
+        });
+        // Assuming you're using a Magento 2 modal initialized on an element with id 'bid-modal'
+        
+
+        // Initialize your modal here if it's not already initialized
+        // For example, bidModal.modal();
+
+        // Event listener for modal close
+        $('#bid-modal').on('modalclosed', function() {
+            // Clear input fields
+            $('#bid-modal input[name="entity_id"]').val('');
+            $('#bid-modal input[name="product_id"]').val('');
+            $('#bid-modal input[name="pro_name"]').val('');
+            $('#bid-modal input[name="auto_auction_opt"]').val('');
+            $('#bid-modal input[name="pro_url"]').val('');
+            $('#bid-modal input[name="stop_auction_time_stamp"]').val('');
+
+            // Clear text and image src
+            $('#bid-modal .product-name').text('');
+            $('#bid-modal .price-info').text('');
+            $('#bid-modal .modal-image-photo').attr('src', '');
+
+            // Clear the auction amount
+            $('#bid-modal .mpbidding_amount').val('');
+            // Clear any message placeholder content
+            $('#bid-modal .bid-message-placeholder').empty(); // or .text('') if you prefer
+
+        });
+    });
+</script>

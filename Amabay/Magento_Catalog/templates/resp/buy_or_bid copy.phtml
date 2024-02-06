@@ -1,0 +1,83 @@
+<?php
+$_product = $block->getProduct();
+$formKey = $block->getFormKey();
+$actionUrl = $block->getUrl('checkout/cart/add', ['product' => $_product->getId()]);
+?>
+
+<div class="normal-div buy-or-bid-buttons">
+    <button class="buy-now-button">Comprar ahora!</button>
+    <button class="default-style-button">Hacer oferta</button>
+
+    <form action="<?= /* @noEscape */ $actionUrl ?>" method="post" id="add-to-cart-form">
+        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>">
+        <input type="hidden" name="form_key" value="<?= /* @noEscape */ $formKey ?>">
+        <button type="submit" title="<?= __('Agregar al carro de compras') ?>" class="default-style-button" id="add-to-cart-button">
+            Agregar al carro de compras
+        </button>
+
+    </form>
+
+    <button class="default-style-button">Agregar a favoritos</button>
+</div>
+
+<style>
+    .buy-or-bid-buttons button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Customer/js/customer-data',
+        'Magento_Ui/js/modal/alert',
+        'mage/translate'
+    ], function($, customerData, alert) {
+        $('#add-to-cart-form').submit(function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var button = $('#add-to-cart-button');
+            var delayDuration = 1000; // 2 seconds
+
+            $.ajax({
+                url: form.attr('action'),
+                data: form.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function() {
+                    // Change button text to "Adding..."
+                    button.text($.mage.__('Adding...'));
+                    button.attr('disabled', true); // disable button to prevent multiple clicks
+                },
+                success: function(response) {
+                    // Refresh cart data
+                    customerData.reload(['cart'], true);
+
+                    // Change button text to "Added!"
+                    button.text($.mage.__('Añadido!'));
+
+                    setTimeout(function() {
+                        // Change button text back to original after the delay
+                        button.text($.mage.__('Agregar al carro de compras'));
+                        button.attr('disabled', false); // enable button again
+                    }, delayDuration);
+                },
+                error: function() {
+                    // Change button text back to original after the delay
+                    setTimeout(function() {
+                        button.text($.mage.__('Agregar al carro de compras'));
+                        button.attr('disabled', false); // enable button again
+                    }, delayDuration);
+                }
+            });
+        });
+    });
+</script>

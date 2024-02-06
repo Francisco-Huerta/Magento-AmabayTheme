@@ -1,0 +1,228 @@
+<?php
+$viewModel = $block->getData('customer_view_model');
+// $shopUrl = $viewModel->getShopUrl();
+?>
+<div class="menu-elements">
+    <div data-bind="scope: 'customer'">
+        <div class="user-profile logged-in" id="loggedInDiv">
+            <div class="menu-category-container">
+                <div class="user-greeting user-profile__line">
+                    <i class="fa fa-user"></i>
+                    <!-- <span class="user-greeting">Hola, Usuario</span> -->
+                    <span class="user-greeting">
+                        <span data-bind="text: new String('<?= $escaper->escapeHtml(__('¡Hola, %1!', '%1')) ?>').replace('%1', customer().firstname)">
+                        </span>
+                    </span>
+                    <span class="icon-placeholder"></span>
+                </div>
+
+                <!-- Second Line -->
+                <a href="javascript:void(0);" onclick="showProfile();" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <span class="menu-link user-profile-link">Mi Perfil</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+
+                <!-- Third Line -->
+                <!-- <a href="<?php echo $block->getUrl('vehiculos.html'); ?>" class="user-profile__line">
+                    <span class="icon number-icon">2</span>
+                    <div class="menu-link user-sales-info">
+                        <span>Mis Subastas</span>
+                        <span class="small-store-info">comentarios positivos</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a> -->
+                <a href="<?php echo $block->getUrl('vehiculos.html'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Mis Subastas</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+
+                <!-- Fourth Line -->
+                <a href="<?php echo $block->getUrl('marketplace/product/add/set/9/type/simple/'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Vender</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+
+            <div class="menu-category-container">
+                <div class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="user-sales-info menu-bids-subtitle">
+                        <span>Subastas terminadas</span>
+                    </div>
+                    <span class="icon-placeholder"></span>
+                    <!-- <i class="fa fa-angle-right"></i> -->
+                </div>
+
+                <a href="<?php echo $block->getUrl('vehiculos.html?sold=true'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Con venta exitosa</span>
+                    </div>
+                    <span class="icon-placeholder"></span>
+                </a>
+                <a href="<?php echo $block->getUrl('vehiculos.html?not_sold=true'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Sin venta</span>
+                    </div>
+                    <span class="icon-placeholder"></span>
+                </a>
+            </div>
+
+            <!-- Fifth Line -->
+            <div class="menu-category-container">
+                <a href="<?php echo $block->getUrl('customer/account/logout/'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Cerrar Sesión</span>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+
+            <!-- <a href="<?php echo $block->getUrl('customer/account/logout/'); ?>" class="user-profile__button">Cerrar Sesión</a> -->
+
+            <!-- <a href="<?php echo $block->getUrl('mpauction/account/bidsrecords/'); ?>" class="user-profile__button">MIS OFERTAS</a>
+            <a href="<?php echo $block->getUrl('marketplace/product/add/set/9/type/simple/'); ?>" class="user-profile__button">VENDER</a> -->
+        </div>
+    </div>
+    <div class="user-profile notlogged link authorization-link" id="notLoggedInDiv" data-label="o">
+        <div class="menu-category-container">
+            <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">INICIAR SESIÓN</a>
+            <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top" id="venderButton">VENDER</a>
+        </div>
+    </div>
+    <!-- <div class="sold-unsold">
+        <span class="icon-placeholder"></span>
+        <div class="sold-unsold__title">Subastas terminadas</div>
+        <div class="menu-link">
+            <a href="<?php echo $block->getUrl('vehiculos.html'); ?>" class="sold-unsold__button">Con venta exitosa</a>
+        </div>
+        <div class="menu-link">
+            <a href="<?php echo $block->getUrl('vehiculos.html'); ?>" class="sold-unsold__button">Sin venta</a>
+        </div>
+    </div> -->
+
+    <!-- <nav class="navigation" data-action="navigation">
+        <ul id="ui-id-1" role="menu" tabindex="0" class="ui-menu ui-widget ui-widget-content" aria-activedescendant="ui-id-2">
+            <li class="level0 nav-1 category-item first active level-top ui-menu-item"><a href="https://www.resubasta.com/category-autos" class="level-top ui-menu-item-wrapper ui-state-active" id="ui-id-2" tabindex="-1" role="menuitem"><span>Autos</span></a></li>
+        </ul>
+    </nav> -->
+</div>
+<script>
+    require(['Magento_Customer/js/customer-data', 'jquery'], function(customerData, $) {
+        var customer = customerData.get('customer');
+
+        function updateDivVisibility() {
+            if (customer() && customer().firstname) {
+                $('#loggedInDiv').css('display', 'grid');
+                $('#notLoggedInDiv').hide();
+            } else {
+                $('#loggedInDiv').hide();
+                $('#notLoggedInDiv').css('display', 'grid');
+            }
+        }
+
+        // Check if it's likely a mobile device
+        function isMobile() {
+            return window.innerWidth <= 768; // Match the value in the CSS media query
+        }
+
+        // Run on initial load
+        updateDivVisibility();
+
+        // Subscribe to changes
+        customer.subscribe(updateDivVisibility);
+    });
+</script>
+<script>
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            $('#venderButton').on('click', function(event) {
+                event.preventDefault();
+                var targetUrl = '<?php echo $block->getUrl('marketplace/product/add/set/9/type/simple/'); ?>';
+                localStorage.setItem('postLoginRedirect', targetUrl);
+                window.location.href = $(this).attr('href');
+            });
+        });
+    });
+</script>
+<script>
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            var postLoginRedirect = localStorage.getItem('postLoginRedirect');
+            if (postLoginRedirect) {
+                console.log('Redirecting to ' + postLoginRedirect);
+                localStorage.removeItem('postLoginRedirect'); // Clear the stored URL
+                window.location.href = postLoginRedirect;
+            }
+        });
+    });
+</script>
+<style>
+    .menu-bids-subtitle {
+        font-size: 1.6rem;
+        font-weight: 800;
+    }
+
+    .nav-sections-item-content .navigation {
+        display: none;
+    }
+
+    .sold-unsold {
+        background-color: #00adbb;
+        color: white;
+        display: contents;
+    }
+
+    .sold-unsold a {
+        background-color: #00adbb;
+        text-decoration: none;
+        /* Remove underline */
+        color: inherit;
+        /* Change link color */
+        font-size: 1.4rem;
+    }
+
+    a.sold-unsold__button {
+        text-decoration: none;
+        /* Remove underline on hover */
+        color: white;
+        /* Change link color on hover */
+    }
+
+    a.sold-unsold__butto {
+        text-decoration: none;
+        /* Remove underline on hover */
+        color: white;
+        /* Change link color on hover */
+    }
+
+    a.sold-unsold__butto {
+        text-decoration: none;
+        /* Remove underline for visited link */
+        color: white;
+        /* Change link color for visited link */
+    }
+
+    .menu-category-container {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-auto-rows: minmax(auto, 1fr);
+        gap: 10px;
+    }
+
+    /* Apply styles to all .menu-category-container elements except the last one */
+    .menu-category-container:not(:last-child) {
+        border-bottom: 2px solid #79cbd2;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+    }
+</style>

@@ -1,0 +1,149 @@
+// Login
+#social-login-authentication label::after {
+    content: "";
+}
+
+.white-popup#social-login-popup {
+    border-radius: 10px;
+    margin: 0 7px;
+}
+
+.social-login.block-container.authentication {
+    margin-top: @primary__margin_top;
+}
+
+.mfp-content #social-login-popup .social-login-title,
+#request-popup .social-login-title {
+    margin: 0px;
+    padding: 0px;
+}
+
+.mfp-content #social-login-popup>div.mp-social-popup.col-mp.mp-7 div.social-login-title {
+    width: 100%;
+}
+
+.mfp-content #social-login-popup .social-login-title {
+    background-color: white;
+    /* Use !important to override any inline styles */
+    color: @primary__color;
+
+    .action.create {
+        color: @secondary__color;
+        font-style: italic;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .login-title {
+        color: @third__color;
+        font-weight: @font-weight__semibold;
+        font-size: @font-size__xxxl;
+        line-height: @line-height__l;
+        padding-left: 0;
+        text-align: center;
+    }
+}
+
+.center {
+    text-align: center;
+}
+
+#social-form-password-forget .recover-pass {
+    display: none;
+}
+
+#social-form-login,
+#social-form-password-forget {
+
+    input[type="text"],
+    input[type="password"],
+    input[type="url"],
+    input[type="tel"],
+    input[type="search"],
+    input[type="number"],
+    input[type*="date"],
+    input[type="email"] {
+        border-radius: 25px;
+        border-color: @secondary__color-lighter;
+        width: 110%;
+        margin-left: -5%;
+        // padding: 12px 10px;
+        border-width: 2px;
+        height: 40px;
+    }
+}
+
+#social-login-popup .social-login #bnt-social-login-authentication,
+#social-login-popup .forgot .primary button,
+#social-login-popup .create .primary button,
+#social-login-popup .fake-email .primary button {
+    background-color: @secondary__color-lighter;
+    border: none;
+    border-radius: 15px;
+}
+
+#social-login-popup .mp-social-popup {
+
+    .social-login #bnt-social-login-authentication,
+    .forgot .primary button,
+    .create .primary button,
+    .fake-email .primary button {
+        background-color: @secondary__color;
+        border: none;
+        border-radius: 25px;
+        width: 90%;
+        font-size: 19px;
+        padding: 12px 0px;
+    }
+}
+
+#mp-popup-social-content {
+    .parent {
+        position: relative;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        font-size: 19px;
+        margin-bottom: 10px;
+        /* Pulls the "O" slightly down so it looks underlined */
+        z-index: 1;
+        color: @third__color-lighter;
+    }
+
+    .line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: @third__color-lighter;
+    }
+
+    .btn-google {
+        color: @primary__color;
+        background-color: white;
+        border-color: @primary__color;
+    }
+
+    .btn-social> :first-child {
+        border-right: none;
+    }
+
+    .social-btn .btn-social {
+        border-color: @primary__color;
+        border-radius: 25px;
+        padding: 8px 0;
+    }
+
+    #social-form-login .field.mail.required {
+        margin: 0 0 0;
+    }
+}

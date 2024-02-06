@@ -1,0 +1,193 @@
+// #html-body[class^="cms-category"],
+.gray {
+    color: gray;
+}
+
+.red {
+    color: #ff9d00;
+}
+
+
+.blue {
+    color: #00adbb;
+}
+
+.page-products {
+    @media (max-width: 768px) {
+        .page-header {
+            margin-bottom: 0px;
+        }
+
+        .page-footer {
+            margin-top: auto;
+        }
+        
+        .columns .column.main {
+            padding-bottom: 0px;
+        }
+
+        .secondary-style-button {
+            font-size: @font-size__xxs;
+            padding: 2px 4px;
+        }
+
+        .category-title-wrapper {
+            // text-align: center;
+            margin-bottom: 20px;
+            /* spacing before the products */
+            margin: 0px 10px 0px 10px;
+        }
+
+        .category-title {
+            font-size: @font-size__l;
+            font-weight: @font-weight__semibold;
+            /* adjust as needed */
+            margin: 0;
+            color: @secondary__color;
+        }
+
+        .grey-line {
+            height: 1px;
+            background-color: @third__color-lightest;
+            // color: @third__color;
+            margin-top: 10px;
+            /* adjust as needed */
+        }
+
+        .page-wrapper {
+            background-color: #eaeaea;
+        }
+
+        .block.widget.block-products-list.grid {
+            padding-top: 10px;
+            margin: 0px 0px 0px 0px;
+            // border-radius: @primary__border_radius;
+            background-color: white;
+            overflow: hidden;
+            // box-shadow: @box-shadow__normal;
+
+            .block-content {
+                padding: 10px;
+            }
+        }
+
+        .block.widget .products-grid .product-item {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .product-item:not(:last-child) {
+            border-bottom: 1px solid @third__color-lightest;
+            margin-bottom: 10px; // This ensures some space between items after the line.
+            padding-bottom: 10px; // This gives some padding to the item content above the line.
+        }
+
+        .product-items.widget-product-grid {
+            display: flex;
+            flex-direction: column;
+            /* This will ensure children are stacked vertically */
+        }
+
+        .product-image-container {
+            width: 100% !important;
+            /* Override the hardcoded width */
+        }
+
+        .product-item {
+            width: 100%;
+            display: block; /* Makes the anchor fill the list item */
+            text-decoration: none; /* Optional: Removes the underline from links */
+            color: inherit; /* Optional: Ensures the link color is the same as the text */
+            /* Add padding if necessary */
+        }
+
+        .product-item a {
+            display: block; /* Makes the anchor fill the list item */
+            text-decoration: none; /* Optional: Removes the underline from links */
+            color: inherit; /* Optional: Ensures the link color is the same as the text */
+            /* Add padding if necessary */
+        }
+
+        .product-item-info {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            grid-template-rows: 1fr 1fr;
+            /* Two rows of equal height */
+            column-gap: 15px;
+        }
+
+        .product-item-name {
+            margin: 0px;
+        }
+
+        .product-item-photo {
+            grid-row: 1 / span 2;
+            grid-column: 1;
+            width: 100%;
+            padding-right: 5px;
+        }
+
+        .product-item-details,
+        .auction-details {
+            display: flex;
+            align-items: center;
+            /* Vertically centers content within the grid row */
+            justify-content: start;
+            /* Align content to the start (left) of the grid column */
+        }
+
+        .product-image-photo {
+            position: absolute;
+            /* Allow the image to position itself relative to .product-image-wrapper */
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /* Cover the full width of the container */
+            height: 100%;
+            /* Cover the full height of the container */
+            object-fit: cover;
+            /* Maintain the image's aspect ratio */
+            object-position: center;
+            /* Center the image */
+            margin: auto;
+            /* Retain this to center the image in case its dimensions are less than the container */
+        }
+
+        .product-item-details {
+            grid-row: 1;
+            grid-column: 2;
+        }
+
+        .auction-details {
+            grid-row: 2;
+            grid-column: 2;
+        }
+
+        .bid-amount {
+            color: @secondary__color;
+            font-weight: @font-weight__bold;
+        }
+
+        .label.secondary-style-button {
+            margin-right: 5px;
+        }
+
+        .view-more-wrapper {
+            display: block;
+            text-align: center;
+            /* Center the link */
+            padding: 5px 0px;
+            /* Add some space at the top */
+            background-color: @secondary__color;
+            color: white;
+            /* Set a default color */
+            font-weight: @font-weight__semibold;
+        }
+
+        .view-more-wrapper:hover {
+            text-decoration: none;
+        }
+    }
+}

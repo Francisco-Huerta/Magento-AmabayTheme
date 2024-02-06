@@ -1,0 +1,27 @@
+.gallery-placeholder__image {
+    border-radius: 3%;
+}
+
+.fotorama__stage .fotorama__img {
+    border-radius: 3% !important;
+}
+
+.fotorama__active .fotorama__dot {
+    height: 6px;
+    width: 6px;
+    background-color: #4b4b4b !important;
+    border-color: #4b4b4b !important;	
+    /* 4b4b4b */
+}
+
+.fotorama__dot {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #999999 !important;
+    border-color: #999999 !important;	
+}
+
+.field.search .control .input-text {
+    border-radius: 3%;
+}

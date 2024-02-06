@@ -1,0 +1,126 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+$product_id = $product->getId();
+$viewModel = $objectManager->get(\Bidder\Core\ViewModel\Customer::class);
+$price = $product->getPrice();
+$auctionData = $block->getAuctionDetail();
+$current_auction_amount = 0;
+if (isset($auctionData['current_auction_amount'])) {
+    $current_auction_amount = $auctionData['current_auction_amount'];
+} else {
+    //No auction data, shouldn't be here
+}
+// $product_id = $auctionData['product_id'];
+$auction_id = $auctionData['entity_id'];
+$offers_auction = $viewModel->getTopOfferAuction($product_id, $auction_id);
+$number_of_offers = $viewModel->getNumberOfOffersAuction($product_id, $auction_id);
+$highest_user_bidder_id = $offers_auction['customer_id'];
+$current_user_id = $viewModel->getCustomerId();
+// var_dump($highest_user_bidder_id);
+// var_dump($current_user_id);
+$current_user_highest_bidder = true;
+if ($highest_user_bidder_id !== $current_user_id) {
+    $current_user_highest_bidder = false;
+}
+
+$formattedPrice = '';
+$formattedStartingPrice = '';
+$formattedBuyPrice = '';
+$endDate = '';
+$endTime = '';
+$auctionEndMessage = 'La subasta ha finalizado o la fecha de finalización no está disponible.';
+
+// Check if 'stop_auction_time_stamp' is set in the auctionData array
+if (isset($auctionData['stop_auction_time_stamp'])) {
+    $stop_time_stamp = $auctionData['stop_auction_time_stamp'];
+    $starting_price = $auctionData['starting_price'];
+    $current_time_stamp = time();
+    $timeRemainingInSeconds = $stop_time_stamp - $current_time_stamp;
+    echo "<script>var auctionEndTimeStamp = " . $stop_time_stamp . " * 1000;</script>";
+    $reserve_price = $auctionData['reserve_price'];
+    $curAucAmount = $auctionData['current_auction_amount'];
+    $displayPrice = $curAucAmount > 0 ? $curAucAmount : $starting_price;
+
+    // Convert price to desired format
+    $formattedStartingPrice = number_format($starting_price, 0, ',', '.');
+    $formattedPrice = number_format($displayPrice, 0, ',', '.');
+    $formattedBuyPrice = number_format($price, 0, ',', '.');
+
+    // Convert timestamp to date and time
+    $endDate = date('d/m/Y', $stop_time_stamp);
+    $endTime = date('H:i', $stop_time_stamp);
+    $labelAuctionEnd = "Esta subasta termina en";
+    $auctionEndMessage = "la subasta termina el {$endDate} a las {$endTime}hrs";
+
+    // PHP code to calculate time remaining
+    if (isset($auctionData['stop_auction_time_stamp'])) {
+        $days = floor($timeRemainingInSeconds / (3600 * 24));
+        $hours = floor(($timeRemainingInSeconds % (3600 * 24)) / 3600);
+        $minutes = floor(($timeRemainingInSeconds % 3600) / 60);
+        $seconds = $timeRemainingInSeconds % 60;
+
+        // Format for initial rendering
+        $initialCountdown = sprintf("%dd %02dh %02dm %02ds", $days, $hours, $minutes, $seconds);
+    }
+}
+
+?>
+
+<?php
+$label = $current_user_highest_bidder ? 'TIENES LA MEJOR OFERTA' : 'MEJOR OFERTA';
+$divClass = $current_user_highest_bidder ? 'price_product_view highest' : 'price_product_view';
+$oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
+?>
+
+<div class="<?= $divClass ?>">
+    <div class="best-offer-number">
+        <span class="offer-square">
+            <?= $label ?>
+        </span>
+        <span class="number-of-offers" style="padding: 3x 6px; font-size: 10px;">
+            <?= $number_of_offers . ' ' . $oneOffer ?>
+        </span>
+    </div>
+    <div class="price-info">
+        CLP $ <?= $formattedPrice ?: 'No disponible' ?>
+    </div>
+
+    <div class="auction-end">
+        <div class="label-auction-end"><?= $labelAuctionEnd ?></div>
+        <div id="auctionCountdown"><span id="timeLeft"><?= $initialCountdown ?></span></div>
+        <?= $auctionEndMessage ?>
+    </div>
+
+    <div class="minprice_inmidiatebuy">
+        <span class="label">Precio mínimo </span><span class="price">CLP $<?= $formattedStartingPrice ?: 'No disponible' ?><br></span>
+        <span class="label">Venta inmediata </span><span class="price">CLP $<?= $formattedBuyPrice ?: 'No disponible' ?></span>
+    </div>
+</div>
+
+<script>
+    function updateCountdown() {
+        var now = new Date().getTime();
+        var timeRemaining = auctionEndTimeStamp - now;
+
+        if (timeRemaining <= 0) {
+            document.getElementById('timeLeft').innerHTML = 'Auction ended';
+            clearInterval(interval);
+        } else {
+            var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // Pad hours, minutes, and seconds with leading zeros if needed
+            hours = String(hours).padStart(2, '0');
+            minutes = String(minutes).padStart(2, '0');
+            seconds = String(seconds).padStart(2, '0');
+
+            document.getElementById('timeLeft').innerHTML = days + 'd ' + hours + 'h ' +
+                minutes + 'm ' + seconds + 's';
+        }
+    }
+
+    var interval = setInterval(updateCountdown, 1000);
+</script>

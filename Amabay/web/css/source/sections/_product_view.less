@@ -1,0 +1,383 @@
+// product_view.css
+.catalog-product-view {
+    @media screen and (max-width: 768px) {
+
+        // #ajaxquestion-answertemplate .answer .answ.more {
+        //     text-align: right;
+        //     background-color: white;
+        // }
+        .product-view-details-title {
+            color: @third__color;
+            font-weight: @font-weight__semibold;
+            font-size: @font-size__xl;
+        }
+
+        .product-info-main .product-info-price {
+            display: none;
+        }
+
+        .modal-footer .action-primary.action-accept {
+            background: @secondary__color;
+            border: 1px solid @secondary__color;
+        }
+
+        .all-questions>div {
+            background: #fff none repeat scroll 0 0;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        #ajaxquestion-answertemplate {
+
+            .logo {
+                display: none;
+            }
+
+            .qlogo {
+                display: none;
+            }
+
+            .alogo {
+                display: none;
+            }
+
+            .ques {
+                padding-left: 0;
+                padding-right: 45px;
+                border-color: lightgray;
+                border-width: 1px;
+                border-style: solid;
+                background-color: lightgray;
+                border-radius: 7px;
+                width: 80%;
+                padding: 7px;
+
+                .ques-user-info {
+                    color: black;
+                }
+            }
+
+            .question {
+                margin-bottom: 7px;
+            }
+
+            .answer {
+                float: right;
+                width: 80%;
+            }
+
+            .answ {
+                padding-left: 0px;
+                border-color: @secondary__color;
+                border-width: 1px;
+                border-style: solid;
+                background-color: @secondary__color;
+                border-radius: 7px;
+                padding: 7px;
+                color: white;
+
+                .user-info {
+                    color: black;
+                }
+            }
+
+            .answ.more {
+                text-align: right;
+                background-color: white;
+                border: unset;
+            }
+
+            .reviews {
+                display: none;
+            }
+
+            .wk_prewrap {
+                white-space: normal;
+            }
+        }
+
+        .box-collateral.box-description {
+            .qa-question .action.primary {
+                background: @secondary__color;
+                border: 1px solid @secondary__color;
+            }
+
+            #search-bar {
+                display: none;
+            }
+
+            .question-header {
+                display: none;
+            }
+
+            .toolbar-amount {
+                display: none;
+            }
+
+            .limiter {
+                display: none;
+            }
+        }
+
+        .normal-div {
+            margin-top: @seconday__margin_top;
+        }
+
+        .fotorama {
+            overflow: visible !important;
+        }
+
+        .gallery-placeholder__image {
+            border-radius: @primary__border_radius;
+            box-shadow: @box-shadow__normal;
+            /* Adjust values as needed */
+        }
+
+        .fotorama__stage .fotorama__img {
+            border-radius: @primary__border_radius !important;
+        }
+
+        .fotorama__stage {
+            box-shadow: @box-shadow__normal !important;
+            /* Adjust values as needed */
+            border-radius: @primary__border_radius !important;
+        }
+
+        .fotorama__active .fotorama__dot {
+            height: 6px;
+            width: 6px;
+            // background-color: red !important;
+            // border-color: red !important;	
+            background-color: #4b4b4b !important;
+            border-color: #4b4b4b !important;
+            /* 4b4b4b */
+        }
+
+        .fotorama__dot {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #999999 !important;
+            border-color: #999999 !important;
+        }
+
+        .fotorama__nav.fotorama__nav--dots {
+            margin-top: @primary__margin_top;
+        }
+
+        .field.search .control .input-text {
+            border-radius: @primary__border_radius;
+        }
+
+        .product-info-main {
+            margin-top: 15px;
+
+            .page-title-wrapper {
+                display: block;
+            }
+
+            .page-title .base {
+                font-weight: @font-weight__semibold;
+                line-height: @line-height__s;
+                font-size: @font-size__xl;
+            }
+        }
+
+        .rating {
+            font-size: @font-size__xs;
+            color: @secondary__color;
+        }
+
+        .fa-user {
+            color: @secondary__color;
+        }
+
+        .fa-angle-right {
+            font-size: 30px;
+            /* Adjust size as needed */
+            margin-left: auto;
+            /* Pushes the icon to the far right */
+            margin-right: 10px;
+            align-self: center;
+            /* Vertically center within the flex container */
+            color: @secondary__color;
+        }
+
+        .shop_info {
+            color: @primary__color;
+        }
+
+        #profileconnect:hover {
+            text-decoration: none;
+            /* To remove underline */
+        }
+    }
+}
+
+// design/frontend/Bidder/Amabay/Magento_Catalog/templates/price_buy_product_view.phtml
+.catalog-product-view,
+.catalog-category-view {
+    .auction-end {
+        // margin-top: 10px;
+        font-size: @font-size__xs;
+    }
+
+    .highest .offer-square {
+        background-color: @secondary__color;
+    }
+
+    .highest .price-info {
+        color: @secondary__color;
+    }
+
+    .label-auction-end {
+        font-weight: @font-weight__semibold;
+    }
+
+    #auctionCountdown {
+        font-size: @font-size__xl;
+        font-weight: @font-weight__bold;
+        margin-bottom: @margin-vertical__base;
+    }
+
+    .offer-square {
+        display: inline-block;
+        background-color: @fourth__color;
+        color: white;
+        padding: 3px 6px;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 7px;
+        font-size: @font-size__xs;
+    }
+
+    .minprice_inmidiatebuy {
+        margin-top: @primary__margin_top;
+
+        .label {
+            color: @secondary__color;
+        }
+
+        .price {
+            font-weight: @font-weight__bold;
+        }
+    }
+
+    .price-info {
+        font-size: @font-size__xxl;
+        margin-top: @primary__margin_top;
+        color: @fourth__color;
+        font-weight: @font-weight__extrabold;
+        margin-bottom: @margin-vertical__base;
+    }
+
+    .price_product_view {
+        margin-top: @primary__margin_top;
+    }
+}
+
+.catalog-product-view,
+.catalog-category-view {
+    .modal-slide.modal-popup {
+        top: 20px;
+        left: 10px;
+        right: 10px;
+        bottom: auto;
+        border-radius: 10px;
+        text-align: center;
+
+        .modal-header {
+            text-align: center;
+
+            .modal-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: grey;
+            }
+        }
+
+        #bid-form {
+            .auction-end {
+                margin-bottom: 15px;
+            }
+
+            .offer-square {
+                font-weight: 600;
+            }
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .mpbidding_amount {
+            margin-bottom: 15px;
+        }
+
+        #bidding_amount {
+            border-radius: 15px;
+            border-width: 1.5px;
+            border-color: @secondary__color;
+        }
+
+        .input-text {
+            text-align: center;
+            /* Other styles for the input element */
+        }
+
+        .input-text::placeholder {
+            text-align: center;
+            /* Additional styling for the placeholder text */
+        }
+
+        .price-info {
+            font-size: @font-size__xxxl;
+        }
+
+        .message.error {
+            margin: 0;
+        }
+    }
+
+    .catalog-product-view {
+        .buy-now-button {
+            background-color: @secondary__color;
+            border-width: 0;
+            padding: 7px 25px;
+        }
+
+        .buy-now-button,
+        .buy-now-button:hover {
+            background-color: @secondary__color;
+            border-color: @secondary__color;
+            border-width: 2px;
+            border-radius: 25px;
+            color: white;
+        }
+    }
+}
+
+.default-style-button,
+.default-style-button:hover,
+.default-style-button:focus,
+.default-style-button:active {
+    background-color: white;
+    border-color: @secondary__color;
+    border-width: 2px;
+    border-radius: 25px;
+    color: @secondary__color;
+    outline: none;
+    /* To remove the default focus outline */
+}
+
+
+
+.secondary-style-button {
+    background-color: @secondary__color;
+    border-color: @secondary__color;
+    // border-width: 2px;
+    border-radius: 5px;
+    color: white;
+}

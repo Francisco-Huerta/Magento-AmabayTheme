@@ -1,0 +1,309 @@
+<?php
+$_product = $block->getProduct();
+$formKey = $block->getFormKey();
+$actionUrl = $block->getUrl('checkout/cart/add', ['product' => $_product->getId()]);
+$checkoutUrl = $block->getUrl('checkout'); // URL to redirect for the fast purchase
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$blockInstance = $objectManager->get('Webkul\MpAuction\Block\ViewOnProduct');
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$isLoggedIn = $customerSession->isLoggedIn();
+$aucConfig = $blockInstance->getAuctionConfiguration();
+
+$auctionData = $blockInstance->getAuctionDetail();
+$curAucAmount = $auctionData['current_auction_amount'];
+$starting_price = isset($auctionData['starting_price']) ? $auctionData['starting_price'] : $auctionData['min_amount'];
+$displayPrice = $curAucAmount > 0 ? $curAucAmount : $starting_price;
+$formattedPrice = number_format($displayPrice, 0, ',', '.');
+
+$entityId = isset($auctionData['entity_id']) ? $auctionData['entity_id'] : '';
+$productId = isset($auctionData['product_id']) ? $auctionData['product_id'] : '';
+$proName = isset($auctionData['pro_name']) ? $auctionData['pro_name'] : '';
+$autoAuctionOpt = isset($auctionData['auto_auction_opt']) ? $auctionData['auto_auction_opt'] : '';
+$proUrl = isset($auctionData['pro_url']) ? $auctionData['pro_url'] : '';
+$stopAuctionTimeStamp = isset($auctionData['stop_auction_time_stamp']) ? $auctionData['stop_auction_time_stamp'] : '';
+$endDate = date('d/m/Y', $stopAuctionTimeStamp);
+$endTime = date('H:i', $stopAuctionTimeStamp);
+$auctionEndMessage = "la subasta termina el {$endDate} a las {$endTime}hrs";
+$product = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get('Magento\Framework\Registry')
+                ->registry('current_product');
+?>
+<div id="ajax-messages" class="messages">
+    <div class="message-placeholder"></div>
+</div>
+<div class="normal-div buy-or-bid-buttons">
+    <form action="<?= /* @noEscape */ $actionUrl ?>" method="post" id="buy-now-form">
+        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>">
+        <input type="hidden" name="form_key" value="<?= /* @noEscape */ $formKey ?>">
+        <button type="submit" title="<?= __('Comprar ahora!') ?>" class="buy-now-button">
+            Comprar ahora!
+        </button>
+    </form>
+    <div class="authorization-link">
+        <?php if ($isLoggedIn) : ?>
+            <!-- If the user is logged in, set href to javascript:void(0); -->
+            <a href="javascript:void(0);" class="default-style-button offer-modal buy-now-button">Hacer oferta</a>
+        <?php else : ?>
+            <!-- If the user is not logged in, keep the original href -->
+            <a href="/customer/account/login/" class="default-style-button offer-modal buy-now-button">Hacer oferta</a>
+        <?php endif; ?>
+    </div>
+    <!-- This div will be converted into a modal -->
+    <div id="bid-modal" style="display:none;">
+        <form action="<?= /* @noEscape */ $blockInstance->getAuctionFormAction() ?>" method="post" id="bid-form">
+            <input type="hidden" name="entity_id" value="<?= /* @noEscape */ $entityId; ?>" />
+            <input type="hidden" name="product_id" value="<?= /* @noEscape */ $productId; ?>" />
+            <input type="hidden" name="pro_name" value="<?= /* @noEscape */ $proName; ?>" />
+            <input type="hidden" name="auto_auction_opt" value="<?= /* @noEscape */ $autoAuctionOpt; ?>" />
+            <input type="hidden" name="pro_url" value="<?= /* @noEscape */ $proUrl; ?>" />
+            <input type="hidden" name="stop_auction_time_stamp" value="<?= /* @noEscape */ $stopAuctionTimeStamp; ?>">
+            <h1 class="product-name"><?= /* @noEscape */ $customTitle = $product->getName() . ' ' . $product->getData('modelo') . ' ' . $product->getData('ano'); ?></h1>
+            <div class="offer-square">
+                <?= /* @noEscape */ __('MEJOR OFERTA ACTUAL') ?>
+            </div>
+            <div class="price-info">
+                CLP $ <?= $formattedPrice ?: 'No disponible' ?>
+            </div>
+            <div class="auction-end">
+                <?= $auctionEndMessage ?>
+            </div>
+            <div class="input-box">
+                <input type="text" name="bidding_amount" id="bidding_amount" class="input-text required-entry mpbidding_amount" placeholder="<?= /* @noEscape */ __('Ingresa tu oferta'); ?>" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;" />
+                <button class="action primary buy-now-button" title="<?= /* @noEscape */ __('Bidding') ?>" type="submit">
+                    <span><?= /* @noEscape */ __('Hacer oferta') ?></span>
+                </button>
+                <div class="bid-message-placeholder" style="min-height: 50px;"></div>
+            </div>
+            <!-- Add any other necessary hidden inputs here, similar to your other forms. -->
+        </form>
+    </div>
+
+
+    <!-- <form action="<?= /* @noEscape */ $actionUrl ?>" method="post" id="add-to-cart-form">
+        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>">
+        <input type="hidden" name="form_key" value="<?= /* @noEscape */ $formKey ?>">
+        <button type="submit" title="<?= __('Agregar al carro de compras') ?>" class="default-style-button" id="add-to-cart-button">
+            Agregar al carro de compras
+        </button>
+
+    </form> -->
+
+    <!-- <button class="default-style-button">Agregar a favoritos</button> -->
+</div>
+
+<style>
+    .buy-or-bid-buttons button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .buy-or-bid-buttons a {
+        display: block;
+        /* width: 100%; */
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .buy-or-bid-buttons a, .buy-or-bid-buttons a:visited, .buy-or-bid-buttons a:hover, .buy-or-bid-buttons a:focus {
+        color: white;
+        background-color: #00adbb;
+    }
+
+    /* .buy-or-bid-buttons:focus a {
+        color: white;
+        background-color: #00adbb;
+    } */
+
+    .bid-message-placeholder {
+        border: 1px solid #d1d1d1;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
+</style>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Customer/js/customer-data',
+        'Magento_Ui/js/modal/alert',
+        'Magento_Ui/js/modal/modal',
+        'mage/translate'
+    ], function($, customerData, alert, modal) {
+        $('#add-to-cart-form').submit(function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var button = $('#add-to-cart-button');
+            var delayDuration = 1000; // 2 seconds
+
+            $.ajax({
+                url: form.attr('action'),
+                data: form.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function() {
+                    // Change button text to "Adding..."
+                    button.text($.mage.__('Adding...'));
+                    button.attr('disabled', true); // disable button to prevent multiple clicks
+                },
+                success: function(response) {
+                    // Refresh cart data
+                    customerData.reload(['cart'], true);
+
+                    // Change button text to "Added!"
+                    button.text($.mage.__('Añadido!'));
+
+                    setTimeout(function() {
+                        // Change button text back to original after the delay
+                        button.text($.mage.__('Agregar al carro de compras'));
+                        button.attr('disabled', false); // enable button again
+                    }, delayDuration);
+                },
+                error: function() {
+                    // Change button text back to original after the delay
+                    setTimeout(function() {
+                        button.text($.mage.__('Agregar al carro de compras'));
+                        button.attr('disabled', false); // enable button again
+                    }, delayDuration);
+                }
+            });
+        });
+        $('#buy-now-form').submit(function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var button = form.find('.buy-now-button');
+            var delayDuration = 1000;
+
+            $.ajax({
+                url: form.attr('action'),
+                data: form.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function() {
+                    button.text($.mage.__('Processing...'));
+                    button.attr('disabled', true);
+                },
+                success: function(response) {
+                    customerData.reload(['cart'], true);
+                    window.location.href = "<?= /* @noEscape */ $checkoutUrl ?>"; // Redirect to checkout
+                },
+                error: function() {
+                    setTimeout(function() {
+                        button.text($.mage.__('Comprar ahora!'));
+                        button.attr('disabled', false);
+                    }, delayDuration);
+                }
+            });
+        });
+        // Convert div into modal
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: $.mage.__('Realizar oferta por'),
+            buttons: [] // No buttons, as we have them inside our form already
+        };
+
+        var popup = modal(options, $('#bid-modal'));
+
+        $('#bid-form').submit(function(event) {
+            event.preventDefault();
+
+            var bidForm = $(this);
+            var bidButton = bidForm.find('.action.primary');
+            var originalButtonText = bidButton.text();
+            var biddingAmount = parseFloat(bidForm.find('#bidding_amount').val());
+
+            // Instantly update the button text when clicked
+            bidButton.text($.mage.__('Bidding...'));
+            bidButton.attr('disabled', true);
+
+            $.ajax({
+                url: bidForm.attr('action'),
+                data: bidForm.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                complete: function(xhr, textStatus) {
+                    // Fetch the message from cookie
+                    var messages = $.cookieStorage.get('mage-messages');
+
+                    if (messages && messages.length) {
+                        var lastMessage = messages[messages.length - 1]; // Get the last message
+                        // Display the message in the modal
+                        $('.bid-message-placeholder').html('<div class="message ' + lastMessage.type + '"><div>' + lastMessage.text + '</div></div>');
+
+                        // If the bid was successful
+                        if (lastMessage.type === "success") {
+                            // Format the bidding amount
+                            var formattedBidAmount = biddingAmount.toLocaleString('de-DE', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
+                            });
+                            // Update the price-info div
+                            $('.price-info').html('CLP $ ' + formattedBidAmount);
+                        }
+
+                        // Clear the messages from the cookie
+                        $.cookieStorage.set('mage-messages', '');
+                    }
+
+                    // Refresh customer data related to messages
+                    customerData.reload(['messages']);
+
+                    // Reset the bid button after displaying the message
+                    // setTimeout(function() {
+                    bidButton.text(originalButtonText);
+                    bidButton.attr('disabled', false);
+                    // }, 2000); // Reset button text after 2 seconds
+                }
+            });
+        });
+    });
+</script>
+<script>
+    require(['websocketClient'], function(websocketClient) {
+        websocketClient.init('<?= $entityId ?>');
+    });
+</script>
+<script>
+    require([
+        'jquery',
+        'Magento_Customer/js/customer-data'
+    ], function($, customerData) {
+        // Function to update the event handler
+        var customer = customerData.get('customer');
+        function updateEventHandler() {
+            var customer = customerData.get('customer')
+
+            if (customer() && customer().firstname) {
+                console.log('User is logged in');
+                $('.offer-modal').off('click').on('click', function(event) {
+                    event.preventDefault();
+                    $("#bid-modal").modal("openModal");
+                });
+            } else {
+                console.log('User is not logged in');
+                // $('.offer-modal').off('click').attr('href', '/customer/account/login/');
+            }
+        }
+
+        // Subscribe to customer data changes
+        customerData.get('customer').subscribe(updateEventHandler);
+
+        // Initial setup
+        updateEventHandler();
+    });
+</script>

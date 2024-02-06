@@ -1,0 +1,194 @@
+// minicart and counter
+@media screen and (max-width: 768px) {
+
+    /* Setting the cart container to use Grid */
+    .minicart-wrapper .action.showcart {
+        display: grid !important;
+        place-items: center;
+        /* This will center both icon and counter in the grid cell */
+    }
+
+    .minicart-wrapper .action.showcart::before {
+        grid-row: 1 !important;
+        grid-column: 1 !important;
+    }
+
+    /* Ensuring both the cart icon and counter overlap in the same grid cell */
+    .minicart-wrapper .action.showcart .text,
+    .minicart-wrapper .action.showcart .counter.qty {
+        grid-row: 1 !important;
+        grid-column: 1 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .minicart-wrapper .action.showcart .counter .counter-number {
+        text-shadow: none !important;
+    }
+
+    /* Styling the counter */
+    .content .minicart-wrapper .action.showcart .counter.qty {
+        background-color: transparent;
+        border-radius: 0%;
+        padding: 0 5px;
+        color: @secondary__color;
+        font-weight: bold;
+        z-index: 1;
+        margin-left: 2px;
+        /* Ensure the counter is above the cart icon/text */
+    }
+}
+
+//header.css
+@media screen and (max-width: 768px) {
+    .header.content {
+
+        .minicart-wrapper .action.showcart::before,
+        .minicart-wrapper .action.showcart.active::before {
+            font-weight: 900;
+            font-family: "Font Awesome 6 Free";
+            content: '\f07a';
+            -webkit-font-smoothing: antialiased;
+            font-size: 30px;
+            line-height: 28px;
+            // color: #8f8f8f;
+            margin: 0;
+            vertical-align: top;
+            display: inline-block;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .minicart-wrapper .action.showcart:hover::before {
+            color: #333;
+        }
+    }
+
+    .logo img {
+        content: url('../images/logo.png');
+    }
+
+    .my-account-link {
+        display: none;
+    }
+
+    .my-account-link .fa-user {
+        color: white;
+    }
+
+    .my-account-link:hover .fa-user {
+        color: black;
+    }
+
+    .minicart-wrapper .action.showcart::before {
+        color: white !important;
+    }
+
+    .logo img {
+        content: url('../images/logo-mobile.png');
+    }
+
+    // .logo {
+    //     // margin: 15px auto 10px 0 !important;
+    // }
+
+    .block.block-search {
+        margin: 0 !important;
+    }
+
+    .block-search .minisearch input#search {
+        position: static;
+        border-radius: 15px;
+    }
+
+    .block-search .minisearch .control {
+        margin: 0 !important;
+    }
+
+    .block-search .minisearch .label {
+        display: none;
+    }
+
+    .block-search .control {
+        border-top: 0px !important;
+        padding: 0px 5px !important;
+    }
+
+    .block-search input {
+        margin: 0 !important;
+    }
+
+    .page-header {
+        border-bottom: 0px !important;
+        background-color: @secondary__color;
+        margin-bottom: 20px;
+    }
+
+    .nav-toggle::before {
+        color: white !important;
+    }
+
+    .action.nav-toggle {
+        color: white !important;
+    }
+
+    .my-account-link .fa-user {
+        color: white;
+    }
+
+    .my-account-link:hover .fa-user {
+        color: black;
+    }
+
+    .logo-name {
+        // Name the div that contains the logo and the name of the user
+        // And added this class
+        display: flex;
+        justify-content: space-between;
+        grid-column: 1 / span 3;
+        grid-row: 1;
+    }
+
+    .header.content {
+        display: grid;
+        grid-template-columns: 0.1fr 0.8fr 0.1fr;
+        /* Divide the content area into three equal parts */
+        grid-template-rows: auto auto;
+        /* Two rows: one for the logo and one for the rest */
+        gap: 10px;
+        /* Spacing between grid items */
+        align-items: center;
+        /* Center the items vertically */
+    }
+
+    #html-body .logo {
+        grid-column: ~"1 / span 3";
+        /* The logo will span all three columns */
+        grid-row: 1;
+        /* Place it in the first row */
+        // margin: 0 auto !important;
+        /* We dont need to Center the logo */
+        padding-top: 4px;
+        float: unset;
+        margin: 0 0 0 0;
+    }
+
+    .action.nav-toggle {
+        grid-column: 1;
+        /* First part of the second row */
+        grid-row: 2;
+        position: static;
+    }
+
+    .block-search {
+        grid-column: 2;
+        /* Middle part of the second row */
+        grid-row: 2;
+    }
+
+    .minicart-wrapper {
+        grid-column: 3;
+        /* Last part of the second row */
+        grid-row: 2;
+        margin-top: 0px !important;
+    }
+}

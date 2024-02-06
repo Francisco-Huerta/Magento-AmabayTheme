@@ -1,0 +1,239 @@
+.profile-page {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-page.visible {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .profile-page {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Fixed position */
+        top: var(--header-height);
+        /* Use the CSS variable here */
+        left: 0;
+        right: 0;
+        z-index: 13;
+        /* Below the header's z-index */
+        background: @secondary__color;
+        /* White or any other background color */
+        transition: opacity 0.5s, visibility 0.5s;
+        /* For a smooth fade-in effect */
+        opacity: 0;
+        visibility: hidden;
+        /* Initially hidden */
+        height: calc(100vh - var(--header-height));
+        /* Calculate the height */
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+
+        .bottom-section {
+            position: relative;
+            /* Make sure this is relative so the pseudo-element is positioned in relation to it */
+            background-color: @secondary__color;
+            // padding-top: 50px;
+            /* You have this to make space for the circle, but it may not be needed based on the exact look you're going for */
+            z-index: 3;
+            margin: 0px 10px;
+        }
+
+        .bottom-buttons {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: white;
+            text-align: center;
+            font-weight: @font-weight__bold;
+            /* Or whatever color you want */
+        }
+
+        h3 {
+            color: white;
+            text-align: center;
+        }
+
+        .bottom-buttons {
+            display: flex;
+            flex-direction: column;
+            button {
+                text-align: center;
+                margin-bottom: 10px;
+                border-radius: 15px;
+                width: 250px;
+                color: @secondary__color;
+                align-self: center;
+                font-weight: @font-weight__semibold;
+            }
+            button:hover,
+            button:active,
+            button:focus,
+            button:visited {
+                outline: none;
+                color: @secondary__color;
+                background-color: white;
+            }
+        }
+
+        .bottom-section h3 {
+            position: relative;
+            padding-left: 30px;
+            /* Give space for the icon */
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: 1px solid white;
+            /* Line above the h3 */
+            border-bottom: none;
+            margin-top: 0px;
+            /* Spacing above the h3 */
+            margin-bottom: 0px;
+            /* Spacing below the h3 */
+            font-size: @font-size__base;
+        }
+
+        .bottom-section h3::before {
+            content: "\f078";
+            /* This is the FontAwesome code for 'fa-chevron-down' */
+            font-family: 'FontAwesome';
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            /* Adjust size as necessary */
+            font-weight: 100;
+            color: white;
+            /* Set the color */
+            pointer-events: none;
+            /* Make it non-interactive */
+            // margin-left: 5px;
+        }
+
+        .toggle-info::before {
+            content: "\f078";
+            /* This is the FontAwesome code for 'fa-chevron-down' */
+            font-family: 'FontAwesome';
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            /* Adjust size as necessary */
+            font-weight: 100;
+            color: white;
+            /* Set the color */
+            pointer-events: none;
+            /* Make it non-interactive */
+            // margin-left: 5px;
+        }
+
+        .toggle-info.is-expanded::before {
+            content: "\f077";
+            /* Unicode for 'fa-chevron-up' */
+            /* Your styling for the icon when the section is expanded */
+        }
+
+        .bottom-section h3:first-child {
+            margin-top: 20px !important;
+            /* Add bottom border to the last h3 */
+        }
+
+        .bottom-section h3:last-child {
+            border-bottom: 1px solid white;
+            /* Add bottom border to the last h3 */
+            margin-bottom: 20px;
+        }
+
+        // .bottom-section h3 + h3 {
+        //     border-top: none; /* Remove top border for subsequent h3 elements */
+        // }
+
+        .image-container::before {
+            content: "";
+            display: block;
+            width: 120%;
+            height: 15vh;
+            position: absolute;
+            bottom: -14vh;
+            left: 50%;
+            transform: translateX(-50%) scaleY(2);
+            border-radius: 50%;
+            background-color: @secondary__color;
+            z-index: 2;
+            /* Positioned above the image but below .bottom-section */
+            pointer-events: none;
+        }
+
+        .image-container::after {
+            content: "";
+            display: block;
+            width: 17vh;
+            /* Diameter of the new circle */
+            height: 17vh;
+            /* Diameter of the new circle */
+            position: absolute;
+            bottom: calc(50% - 4vh);
+            /* Half the height of the semicircle minus half the height of the new circle */
+            left: 50%;
+            transform: translate(-50%, 50%);
+            /* Center horizontally and move up by half of the new circle's height */
+            border-radius: 50%;
+            background-color: white;
+            z-index: 3;
+            /* Ensure it is above the ::before pseudo-element */
+            pointer-events: none;
+            /* Make it non-interactive */
+        }
+
+        .image-container {
+            position: relative;
+            z-index: 1;
+            /* Lower z-index to keep it at the bottom of the stack */
+        }
+
+        .image-container .icon-center {
+            position: absolute;
+            top: 50%;
+            /* Align the top of the icon to the center of the container */
+            left: 50%;
+            /* Align the left of the icon to the center of the container */
+            bottom: calc(50% - 3vh);
+            transform: translate(-50%, -50%);
+            /* Center the icon exactly */
+            font-size: 5.5em;
+            /* Adjust the size of the icon as needed */
+            z-index: 4;
+            /* Above the .image-container::after pseudo-element */
+            color: @secondary__color;
+            /* Choose the color you want for the icon */
+        }
+
+        img {
+            position: relative;
+            z-index: 1;
+            /* Ensure the image is below the circle */
+            /* The rest of your image styling */
+        }
+
+        #personal-info {
+            margin: 0px 20px;
+            color: white;
+
+            p {
+                font-weight: @font-weight__bold;
+            }
+        }
+
+        :root {
+            --header-height: 0px;
+            /* Initial value if JavaScript hasn't run yet */
+        }
+    }
+
+}

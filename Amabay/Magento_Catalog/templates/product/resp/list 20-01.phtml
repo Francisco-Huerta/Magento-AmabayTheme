@@ -1,0 +1,450 @@
+<?php
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\App\Action\Action;
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$viewModel = $objectManager->get(\Bidder\Core\ViewModel\Customer::class);
+$_productCollection = $block->getLoadedProductCollection();
+
+$_onHomePage = $block->getOnHomePage();
+/** @var \Magento\Catalog\Helper\Output $_helper */
+$_helper = $block->getData('outputHelper');
+if (isset($_COOKIE['userRegion'])) {
+    $userRegion = $_COOKIE['userRegion'];
+} else {
+    $userRegion = 'RM';
+}
+// var_dump($viewModel->getCustomerId());
+$userId = $viewModel->getCustomerId();
+if ($userId === 0 || $_onHomePage) {
+    $productIds = $_productCollection->getColumnValues('entity_id');
+    $auctionCollectionFromProductCollection = $viewModel->getAuctionCollectionByProductIds($productIds);
+    $AuctionsSameRegionAndNot = $viewModel->splitAuctionCollectionByRegion($auctionCollectionFromProductCollection, $userRegion);
+    [$auctionsSameRegion, $auctionsNotSameRegion] = [$AuctionsSameRegionAndNot['matching_region'], $AuctionsSameRegionAndNot['other_regions']];
+    var_dump('auctionsSameRegion', count($auctionsSameRegion), 'type:', gettype($auctionsSameRegion));
+    var_dump('auctionsNotSameRegion', count($auctionsNotSameRegion), 'type:', gettype($auctionsNotSameRegion));
+} else {
+    $ownedAuctionsAndNot = $viewModel->getProductIdsFromAuctionsByAndNotByUserId($userId, $_productCollection);
+    [$auctionsByUser, $auctionsNotByUser] = [$ownedAuctionsAndNot['owned_by_user'], $ownedAuctionsAndNot['not_owned_by_user']];
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    // print_r($auctionsNotByUser->getData());
+    $approved = 1;
+    $notApproved = 2;
+    $auctionExpired = 0;
+    $auctionNotExpired = 1;
+    $auctionsWithProductAndNotApproved = $viewModel->getAuctionsWithProductAndStatus($userId, $notApproved, $auctionNotExpired);
+    $auctionsWithProductExpired = $viewModel->getAuctionsWithProductAndStatus($userId, null, $auctionExpired);
+    // var_dump('Count ' . count($auctionsNotByUser));
+    // $auctionsNotByUser->getData();
+
+    $auctionsBiddedAndNot = $viewModel->getOffersInAuctionsByCurrentCustomerWithFilter($auctionsNotByUser);
+    // For simplicity the auctionsBidded is not the same type of object as $auctionsNotBidded, please fix this
+    [$auctionsBidded, $auctionsNotBidded] = [$auctionsBiddedAndNot['bidded'], $auctionsBiddedAndNot['not_bidded']];
+    // var_dump('Count ' . count($auctionsNotBidded));
+    // var_dump($auctionsBidded);
+    // $auctionsNotBidded->getData();
+    $AuctionsSameRegionAndNot = $viewModel->splitAuctionCollectionByRegion($auctionsNotBidded, $userRegion);
+    [$auctionsSameRegion, $auctionsNotSameRegion] = [$AuctionsSameRegionAndNot['matching_region'], $AuctionsSameRegionAndNot['other_regions']];
+}
+
+
+?>
+<div class="listProductCollection">
+    <?php if (!$_productCollection->count()) : ?>
+        <div class="message info empty">
+            <div><?= $escaper->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
+        </div>
+    <?php else : ?>
+        <?= $block->getToolbarHtml() ?>
+        <?= $block->getAdditionalHtml() ?>
+        <?php
+        if ($block->getMode() === 'grid') {
+            $viewMode = 'grid';
+            $imageDisplayArea = 'category_page_grid';
+            $showDescription = false;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+        } else {
+            $viewMode = 'list';
+            $imageDisplayArea = 'category_page_list';
+            $showDescription = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+        }
+        /**
+         * Position for actions regarding image size changing in vde if needed
+         */
+        $pos = $block->getPositioned();
+        if ($userId && !$_onHomePage) {
+            if ($auctionsByUser && count($auctionsByUser) > 0 && !$_onHomePage) {
+        ?>
+                <div class="products-<?= /* @noEscape */ $viewMode ?>">
+                    <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__('Mis vehículos a la venta')) ?></p>
+                    <ol class="product-items widget-product-grid">
+                        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                        <?php foreach ($auctionsByUser as $auction) :
+                            $product_id = $auction->getData()['product_id']; ?>
+                            <li class="product-item">
+                                <?php
+                                // Create a block instance and set the current product
+                                // $productHtmlBlock = $this->getLayout()->createBlock("Magento\Catalog\Block\Product\AbstractProduct")
+                                //     ->setTemplate("Bidder_Core::product_html.phtml")
+                                //     ->setProductId($product_id)
+                                //     ->setData('viewModel', $viewModel);
+                                echo $block->getProductHtmlBlock($auction, $viewModel);
+                                ?>
+
+                            </li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+            <?php
+            }
+            if ($auctionsWithProductAndNotApproved && count($auctionsWithProductAndNotApproved) > 0 && !$_onHomePage) {
+            ?>
+                <div class="products-<?= /* @noEscape */ $viewMode ?>">
+                    <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__('Pendientes de apobación')) ?></p>
+                    <ol class="product-items widget-product-grid">
+                        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                        <?php foreach ($auctionsWithProductAndNotApproved as $auction) :
+                            $product_id = $auction->getData()['product_id']; ?>
+                            <li class="product-item">
+                                <?php
+                                $block->getProductHtmlBlock($auction, $viewModel);
+                                ?>
+
+                            </li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+            <?php
+            }
+            if ($auctionsWithProductExpired && count($auctionsWithProductExpired) > 0 && !$_onHomePage) {
+            ?>
+
+                <div class="products-<?= /* @noEscape */ $viewMode ?>">
+                    <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__('Mis subastas terminadas')) ?></p>
+                    <ol class="product-items widget-product-grid">
+                        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                        <?php foreach ($auctionsWithProductExpired as $auction) :
+                            $product_id = $auction->getData()['product_id']; ?>
+                            <li class="product-item">
+                                <?php
+                                // Create a block instance and set the current product
+                                $productHtmlBlock = $this->getLayout()->createBlock("Magento\Catalog\Block\Product\AbstractProduct")
+                                    ->setTemplate("Bidder_Core::product_html.phtml")
+                                    ->setProductId($product_id)
+                                    ->setData('viewModel', $viewModel);
+                                echo $productHtmlBlock->toHtml();
+                                ?>
+
+                            </li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+            <?php
+            }
+            if ($auctionsBidded && count($auctionsBidded) > 0 && !$_onHomePage) {
+            ?>
+                <div class="products-<?= /* @noEscape */ $viewMode ?>">
+                    <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__('Mis Ofertas')) ?></p>
+                    <ol class="product-items widget-product-grid">
+                        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                        <?php foreach ($auctionsBidded as $auction) :
+                            $product_id = $auction->getData()['product_id']; ?>
+                            <li class="product-item">
+                                <?php
+                                // Create a block instance and set the current product
+                                $productHtmlBlock = $this->getLayout()->createBlock("Magento\Catalog\Block\Product\AbstractProduct")
+                                    ->setTemplate("Bidder_Core::product_html.phtml")
+                                    ->setProductId($product_id)
+                                    ->setData('viewModel', $viewModel);
+                                echo $productHtmlBlock->toHtml();
+                                ?>
+
+                            </li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+        <?php }
+        } ?>
+        <div class="products-<?= /* @noEscape */ $viewMode ?>">
+            <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__('Vehículos en Subasta')) ?></p>
+            <ol class="product-items widget-product-grid">
+                <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                <?php foreach ($auctionsSameRegion as $auction) :
+                    $product_id = $auction->getData()['product_id']; ?>
+                    <li class="product-item">
+                        <?php
+                        // Create a block instance and set the current product
+                        $productHtmlBlock = $this->getLayout()->createBlock("Magento\Catalog\Block\Product\AbstractProduct")
+                            ->setTemplate("Bidder_Core::product_html.phtml")
+                            ->setProductId($product_id)
+                            ->setData('viewModel', $viewModel);
+                        echo $productHtmlBlock->toHtml();
+                        ?>
+
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+        <div class="products-<?= /* @noEscape */ $viewMode ?>">
+            <!-- <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__('Vehículos en otras regiones')) ?></p> -->
+            <ol class="product-items widget-product-grid">
+                <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                <?php foreach ($auctionsNotSameRegion as $auction) :
+                    $product_id = $auction->getData()['product_id']; ?>
+                    <li class="product-item">
+                        <?php
+                        // Create a block instance and set the current product
+                        $productHtmlBlock = $this->getLayout()->createBlock("Magento\Catalog\Block\Product\AbstractProduct")
+                            ->setTemplate("Bidder_Core::product_html.phtml")
+                            ->setProductId($product_id)
+                            ->setData('viewModel', $viewModel);
+                        echo $productHtmlBlock->toHtml();
+                        ?>
+
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+        <?php // phpcs:ignore Magento2.Legacy.PhtmlTemplate 
+        ?>
+</div>
+<?php endif; ?>
+<style>
+    .sidebar.sidebar-main {
+        display: none;
+    }
+
+    .toolbar.toolbar-products {
+        display: none;
+    }
+
+    .page-products .columns {
+        padding-top: 10px;
+    }
+</style>
+
+<style>
+    .info-product-state {
+        font-size: 12px;
+        /* font-weight: bold; */
+        /* margin-left: 5px; */
+    }
+</style>
+
+<style>
+    .time-critical {
+        color: red;
+    }
+
+    .product-item-attributes {
+        grid-row: 2;
+        grid-column: 2;
+        color: #00adbb;
+    }
+
+    .product-item-attributes p {
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .page-products .product-item-info {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        /* grid-template-rows: 1fr 0.5fr 1fr 0.5fr 0.5fr; */
+        grid-template-rows: auto;
+        column-gap: 5px;
+    }
+
+    .page-products .product-item-photo {
+        grid-row: 1 / span 5;
+        grid-column: 1;
+    }
+
+    .page-products .product-item-details {
+        grid-row: 1;
+        grid-column: 2;
+        font-weight: bold;
+    }
+
+    .page-products .product-item-attributes {
+        grid-row: 2;
+        grid-column: 2;
+        margin-top: auto;
+    }
+
+    .page-products .auction-details {
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    /* .page-products .auction-status {
+        grid-row: 4;
+        grid-column: 2;
+    } */
+
+    .page-products .auction-buyout {
+        grid-row: 4;
+        grid-column: 2;
+    }
+
+    .page-products .pending-approval {
+        grid-row: 4;
+        grid-column: 2;
+        font-size: 12px;
+    }
+
+    .auction-remaining-time {
+        font-size: 12px;
+        grid-row: 5;
+        grid-column: 2;
+    }
+
+    .page-products .product-item-info {
+        width: 100%;
+    }
+
+    .products-grid .product-item {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .products-grid {
+        background-color: white;
+    }
+
+    .page-with-filter #maincontent {
+        background-color: white;
+    }
+
+    a {
+        display: block;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .product-item-photo {
+        position: relative;
+    }
+
+    .bid-amount {
+        font-size: 1.6rem;
+    }
+
+    .block-subtitle {
+        /* text-align: center; */
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .products-grid:not(:first-of-type) .block-subtitle {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    .page-products .product-item:last-child {
+        border-bottom: 2px solid #e9e9e9;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+<style>
+    .cms-resubasta-com .listProductCollection {
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 15px;
+        overflow: hidden;
+
+        .products-grid {
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-right: 10px;
+        }
+    }
+
+    #html-body .listProductCollection .products-grid .product-item-info {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        /* grid-template-rows: 1fr 0.5fr 1fr 0.5fr 0.5fr; */
+        grid-template-rows: auto;
+        column-gap: 5px;
+    }
+
+    #html-body .listProductCollection .products-grid .product-item-photo {
+        grid-row: 1 / span 5;
+        grid-column: 1;
+    }
+
+    #html-body .listProductCollection .products-grid .product-item-details {
+        grid-row: 1;
+        grid-column: 2;
+        font-weight: bold;
+        color: black;
+        font-size: 1.4rem;
+    }
+
+    #html-body .listProductCollection .products-grid .product-item-attributes {
+        grid-row: 2;
+        grid-column: 2;
+        margin-top: auto;
+    }
+
+    #html-body .listProductCollection .products-grid .auction-details {
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    #html-body .listProductCollection .products-grid .auction-buyout {
+        grid-row: 4;
+        grid-column: 2;
+    }
+
+    #html-body .listProductCollection .products-grid .pending-approval {
+        grid-row: 4;
+        grid-column: 2;
+        font-size: 12px;
+    }
+
+    #html-body .listProductCollection .products-grid .product-item-info {
+        width: 100%;
+    }
+
+    #html-body .listProductCollection .products-grid .product-item:last-child {
+        border-bottom: 2px solid #e9e9e9;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+
+    #html-body .listProductCollection .products-grid {
+
+        a,
+        a:visited {
+            color: inherit;
+            /* Inherits the color from the parent element */
+            text-decoration: none;
+            /* Removes any text decoration like underlines */
+        }
+    }
+</style>

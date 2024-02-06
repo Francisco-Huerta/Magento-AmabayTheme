@@ -6,7 +6,7 @@
 //
 //  List default styles reset
 //  ---------------------------------------------
-// @import 'font-awesome.min.css';
+@import 'font-awesome.min.css';
 // @import 'mage/gallery/gallery.less';
 // @import (reference) "../../../../../../../../lib/web/mage/gallery/gallery.less";
 
@@ -14,119 +14,401 @@
 @secondary__color: #00adbb; // Your secondary color
 @secondary__color-lighter: #79cbd2; // Your secondary color
 @secondary__color-darker: #008fa1;
-@seconday__color-darkest: #006a7a;
-@third__color: #999999; // Your third color
-@third__color-lighter: #cccccc; // Your third color
-@third__color-lightest: #e9e9e9; // Your third color
-@third__color-darker: #666666; // Your third color
-@fourth__color: #ff9d00; // Your fourth color
 @primary__border_radius: 3%; // Your primary border radius
 @primary__margin_top: 10px; // Your primary margin top
 @seconday__margin_top: 20px; // Your secondary margin top
-@margin-vertical__base: 7px; // Your primary margin left
+@primary__margin_horizontal: 7px; // Your primary margin left
 @font-size__xxl: ceil(1.75 * @font-size__base);
-@font-size__xxxl: ceil(2.25 * @font-size__base);
-@font-size__xxs: ceil(0.55 * @font-size__base);
-@box-shadow__normal: 5px 5px 6px rgba(0, 0, 0, 0.4);
-@box-shadow__small: 3px 3px 4px rgba(0, 0, 0, 0.4);
-@height-auctions-grid-bottom-button: (@font-size__s * 2) + 5px * 2;
 
-@import 'sections/_frontpage.less';
-@import 'sections/_footer.less';
-@import 'sections/_header.less';
-@import 'sections/_login.less';
-@import 'sections/_product_view.less';
-@import 'sections/_menu.less';
-@import 'sections/_catalog.less';
-@import 'sections/_catalogCategory.less';
-@import 'sections/_profile.less';
-@import 'sections/_wizard.less';
-@import 'sections/_review_product.less';
-// @import 'sections/_custom.less';
+//header.css
 
-.auction-message {
-    height: @height-auctions-grid-bottom-button;
+.logo img {
+    content: url('../images/logo.png');
 }
 
-html,
-body {
-    height: 100%;
-    margin: 0;
-}
-
-.page-wrapper {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.page-header,
-.nav-sections,
-#maincontent {
-    flex: 0 0 auto;
-    /* Do not grow, do not shrink, and use their original size */
-}
-
-.page-footer {
-    margin-top: auto;
-    /* Push footer to the bottom */
-    /* Additional styling for your footer */
-}
-
-#maincontent {
-    flex-grow: 1;
-    /* Allow the main content to grow and fill the space */
-}
-
-//Frontpage boxshadow on AllCategory
-.cms-resubasta-com .listProductCollection {
-    box-shadow: @box-shadow__normal;
-}
-
-
-//hide message from search related terms
-.page-with-filter dl.block {
+.my-account-link {
     display: none;
 }
 
+.my-account-link .fa-user {
+    color: white;
+}
 
-@media only screen and (max-width: 768px) {
-    .customer-account-login .login-container .fieldset::after {
+.my-account-link:hover .fa-user {
+    color: black;
+}
+
+.minicart-wrapper .action.showcart::before {
+    color: white !important;
+}
+
+@media screen and (max-width: 768px) {
+    .logo img {
+        content: url('../images/logo-mobile.png');
+    }
+
+    .logo {
+        margin: 15px auto 10px 0 !important;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .block-search .minisearch input#search {
+        position: static;
+        border-radius: 15px;
+    }
+
+    .block-search .minisearch .control {
+        margin: 0 15px -1px !important;
+    }
+
+    .block-search .minisearch .label {
         display: none;
     }
 
-    .abs-margin-for-blocks-and-widgets,
-    .block,
-    .customer-review .product-details,
-    .block-banners,
-    .block-banners-inline {
-        margin-bottom: 0px !important;
+    .block-search .control {
+        border-top: 0px !important;
+    }
+
+    .block-search input {
+        margin: 0 0 15px 0 !important;
+    }
+
+    .page-header {
+        border-bottom: 0px !important;
+        background-color: @secondary__color;
+        // margin-bottom: 20px;
+    }
+
+    .nav-toggle::before {
+        color: white !important;
+    }
+
+    .action.nav-toggle {
+        color: white !important;
+    }
+
+    .my-account-link .fa-user {
+        color: white;
+    }
+
+    .my-account-link:hover .fa-user {
+        color: black;
     }
 }
 
-.level0.nav-1 {
-    border-bottom: 1px solid #d1d1d1;
+
+// product_view.css
+.catalog-product-view {
+    @media screen and (max-width: 768px) {
+        .normal-div {
+            margin-top: @seconday__margin_top;
+        }
+
+        .fotorama {
+            overflow: visible !important;
+        }
+
+        .gallery-placeholder__image {
+            border-radius: @primary__border_radius;
+            box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+            /* Adjust values as needed */
+        }
+
+        .fotorama__stage .fotorama__img {
+            border-radius: @primary__border_radius !important;
+        }
+
+        .fotorama__stage {
+            box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4) !important;
+            /* Adjust values as needed */
+            border-radius: @primary__border_radius !important;
+        }
+
+        .fotorama__active .fotorama__dot {
+            height: 6px;
+            width: 6px;
+            // background-color: red !important;
+            // border-color: red !important;	
+            background-color: #4b4b4b !important;
+            border-color: #4b4b4b !important;
+            /* 4b4b4b */
+        }
+
+        .fotorama__dot {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #999999 !important;
+            border-color: #999999 !important;
+        }
+
+        .fotorama__nav.fotorama__nav--dots {
+            margin-top: @primary__margin_top;
+        }
+
+        .field.search .control .input-text {
+            border-radius: @primary__border_radius;
+        }
+
+        .product-info-main {
+            margin-top: 15px;
+
+            .page-title-wrapper {
+                display: block;
+            }
+
+            .page-title .base {
+                font-weight: @font-weight__semibold;
+                line-height: @line-height__s;
+                font-size: @font-size__xl;
+            }
+        }
+
+        .rating {
+            font-size: @font-size__xs;
+            color: @secondary__color;
+        }
+
+        .fa-user {
+            color: @secondary__color;
+        }
+
+        .fa-angle-right {
+            font-size: 30px;
+            /* Adjust size as needed */
+            margin-left: auto;
+            /* Pushes the icon to the far right */
+            margin-right: 10px;
+            align-self: center;
+            /* Vertically center within the flex container */
+            color: @secondary__color;
+        }
+
+        .shop_info {
+            color: @primary__color;
+        }
+
+        #profileconnect:hover {
+            text-decoration: none;
+            /* To remove underline */
+        }
+    }
 }
 
-.level0.nav-2 {
-    display: none;
+.price_product_view {
+    margin-top: @primary__margin_top;
+
+    .offer-square {
+        display: inline-block;
+        background-color: @secondary__color;
+        color: white;
+        padding: 3px 6px;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 7px;
+        font-size: @font-size__xs;
+        margin-left: @primary__margin_horizontal;
+    }
+
+    .price-info {
+        font-size: @font-size__xxl;
+        margin-top: @primary__margin_top;
+        color: @secondary__color;
+        font-weight: @font-weight__extrabold;
+    }
+
+    .auction-end {
+        // margin-top: 10px;
+        font-size: @font-size__xs;
+    }
+
+    .minprice_inmidiatebuy {
+        margin-top: @primary__margin_top;
+
+        .label {
+            color: @secondary__color;
+        }
+
+        .price {
+            font-weight: @font-weight__bold;
+        }
+    }
 }
 
-.level0.nav-3 {
-    display: none;
+.default-style-button {
+    background-color: white;
+    border-color: @secondary__color;
+    border-width: 2px;
+    border-radius: 25px;
+    color: @secondary__color;
 }
 
-.customer-account-login .wk_social_choice {
-    display: none;
+.buy-now-button {
+    background-color: @secondary__color;
+    border-color: @secondary__color;
+    border-width: 2px;
+    border-radius: 25px;
+    color: white;
 }
 
-.customer-account-login .action.primary {
-    background: @secondary__color;
-    border: none;
-    border-radius: 15px;
+// Menu Profile View
+.menu-logo-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 50%; // move the left edge to the center of the parent
+    transform: translateX(-50%); // shift it back left by half of its own width
+    width: 65%;
+}
+
+.section-items.nav-sections-items.mage-tabs-disabled {
+    height: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .navigation .level0.active>a:not(.ui-state-active),
+    .navigation .level0.has-active>a:not(.ui-state-active) {
+        border-color: @secondary__color-lighter !important;
+        border-style: solid !important;
+        border-width: 0 0 0 8px !important;
+        color: #000000 !important;
+    }
+}
+
+.nav-sections,
+.navigation {
+    background-color: white !important;
+}
+
+.user-profile {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-auto-rows: minmax(auto, 1fr);
+    gap: 10px;
+    background-color: @secondary__color;
+    padding: 20px 10px;
+    color: white;
+
+    .fa,
+    .user-profile__line {
+        color: white;
+    }
+
+    .fa-user,
+    .fa-angle-right,
+    .user-greeting,
+    .menu-link {
+        align-self: center;
+    }
+
+    .fa-user,
+    .fa-angle-right {
+        font-size: 24px;
+    }
+
+    .user-greeting {
+        font-size: @font-size__l;
+        font-weight: @font-weight__bold;
+    }
+
+    .user-profile__line {
+        display: contents;
+        text-decoration: none;
+
+        &:visited {
+            color: white;
+        }
+    }
+
+    .user-sales-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .icon-placeholder {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        visibility: hidden;
+    }
+
+    .menu-link {
+        font-weight: @font-weight__regular;
+    }
+
+    .small-store-info {
+        font-size: @font-size__xs;
+        font-style: italic;
+    }
+
+    .icon.number-icon {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: @secondary__color;
+        font-weight: 1000;
+        font-size: @font-size__base;
+        margin-left: auto;
+        align-self: center;
+    }
+
+    .user-profile__button {
+        grid-column: 1 / span 3; // Make the button span the entire width of the grid
+        background-color: @secondary__color-lighter;
+        color: white; // Color of the text
+        border: none; // Remove default borders
+        border-radius: 25px; // Rounded corners, adjust as needed
+        padding: 10px 20px; // Internal padding for the button
+        text-align: center;
+        font-weight: @font-weight__bold; // Set the font-weight for the button
+        text-decoration: none; // Remove underline
+        cursor: pointer; // Hand cursor for better UX
+        transition: background-color 0.3s ease; // Transition effect
+
+        &:hover {
+            background-color: @secondary__color-darker; // Slightly darker shade on hover for interaction
+        }
+    }
+}
+
+.search-container {
+    // margin-top: 20px; // Add some space above the new div
+    text-align: center; // Center content horizontally
+    padding: 20px; // Add some space inside the container
+    background-color: white; // Choose a background color that complements your design. I used a hypothetical lighter variant of your secondary color.
+    color: white;
+
+    h2 {
+        font-size: @font-size__xl;
+        font-weight: @font-weight__semibold;
+        margin: 0 30px; // Add some space below the heading
+        // padding: 20px 0;
+        padding-bottom: 20px;
+        background-color: white;
+        color: #5d5d5f;
+    }
+
+    .magento-search-bar {
+        // Add styling for the Magento search bar
+        // Style the search bar as you desire. For demonstration:
+        // width: 80%; // Take up 80% of the container's width
+        margin: 0 auto; // Center it
+        border-radius: 25px;
+        border-width: 2px;
+        border-color: @secondary__color-lighter;
+    }
 }
 
 //custom.css
+
+
 body.marketplace-product-add {
 
     .sidebar.sidebar-main,

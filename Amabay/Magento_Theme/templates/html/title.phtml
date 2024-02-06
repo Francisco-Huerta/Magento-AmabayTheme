@@ -1,0 +1,43 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var $block \Magento\Theme\Block\Html\Title
+ */
+$cssClass = $block->getCssClass() ? ' ' . $block->getCssClass() : '';
+$titleHtml = '';
+$isProductPage = $block->getRequest()->getFullActionName() == 'catalog_product_view';
+if ($isProductPage) {
+    $product = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get('Magento\Framework\Registry')
+                ->registry('current_product');
+    $customTitle = $product->getName();
+    // Add additional attributes if needed
+    // $customTitle .= ' - ' . $product->getAttributeText('attribute_code');
+    $titleHtml = '<span class="base" data-ui-id="page-title-wrapper">' . $block->escapeHtml($customTitle) . '</span>';
+} else {
+    if (trim($block->getPageHeading())) {
+        $titleHtml = '<span class="base" data-ui-id="page-title-wrapper" '
+            . $block->getAddBaseAttribute()
+            . '>'
+            . $block->escapeHtml($block->getPageHeading())
+            . '</span>';
+    }
+}
+
+?>
+<?php if ($titleHtml) : ?>
+<div class="page-title-wrapper<?= $block->escapeHtmlAttr($cssClass) ?>">
+    <h1 class="page-title"
+        <?php if ($block->getId()) : ?> id="<?= $block->escapeHtmlAttr($block->getId()) ?>" <?php endif; ?>
+        <?php if ($block->getAddBaseAttributeAria()) : ?>
+            aria-labelledby="<?= $block->escapeHtmlAttr($block->getAddBaseAttributeAria()) ?>"
+        <?php endif; ?>>
+        <?= /* @noEscape */ $titleHtml ?>
+    </h1>
+    <?= $block->getChildHtml() ?>
+</div>
+<?php endif; ?>

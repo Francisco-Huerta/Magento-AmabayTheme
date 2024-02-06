@@ -1,0 +1,117 @@
+<?php
+$viewModel = $block->getData('customer_view_model');
+// $shopUrl = $viewModel->getShopUrl();
+?>
+
+<div class="user-profile logged-in" id="loggedInDiv">
+    <!-- First Line -->
+    <i class="fa fa-user"></i>
+    <!-- <span class="user-greeting">Hola, Usuario</span> -->
+    <span class="user-greeting" data-bind="scope: 'customer'">
+        <!-- ko if: customer().fullname -->
+        <span data-bind="text: new String('<?= $escaper->escapeHtml(__('Hola, %1!', '%1')) ?>').
+          replace('%1', customer().firstname)">
+        </span>
+        <!-- /ko -->
+        <!-- ko ifnot: customer().fullname -->
+        <span data-bind="text: 'Bienvenido Invitado!'"></span>
+        <!-- /ko -->
+    </span>
+    <span class="icon-placeholder"></span>
+
+
+    <!-- Second Line -->
+    <a href="javascript:void(0);" onclick="showProfile();" class="user-profile__line">
+        <span class="icon-placeholder"></span>
+        <span class="menu-link user-profile-link">Ver perfil</span>
+        <i class="fa fa-angle-right"></i>
+    </a>
+
+    <!-- Third Line -->
+    <a href="<?php echo $block->getUrl('marketplace/account/dashboard/'); ?>" class="user-profile__line">
+        <span class="icon number-icon">2</span>
+        <div class="menu-link user-sales-info">
+            <span>Mis Ventas</span>
+            <span class="small-store-info">comentarios positivos</span>
+        </div>
+        <i class="fa fa-angle-right"></i>
+    </a>
+
+    <!-- Fourth Line -->
+    <a href="htts://www.google.cl" class="user-profile__line">
+        <span class="icon-placeholder"></span>
+        <span class="menu-link user-settings">Configuraciones</span>
+        <i class="fa fa-angle-right"></i>
+    </a>
+
+    <a href="https://www.google.cl" class="user-profile__button">MIS SUBASTAS</a>
+</div>
+<!-- <div class="user-profile notlogged" id="notLoggedInDiv"> -->
+<!-- <div class="links"> -->
+<!-- <div class="user-profile notlogged link authorization-link" id="notLoggedInDiv" data-label="o">
+    <a href="#social-login-popup" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">INICIAR SESIÓN</a>
+</div> -->
+<div class="user-profile notlogged link authorization-link" id="notLoggedInDiv" data-label="o">
+    <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">INICIAR SESIÓN</a>
+</div>
+
+<!-- </div> -->
+<!-- </div> -->
+
+
+<div class="search-container">
+    <h2 class="find-string">Encuentra eso que estás buscando</h2>
+
+    <!-- Magento search bar -->
+    <form id="mobileSearchForm" action="<?php echo $block->getUrl('catalogsearch/result/'); ?>" method="get">
+        <input type="search" id="mobileSearchInput" name="q" class="magento-search-bar" placeholder="Buscar..." required>
+    </form>
+</div>
+<script>
+    // Existing event listener for keydown
+    document.getElementById("mobileSearchInput").addEventListener("keydown", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            event.preventDefault(); // Prevent default behavior
+            document.getElementById("mobileSearchForm").submit(); // Submit the form
+        }
+    });
+
+    // Event listener to hide the logo when the keyboard appears
+    document.getElementById("mobileSearchInput").addEventListener("focus", function() {
+        document.getElementById("menu-logo-wrapper").style.display = "none";
+    });
+
+    // Event listener to show the logo when the keyboard is closed
+    document.getElementById("mobileSearchInput").addEventListener("blur", function() {
+        document.getElementById("menu-logo-wrapper").style.display = "block";
+    });
+</script>
+<script>
+    require(['Magento_Customer/js/customer-data', 'jquery'], function(customerData, $) {
+        var customer = customerData.get('customer');
+
+        function updateDivVisibility() {
+            if (customer() && customer().firstname) {
+                $('#loggedInDiv').show();
+                $('#notLoggedInDiv').hide();
+            } else {
+                $('#loggedInDiv').hide();
+                $('#notLoggedInDiv').show();
+            }
+        }
+
+        // Check if it's likely a mobile device
+        function isMobile() {
+            return window.innerWidth <= 768; // Match the value in the CSS media query
+        }
+
+        if (isMobile()) {
+            // Run on initial load
+            updateDivVisibility();
+
+            // Subscribe to changes
+            customer.subscribe(updateDivVisibility);
+        }
+    });
+</script>

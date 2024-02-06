@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_SocialLogin
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+use Mageplaza\SocialLogin\Model\System\Config\Source\Position;
+
+?>
+<?php /** @var \Mageplaza\SocialLogin\Block\Popup\Social $block */
+$availableSocials = $block->getAvailableSocials(); ?>
+<style>
+    #mp-popup-social-content .btn-block {
+        display: grid;
+        /* Set the container as a grid container */
+        grid-template-columns: 1fr;
+        /* Text will take the full width of the container */
+        align-items: center;
+        /* Center items vertically */
+        position: relative;
+        /* Set context for absolute positioning of the icon */
+        /* padding-left: 30px; */
+        /* Approximate space for the icon, adjust as needed */
+        text-align: center;
+        padding: 0;
+    }
+
+    .btn-google .fa-google {
+        width: 40px;
+        /* Set your desired width */
+        height: 40px;
+        /* Set your desired height */
+        display: inline-block;
+        /* Ensure the span behaves as a block-level element within the flow */
+        background: url("images/g-logo.png") no-repeat center center;
+        /* Added center center for better positioning */
+        background-size: contain;
+        /* This will scale the image to fit within the element, maintaining its aspect ratio */
+    }
+</style>
+<?php if ($block->canShow(Position::PAGE_POPUP) && sizeof($availableSocials)) : ?>
+    <div id="mp-popup-social-content">
+        <div class="block social-login-authentication-channel col-mp mp-5">
+            <div class="parent">
+                <div class="line left"></div>
+                <div class="circle">o</div>
+                <div class="line right"></div>
+            </div>
+            <div class="block-content">
+                <?php foreach ($availableSocials as $key => $social) : ?>
+                    <div class="actions-toolbar social-btn <?= $key ?>-login">
+                        <a class="btn btn-block btn-social btn-<?= $block->getBtnKey($key) ?>" data-mage-init='{"socialProvider": {"url": "<?= $social['login_url'] ?>", "label": "<?= __('Login By %1', $social['label']) ?>"}}'>
+                            <span class="fa fa-<?= $block->getBtnKey($key) ?>"></span>
+                            <?= __('Acceder con %1', $social['label']) ?>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+                <form class="form-customer-login" id="social-form-login" data-mage-init='{"validation":{}}'>
+                    <a class="action create italic" href="#"><span><?= __('Olvidé mi contraseña') ?></span></a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(['jquery'], function($) {
+            $('.mp-social-popup').addClass('col-mp mp-7');
+        });
+    </script>
+<?php endif; ?>
+
+<?php
+/**
+ * Add variable to show social buttons on customer authentication popup
+ */
+?>
+<?php $authenConfig = $block->getSocialButtonsConfig(); ?>
+<?php if ($block->canShow(Position::PAGE_AUTHEN) && sizeof($availableSocials)) : ?>
+    <script>
+        window.socialAuthenticationPopup = <?= \Laminas\Json\Json::encode($authenConfig); ?>;
+    </script>
+<?php endif; ?>

@@ -1,0 +1,427 @@
+// Ending soon grid
+@media screen and (max-width: 768px) {
+
+    .cms-resubasta-com {
+        .columns .column.main {
+            padding-bottom: 0px;
+        }
+
+        .page-footer {
+            margin-top: 10px;
+        }
+    }
+
+    .title-homepage-grid {
+        margin: 0px 10px;
+        color: @secondary__color;
+        font-weight: @font-weight__semibold;
+        font-size: @font-size__l;
+    }
+
+    .grid-ending-soon {
+        position: relative;
+        display: flex;
+        // justify-content: space-between;
+        margin: 20px 0;
+        // padding-left: 10px;
+        // padding-right: 10px;
+        width: 100%;
+
+        .product-items {
+            width: 100%;
+            display: flex;
+            /* Make it a flex container */
+            overflow-x: auto;
+            /* Allow horizontal scrolling */
+            list-style-type: none;
+            /* Remove default list styles */
+            padding: 0;
+            /* Remove default padding */
+            // white-space: nowrap;
+            /* Prevents wrapping of items */
+            line-height: 1.2;
+            padding-left: 10px;
+        }
+
+        .product-image-wrapper {
+            padding-bottom: (100/140)*100% !important;
+        }
+
+        .bid-amount {
+            font-size: @font-size__l;
+        }
+    }
+
+    .grid-ending-soon .product-ending-soon {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 10px;
+        flex: 0 0 auto;
+        /* Items don't grow or shrink and auto basis */
+        margin-right: 7px;
+        /* Add some spacing between items */
+        /* display: block; */
+        width: calc(40% - 10px);
+        height: 200px;
+        background-color: #fff;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+        text-decoration: none;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
+        border-width: 0px;
+    }
+
+    .grid-ending-soon .product-ending-soon:hover {
+        transform: scale(1.02);
+    }
+
+    .grid-ending-soon .image-ending-soon {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        flex: 0 0 50%;
+    }
+
+    .grid-ending-soon .image-ending-soon img {
+        width: 100%;
+        display: block;
+    }
+
+    .grid-ending-soon .info-ending-soon {
+        display: flex;
+        /* Flexbox layout */
+        flex-direction: column;
+        /* Stack children vertically */
+        justify-content: space-between;
+        /* Space between first and last child */
+        height: 100%;
+        /* 100% height as mentioned */
+        position: relative;
+        /* Relative positioning for its children */
+        margin-top: 5px;
+    }
+
+    .grid-ending-soon .name-ending-soon {
+        margin-left: 10px;
+        margin-right: 10px;
+        // text-align: center;
+        display: block;
+        font-size: @font-size__s;
+        margin-bottom: 5px;
+        color: @third__color-darker;
+        font-weight: @font-weight__semibold;
+        display: -webkit-box;
+        /* Use box model for content */
+        -webkit-line-clamp: 3;
+        /* Limit to 3 lines */
+        -webkit-box-orient: vertical;
+        /* Stack content vertically */
+        overflow: hidden;
+        /* Hide any overflow */
+        // max-height: calc(1.2em * 3);
+        height: calc(1.2em * 2.1);
+    }
+
+    .grid-ending-soon .auction-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .grid-ending-soon .bid-amount {
+        color: #333;
+        font-weight: @font-weight__semibold;
+        font-size: @font-size__base;
+        text-align: center;
+        margin: 0px 10px;
+
+    }
+
+    .grid-ending-soon .homepage-horizontal-grid-bottom-message .time {
+        font-weight: @font-weight__semibold;
+    }
+
+    @height-horizontal-grid-bottom-message: (@font-size__s * 2) + 5px * 2;
+    .grid-ending-soon .homepage-horizontal-grid-bottom-message {
+        width: 100%;
+        text-align: center;
+        background-color: @secondary__color;
+        height: @height-horizontal-grid-bottom-message;
+        overflow: hidden;
+        padding-top: 2px;
+    }
+
+    .grid-ending-soon .homepage-horizontal-grid-bottom-message span {
+        display: block;
+        font-size: @font-size__s;
+        color: white;
+    }
+}
+
+// Categories
+@media screen and (max-width: 768px) {
+    .grid-categories {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .grid-categories li {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .grid-categories a {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .category-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: white;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        /* Adjust as needed */
+        color: @secondary__color;
+        /* Adjust the color to your preference, white is just an example */
+        box-shadow: @box-shadow__normal;
+    }
+
+    .category-name {
+        text-align: center;
+        font-size: @font-size__xs;
+        color: @third__color;
+    }
+}
+
+// Rest of the code
+@media screen and (max-width: 768px) {
+    // #html-body.cms-resubasta-com [data-pb-style="CMGPANG"] {
+    //     text-align: center;
+    //     min-height: 0px;
+    // }
+
+    #html-body.cms-resubasta-com .pagebuilder-slide-wrapper {
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        min-height: 0px;
+    }
+
+    #html-body.cms-resubasta-com .pagebuilder-overlay.pagebuilder-poster-overlay {
+        min-height: 0px;
+        background-color: transparent;
+    }
+
+    #html-body.cms-resubasta-com .pagebuilder-slide-wrapper {
+        height: calc(33vw - 7px);
+        box-shadow: @box-shadow__normal;
+    }
+
+    #html-body.cms-resubasta-com .header-background {
+        margin-bottom: 20px;
+    }
+
+    #html-body.cms-resubasta-com {
+        @media (max-width: 768px) {
+            .secondary-style-button {
+                font-size: @font-size__xxs;
+                padding: 2px 4px;
+            }
+
+            .category-title-wrapper {
+                text-align: center;
+                margin-bottom: 20px;
+                /* spacing before the products */
+                margin: 0px 10px 10px 10px;
+            }
+
+            .category-title {
+                font-size: @font-size__l;
+                font-weight: @font-weight__semibold;
+                /* adjust as needed */
+                margin: 0;
+                color: @third__color-lighter;
+            }
+
+            .grey-line {
+                height: 1px;
+                background-color: @third__color-lightest;
+                // color: @third__color;
+                margin-top: 10px;
+                /* adjust as needed */
+            }
+
+            .page-wrapper {
+                background-color: #eaeaea;
+            }
+
+            .block.widget.block-products-list.grid {
+                padding-top: 10px;
+                margin: 0px 10px 15px 10px;
+                border-radius: @primary__border_radius;
+                background-color: white;
+                overflow: hidden;
+                box-shadow: @box-shadow__normal;
+
+                .block-content {
+                    padding: 10px;
+                }
+            }
+
+            .block.widget .products-grid .product-item {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .product-item:not(:last-child) {
+                border-bottom: 1px solid @third__color-lightest;
+                margin-bottom: 10px; // This ensures some space between items after the line.
+                padding-bottom: 10px; // This gives some padding to the item content above the line.
+            }
+
+            .product-items.widget-product-grid {
+                display: flex;
+                flex-direction: column;
+                /* This will ensure children are stacked vertically */
+            }
+
+            .product-image-container {
+                width: 100% !important;
+                /* Override the hardcoded width */
+            }
+
+            .product-item {
+                width: 100%;
+            }
+
+            .product-item-info {
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+                grid-template-rows: 2fr 1fr 2fr;
+                /* Two rows of equal height */
+                column-gap: 15px;
+            }
+
+            .product-item-name {
+                margin: 0px;
+            }
+
+            .product-item-photo {
+                grid-row: 1 / span 3;
+                grid-column: 1;
+                width: 100%;
+                padding-right: 5px;
+            }
+
+            .product-item-details {
+                grid-row: 1;
+                grid-column: 2;
+                color: @secondary__color;
+                font-size: @font-size__s;
+
+            }
+
+            .product-item-attributes {
+                grid-row: 2;
+                grid-column: 2;
+                color: @secondary__color;
+
+                p {
+                    font-size: @font-size__xs;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                span {
+                    font-weight: @font-weight__bold;
+                }
+            }
+
+            .auction-details {
+                grid-row: 3;
+                grid-column: 2;
+            }
+
+            .product-item-details,
+            .auction-details {
+                display: flex;
+                align-items: center;
+                /* Vertically centers content within the grid row */
+                justify-content: start;
+                /* Align content to the start (left) of the grid column */
+            }
+
+            .product-image-photo {
+                position: absolute;
+                /* Allow the image to position itself relative to .product-image-wrapper */
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                /* Cover the full width of the container */
+                height: 100%;
+                /* Cover the full height of the container */
+                object-fit: cover;
+                /* Maintain the image's aspect ratio */
+                object-position: center;
+                /* Center the image */
+                margin: auto;
+                /* Retain this to center the image in case its dimensions are less than the container */
+            }
+
+
+
+
+
+            .bid-amount {
+                color: @secondary__color;
+                font-weight: @font-weight__bold;
+            }
+
+            .label.secondary-style-button {
+                margin-right: 5px;
+            }
+
+            .view-more-wrapper {
+                display: block;
+                text-align: center;
+                /* Center the link */
+                padding: 5px 0px;
+                /* Add some space at the top */
+                background-color: @secondary__color;
+                color: white;
+                /* Set a default color */
+                font-weight: @font-weight__semibold;
+            }
+
+            .view-more-wrapper:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}

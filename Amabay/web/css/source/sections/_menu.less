@@ -1,0 +1,166 @@
+// Menu Profile View
+@media (min-width: 769px) {
+    #loggedInDiv {
+        display: none !important;
+        /* Use !important to override any inline styles */
+    }
+}
+
+.menu-logo-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 50%; // move the left edge to the center of the parent
+    transform: translateX(-50%); // shift it back left by half of its own width
+    width: 65%;
+}
+
+.section-items.nav-sections-items.mage-tabs-disabled {
+    height: 100%;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .navigation .level0.active>a:not(.ui-state-active),
+    .navigation .level0.has-active>a:not(.ui-state-active) {
+        border-color: @secondary__color-lighter !important;
+        border-style: solid !important;
+        border-width: 0 0 0 8px !important;
+        color: #000000 !important;
+    }
+}
+
+.nav-sections,
+.navigation {
+    background-color: white !important;
+}
+
+.user-profile {
+    // display: grid;
+    // grid-template-columns: auto 1fr auto;
+    // grid-auto-rows: minmax(auto, 1fr);
+    // gap: 10px;
+    background-color: @secondary__color;
+    padding: 20px 10px;
+    color: white;
+
+    .fa,
+    .user-profile__line {
+        color: white;
+    }
+
+    .fa-user,
+    .fa-angle-right,
+    .user-greeting,
+    .menu-link {
+        align-self: center;
+    }
+
+    .fa-user,
+    .fa-angle-right {
+        font-size: 24px;
+    }
+
+    .user-greeting {
+        font-size: @font-size__l;
+        font-weight: @font-weight__bold;
+    }
+
+    .sold-unsold {
+        font-size: @font-size__base;
+        font-weight: @font-weight__semibold;
+    }
+
+    .user-profile__line {
+        display: contents;
+        text-decoration: none;
+
+        &:visited {
+            color: white;
+        }
+    }
+
+    .user-sales-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .icon-placeholder {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        visibility: hidden;
+    }
+
+    .menu-link {
+        font-weight: @font-weight__regular;
+    }
+
+    .small-store-info {
+        font-size: @font-size__xs;
+        font-style: italic;
+    }
+
+    .icon.number-icon {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: @secondary__color;
+        font-weight: 1000;
+        font-size: @font-size__base;
+        margin-left: auto;
+        align-self: center;
+    }
+
+    .user-profile__button {
+        grid-column: 1 / span 3; // Make the button span the entire width of the grid
+        background-color: @secondary__color-lighter;
+        color: white; // Color of the text
+        border: none; // Remove default borders
+        border-radius: 25px; // Rounded corners, adjust as needed
+        padding: 10px 20px; // Internal padding for the button
+        text-align: center;
+        font-weight: @font-weight__bold; // Set the font-weight for the button
+        text-decoration: none; // Remove underline
+        cursor: pointer; // Hand cursor for better UX
+        transition: background-color 0.3s ease; // Transition effect
+
+        &:hover {
+            background-color: @secondary__color-darker; // Slightly darker shade on hover for interaction
+        }
+    }
+}
+
+.search-container {
+    // margin-top: 20px; // Add some space above the new div
+    text-align: center; // Center content horizontally
+    padding: 20px; // Add some space inside the container
+    background-color: white; // Choose a background color that complements your design. I used a hypothetical lighter variant of your secondary color.
+    color: white;
+
+    h2 {
+        font-size: @font-size__xl;
+        font-weight: @font-weight__semibold;
+        margin: 0 30px; // Add some space below the heading
+        // padding: 20px 0;
+        padding-bottom: 20px;
+        background-color: white;
+        color: #5d5d5f;
+    }
+
+    .magento-search-bar {
+        // Add styling for the Magento search bar
+        // Style the search bar as you desire. For demonstration:
+        // width: 80%; // Take up 80% of the container's width
+        margin: 0 auto; // Center it
+        border-radius: 25px;
+        border-width: 2px;
+        border-color: @secondary__color-lighter;
+    }
+}

@@ -1,0 +1,31 @@
+// footer
+.page-footer {
+    display: flex;
+    /* Makes the footer use flexbox layout */
+    justify-content: center;
+    /* Centers children horizontally */
+    align-items: center;
+    /* Centers children vertically */
+    text-align: center;
+    /* For direct text-based children */
+    padding-top: 0px;
+    background-color: @secondary__color;
+}
+
+.footer-logo-wrapper {
+    width: 100%;
+    /* Takes full width of its parent */
+    text-align: center;
+    /* Centers inline-block children, like images */
+}
+
+.footer-logo-wrapper .logo-menu img {
+    width: 50%;
+    /* Set logo width to 50% of its container */
+    max-width: 100%;
+    /* Ensures the image doesn't overflow its parent */
+    display: inline-block;
+    /* Makes it respond to text-align of parent */
+    margin: 0 auto;
+    /* For any block-level centering that might be needed */
+}
