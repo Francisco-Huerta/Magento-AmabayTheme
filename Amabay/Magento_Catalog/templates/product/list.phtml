@@ -35,14 +35,18 @@ $isSold = $this->getRequest()->getParam('sold', false);
 $isNotSold = $this->getRequest()->getParam('not_sold', false);
 $query = $this->getRequest()->getParam('q', false);
 
-// Define a function to render auction blocks
-function renderAuctionBlock($auctionCollection, $title, $viewModel, $viewMode, $block, $NotBiddedByCurrentUser = false)
+function renderAuctionBlock($auctionCollections, $title, $viewModel, $viewMode, $block, $NotBiddedByCurrentUser = false)
 {
     $itHasItems = false;
-    if (is_object($auctionCollection) && method_exists($auctionCollection, 'getSize')) {
-        $itHasItems = $auctionCollection->getSize() > 0;
-    } else {
-        $itHasItems = count($auctionCollection) > 0;
+
+    // Check if the input is an array of collections
+    if (is_array($auctionCollections)) {
+        foreach ($auctionCollections as $auctionCollection) {
+            if (is_object($auctionCollection)) {
+                $auctionCollection->load();
+            }
+            $itHasItems = (count($auctionCollection->getItems()) > 0);
+        }
     }
     if ($itHasItems) {
 ?>
@@ -50,12 +54,19 @@ function renderAuctionBlock($auctionCollection, $title, $viewModel, $viewMode, $
             <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__($title)) ?></p>
             <ol class="product-items widget-product-grid">
                 <?php
-                foreach ($auctionCollection as $auction) :
+                // Adjusted loop to handle an array of collections
+                foreach ($auctionCollections as $auctionCollection) {
+                    if (is_object($auctionCollection)) {
+                        foreach ($auctionCollection as $auction) {
                 ?>
-                    <li class="product-item">
-                        <?= $viewModel->getProductHtmlBlock($auction, $viewModel); ?>
-                    </li>
-                <?php endforeach; ?>
+                            <li class="product-item">
+                                <?= $viewModel->getProductHtmlBlock($auction, $viewModel); ?>
+                            </li>
+                <?php
+                        }
+                    }
+                }
+                ?>
             </ol>
         </div>
 <?php
@@ -114,20 +125,20 @@ if ($isSold) {
     // $mergedItems = array_merge($auctionsSameRegion->getItems(), $auctionsNotSameRegion->getItems());
     $pageSize = 10;
     $currentPage = 1;
-    $auctionsSortedByRegion->setPageSize($pageSize);
-    $auctionsSortedByRegion->setCurPage($currentPage);
-    $auctionsSortedByRegion->load();
+    $auctionsSortedByRegion[0]->setPageSize($pageSize);
+    $auctionsSortedByRegion[0]->setCurPage($currentPage);
+    $auctionsSortedByRegion[0]->load();
     $auctionBlocks = [
         ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
     ];
 } else {
-    $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion);
+    $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion, $query);
     extract($auctionsData);
     // Prepare data for the loop
     $auctionBlocks = [
         ['data' => $auctionsByUser, 'title' => 'Mis subastas vigentes'],
-        ['data' => $auctionsWithProductAndNotApproved, 'title' => 'Mis pendientes de aprobación'],
-        ['data' => $auctionsWithProductExpired, 'title' => 'Mis subastas terminadas'],
+        ['data' => $auctionsByUserNotExpiredUnapproved, 'title' => 'Mis pendientes de aprobación'],
+        ['data' => $auctionsWithProductExpiredOrSold, 'title' => 'Mis subastas terminadas'],
         ['data' => $auctionsBidded, 'title' => 'Mis ofertas en subastas'],
         ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
     ];
