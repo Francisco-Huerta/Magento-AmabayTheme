@@ -114,14 +114,13 @@ if ($isSold) {
     // $mergedItems = array_merge($auctionsSameRegion->getItems(), $auctionsNotSameRegion->getItems());
     $pageSize = 10;
     $currentPage = 1;
-    $auctionSortedByRegion->setPageSize($pageSize);
-    $auctionSortedByRegion->setCurPage($currentPage);
-    $auctionSortedByRegion->load();
+    $auctionsSortedByRegion->setPageSize($pageSize);
+    $auctionsSortedByRegion->setCurPage($currentPage);
+    $auctionsSortedByRegion->load();
     $auctionBlocks = [
-        ['data' => $auctionSortedByRegion, 'title' => 'Subastas vigentes'],
+        ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
     ];
 } else {
-
     $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion);
     extract($auctionsData);
     // Prepare data for the loop
@@ -130,7 +129,7 @@ if ($isSold) {
         ['data' => $auctionsWithProductAndNotApproved, 'title' => 'Mis pendientes de aprobación'],
         ['data' => $auctionsWithProductExpired, 'title' => 'Mis subastas terminadas'],
         ['data' => $auctionsBidded, 'title' => 'Mis ofertas en subastas'],
-        ['data' => $auctionSortedByRegion, 'title' => 'Subastas vigentes'],
+        ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
     ];
 }
 
