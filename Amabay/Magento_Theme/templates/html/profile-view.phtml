@@ -98,6 +98,31 @@ $viewModel = $block->getData('customer_view_model');
             <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">INICIAR SESIÓN</a>
             <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top" id="venderButton">VENDER</a>
         </div>
+        <div class="menu-category-container">
+                <div class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="user-sales-info menu-bids-subtitle">
+                        <span>Subastas terminadas</span>
+                    </div>
+                    <span class="icon-placeholder"></span>
+                    <!-- <i class="fa fa-angle-right"></i> -->
+                </div>
+
+                <a href="<?php echo $block->getUrl('vehiculos.html?sold=true'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Con venta exitosa</span>
+                    </div>
+                    <span class="icon-placeholder"></span>
+                </a>
+                <a href="<?php echo $block->getUrl('vehiculos.html?sold=false'); ?>" class="user-profile__line">
+                    <span class="icon-placeholder"></span>
+                    <div class="menu-link user-sales-info">
+                        <span>Sin venta</span>
+                    </div>
+                    <span class="icon-placeholder"></span>
+                </a>
+            </div>
     </div>
     <!-- <div class="sold-unsold">
         <span class="icon-placeholder"></span>

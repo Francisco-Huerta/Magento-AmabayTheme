@@ -31,10 +31,54 @@ if (isset($_COOKIE['userRegion'])) {
 } else {
     $userRegion = 'RM';
 }
-$isSold = $this->getRequest()->getParam('sold', false);
+$isSold = $this->getRequest()->getParam('sold', null);
 $isNotSold = $this->getRequest()->getParam('not_sold', false);
 $query = $this->getRequest()->getParam('q', false);
+$qa = $this->getRequest()->getParam('qa', false);
 
+
+if ($qa) {
+    if (in_array($userId, [3, 4, 8]) && !$_onHomePage) {
+        [$notApprovedAuctions, $notApprovedAuctionsIds] = $viewModel->getNotApprovedAuctionsNotExpired();
+        [$auctionsNotExpiredNotSold, $auctionsNotExpiredNotSoldIds] = $viewModel->getNotExpiredNotDirectlySoldAuctionCollection();
+        [$numberOfAuctionsExpiredOrDirectlySold, $numberOfAuctionsExpiredOrDirectlySoldIds] = $viewModel->getNumberOfAuctionsExpiredNotDirectlySoldNotSold();
+        [$numberOfSoldAuctionsOrDirectlySold, $numberOfSoldAuctionsOrDirectlySoldIds] = $viewModel->getNumberOfSoldAuctionsOrDirectlySold();
+        [$numberEnhancedAuctionsWithProducts, $numberEnhancedAuctionsWithProductsIds] = $viewModel->getNumberEnhancedAuctionsWithProducts();
+        echo '</pre>';
+        print_r("Subastas pendientes de aprobación: " . count($notApprovedAuctions->getData()) . "<br>");
+        printArray($notApprovedAuctionsIds);
+        print_r("Subastas vigentes: " . count($auctionsNotExpiredNotSold->getData()) . "<br>");
+        printArray($auctionsNotExpiredNotSoldIds);
+        print_r("Subastas terminadas: " . count($numberOfAuctionsExpiredOrDirectlySold->getData()) . "<br>");
+        printArray($numberOfAuctionsExpiredOrDirectlySoldIds);
+        print_r("Subastas vendidas: " . $numberOfSoldAuctionsOrDirectlySold . "<br>");
+        printArray($numberOfSoldAuctionsOrDirectlySoldIds);
+        print_r("Subastas Totales: " . count($numberEnhancedAuctionsWithProducts->getData()) . "<br>");
+        printArray($numberEnhancedAuctionsWithProductsIds);
+        echo '</pre>';
+    }
+}
+
+
+function printArray($array)
+{
+    foreach ($array as $key) {
+        echo $key . " ";
+    }
+    echo "<br>";
+}
+
+/**
+ * Renders the auction block
+ *
+ * @param \Magento\Catalog\Model\ResourceModel\Product\Collection|array $auctionCollections
+ * @param string $title
+ * @param \Bidder\Core\ViewModel\Customer $viewModel
+ * @param string $viewMode
+ * @param \Magento\Catalog\Block\Product\ListProduct $block
+ * @param bool $NotBiddedByCurrentUser
+ * @return void
+ */
 function renderAuctionBlock($auctionCollections, $title, $viewModel, $viewMode, $block, $NotBiddedByCurrentUser = false)
 {
     $itHasItems = false;
@@ -73,31 +117,23 @@ function renderAuctionBlock($auctionCollections, $title, $viewModel, $viewMode, 
     }
 }
 
-if ($isSold) {
-    if ($userId === 0) {
-        $soldAuctionsCollection = $viewModel->getSoldAuctionsCollection($_productCollection);
-        $auctionBlocks = [
-            ['data' => $soldAuctionsCollection, 'title' => 'Vehículos Vendidos'],
-        ];
+if ($isSold !== null) {
+    $isSold = filter_var(rtrim($isSold, '/'), FILTER_VALIDATE_BOOLEAN);
+
+    $auctionsData = $viewModel->prepareAuctionsData(
+        userRegion: $userRegion,
+        sold: $isSold
+    );
+    extract($auctionsData);
+    if ($isSold) {
+        $TitleText = "exitosamente";
     } else {
-        $soldAuctionsCollection = $viewModel->getSoldAuctionsCollection($_productCollection);
-        // $auctionBlocks = [
-        //     ['data' => $soldAuctionsCollection, 'title' => 'Vehículos Vendidos'],
-        // ];
-        // Lets split it between auctions bidded by the user and not
-        $ownedAuctionsAndNot = $viewModel->getProductIdsFromAuctionsByAndNotByUserId($userId, $soldAuctionsCollection);
-        [$auctionsByUser, $auctionsNotByUser] = [$ownedAuctionsAndNot['owned_by_user'], $ownedAuctionsAndNot['not_owned_by_user']];
-        $auctionsEndedBiddedAndNotByCurrentCustomer = $viewModel->getOffersInAuctionsByCurrentCustomerWithFilter($auctionsNotByUser);
-        // For simplicity the auctionsBidded is not the same type of object as $auctionsNotBidded, please fix this
-        [$auctionsEndedBiddedByCurrentUser, $auctionsEnddedNotBiddedByCurrentUser] = [$auctionsEndedBiddedAndNotByCurrentCustomer['bidded'], $auctionsEndedBiddedAndNotByCurrentCustomer['not_bidded']];
-        $auctionBlocks = [
-            // ['data' => $soldAuctionsCollection, 'title' => 'Todos los vehículos'],
-            ['data' => $auctionsByUser, 'title' => 'Mis vehículos con subasta terminada'],
-            // ['data' => $auctionsNotByUser, 'title' => 'Vehículos a la venta'],
-            ['data' => $auctionsEndedBiddedByCurrentUser, 'title' => 'Vehículos en los que oferté'],
-            ['data' => $auctionsEnddedNotBiddedByCurrentUser, 'title' => 'Vehículos en los que no oferté'],
-        ];
+        $TitleText = "sin éxito";
     }
+    $auctionBlocks = [
+        ['data' => $auctionsWithProductExpiredOrSold, 'title' => "Mis subastas terminadas $TitleText"],
+        ['data' => $auctionsSortedByRegion, 'title' => "Subastas terminadas $TitleText"],
+    ];
 } elseif ($isNotSold) {
     if ($userId === 0) {
         $notSoldAuctionsCollection = $viewModel->getNotsoldAuctionsCollection($_productCollection);
@@ -120,7 +156,7 @@ if ($isSold) {
         ];
     }
 } elseif ($_onHomePage) {
-    $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion);
+    $auctionsData = $viewModel->prepareAuctionsData($userRegion, $_onHomePage);
     extract($auctionsData);
     // $mergedItems = array_merge($auctionsSameRegion->getItems(), $auctionsNotSameRegion->getItems());
     $pageSize = 10;
@@ -132,7 +168,10 @@ if ($isSold) {
         ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
     ];
 } else {
-    $auctionsData = $viewModel->prepareAuctionsData($_onHomePage, $_productCollection, $userRegion, $query);
+    $auctionsData = $viewModel->prepareAuctionsData(
+        userRegion: $userRegion,
+        searchTerm: $query
+    );
     extract($auctionsData);
     // Prepare data for the loop
     $auctionBlocks = [
@@ -178,6 +217,10 @@ if ($isSold) {
 
 endif; ?>
 <style>
+    .auction-message-without-action.a0_style {
+        grid-row: 4/span 4;
+    }
+
     .text_s {
         font-size: 11px;
     }
@@ -269,7 +312,7 @@ endif; ?>
         padding-right: 5px;
         margin-left: 0px;
         margin-top: 5px;
-        width: 90%;
+        width: 95%;
         /* text-align: center; */
         align-content: center;
         /* justify-content: center; */
