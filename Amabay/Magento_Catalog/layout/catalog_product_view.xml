@@ -18,7 +18,7 @@
                     <argument name="view_model" xsi:type="object">Webkul\MpAuction\ViewModel\MpAuction</argument>
                 </arguments>
             </block>
-            <block class="Magento\Catalog\Block\Product\View" name="product.attributes.custom" template="Magento_Catalog::product/view/attributes_custom.phtml" after="buyorbid.block"/>
+            <block class="Magento\Catalog\Block\Product\View" name="product.attributes.custom" template="Magento_Catalog::product/view/attributes_custom.phtml" before="-"/>
             <block class="Magento\Framework\View\Element\Template" name="simple.string" template="Magento_Catalog::articleDetailsTitle.phtml" after="product.attributes.custom"/>
             <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" as="description" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info" after="simple.string">
                 <arguments>

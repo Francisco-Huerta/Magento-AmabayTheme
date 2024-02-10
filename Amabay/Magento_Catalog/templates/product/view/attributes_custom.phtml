@@ -1,93 +1,28 @@
 <?php
 $_product = $block->getProduct();
 $viewModel = $block->getLayout()->createBlock('Bidder\Core\ViewModel\Customer');
+$kilometraje = $viewModel->formatPrice($_product->getKilometraje()) . ' km';
+$transimision = $_product->getAttributeText('transmision');
+$combustible = $_product->getAttributeText('combustible');
+$comuna = $_product->getComuna();
+$plate = 'Patente ' . $_product->getPatente();
+$cc = $viewModel->formatPrice($_product->getCilindrada()) . 'cc';
+$traction = $_product->getAttributeText('traccion');
+$region = $_product->getRegion();
+
+$joinedAttributes1 = joinAttributes($kilometraje, $transimision, $combustible, $comuna);
+$joinedAttributes2 = joinAttributes($plate, $cc, $traction, $region);
+
+function joinAttributes($a, $b, $c, $d)
+{
+    return $a . ", " . $b . ", " . $c . ", " . $d;
+}
+
 ?>
 
 <div class="product-attributes-custom">
-    <h2 class="product-view-details-title">Características del vehículo</h2>
-    <table class="attributes-table only-four">
-        <tr>
-            <td><strong>Patente</strong></td>
-            <td> <?= $_product->getPatente() ?></td>
-        </tr>
-        <tr>
-            <td><strong>Kilometraje</strong></td>
-            <td><?= $viewModel->formatPrice($_product->getKilometraje()) ?>km</td>
-        </tr>
-        <tr>
-            <td><strong>Transmisión</strong></td>
-            <td><?= $_product->getAttributeText('transmision') ?></td>
-        </tr>
-        <tr>
-            <td><strong>Combustible</strong></td>
-            <td><?= $_product->getAttributeText('combustible') ?></td>
-        </tr>
-        <tr>
-            <td><strong>Año</strong></td>
-            <td> <?= $_product->getAno() ?></td>
-        </tr>
-        <tr>
-            <td><strong>Cilindrada</strong></td>
-            <td> <?= $viewModel->formatPrice($_product->getCilindrada()) ?>cc</td>
-        </tr>
-        <tr>
-            <td><strong>Tracción</strong></td>
-            <td> <?= $_product->getAttributeText('traccion') ?></td>
-        </tr>
-        <tr>
-            <td><strong>Región</strong></td>
-            <td> <?= $_product->getRegion() ?></td>
-        </tr>
-        <tr>
-            <td><strong>Comuna</strong></td>
-            <td> <?= $_product->getComuna() ?></td>
-        </tr>
-    </table>
-    <!-- <div> -->
-        <a id="show-more-button">VER MÁS <i class="fa fa-angle-right"></i></a>
-    <!-- </div> -->
-    <div id="attributesModal" style="display:none;">
-        <table class="attributes-table">
-
-            <tr>
-                <td><strong>Patente</strong></td>
-                <td> <?= $_product->getPatente() ?></td>
-            </tr>
-            <tr>
-                <td><strong>Kilometraje</strong></td>
-                <td><?= $viewModel->formatPrice($_product->getKilometraje()) ?>km</td>
-            </tr>
-            <tr>
-                <td><strong>Transmisión</strong></td>
-                <td><?= $_product->getAttributeText('transmision') ?></td>
-            </tr>
-            <tr>
-                <td><strong>Combustible</strong></td>
-                <td><?= $_product->getAttributeText('combustible') ?></td>
-            </tr>
-            <tr>
-                <td><strong>Año</strong></td>
-                <td> <?= $_product->getAno() ?></td>
-            </tr>
-            <tr>
-                <td><strong>Cilindrada</strong></td>
-                <td> <?= $viewModel->formatPrice($_product->getCilindrada()) ?>cc</td>
-            </tr>
-            <tr>
-                <td><strong>Tracción</strong></td>
-                <td> <?= $_product->getAttributeText('traccion') ?></td>
-            </tr>
-            <tr>
-                <td><strong>Región</strong></td>
-                <td> <?= $_product->getRegion() ?></td>
-            </tr>
-            <tr>
-                <td><strong>Comuna</strong></td>
-                <td> <?= $_product->getComuna() ?></td>
-            </tr>
-
-        </table>
-    </div>
+    <p id="main-attributes"><?= $joinedAttributes1 ?></p>
+    <p id="secondary-attributes"><?= $joinedAttributes2 ?></p>
 </div>
 <style>
     .attributes-table {
