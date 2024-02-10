@@ -2,15 +2,16 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="page.main.title">
-            <block class="Webkul\Marketplace\Block\Sellerblock" name="seller.block" template="Magento_Catalog::seller_product_view.phtml">
-                <arguments>
-                    <argument name="view_model" xsi:type="object">Webkul\Marketplace\ViewModel\HelperViewModel</argument>
-                </arguments>
-            </block>
-            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="buy.block" template="Magento_Catalog::price_buy_product_view.phtml" after="seller.block">
+            <block class="Magento\Catalog\Block\Product\View" name="product.attributes.custom" template="Magento_Catalog::product/view/attributes_custom.phtml" before="-"/>
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="buy.block" template="Magento_Catalog::price_buy_product_view.phtml" after="product.attributes.custom">
                 <block class="Bidder\SocialShare\Block\Share" name="bidder.socialshare" as="bidder_socialshare" template="Bidder_SocialShare::share.phtml"/>
                 <arguments>
                     <argument name="mp_auction_viewmodel" xsi:type="object">Webkul\MpAuction\ViewModel\MpAuction</argument>
+                </arguments>
+            </block>
+            <block class="Webkul\Marketplace\Block\Sellerblock" name="seller.block" template="Magento_Catalog::seller_product_view.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Webkul\Marketplace\ViewModel\HelperViewModel</argument>
                 </arguments>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="buyorbid.block" template="Magento_Catalog::buy_or_bid.phtml" after="buy.block">
@@ -18,8 +19,7 @@
                     <argument name="view_model" xsi:type="object">Webkul\MpAuction\ViewModel\MpAuction</argument>
                 </arguments>
             </block>
-            <block class="Magento\Catalog\Block\Product\View" name="product.attributes.custom" template="Magento_Catalog::product/view/attributes_custom.phtml" before="-"/>
-            <block class="Magento\Framework\View\Element\Template" name="simple.string" template="Magento_Catalog::articleDetailsTitle.phtml" after="product.attributes.custom"/>
+            <block class="Magento\Framework\View\Element\Template" name="simple.string" template="Magento_Catalog::articleDetailsTitle.phtml" after="seller.block"/>
             <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" as="description" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info" after="simple.string">
                 <arguments>
                     <argument name="at_call" xsi:type="string">getDescription</argument>

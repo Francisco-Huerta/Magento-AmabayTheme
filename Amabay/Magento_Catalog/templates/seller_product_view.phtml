@@ -26,6 +26,22 @@ $rating_number_votes = $rating_data['feedcount'];
 // die();
 ?>
 
+<a href="<?= $this->escapeUrl($profilePageUrl); ?>" title="<?= $this->escapeHtml(__('Visit Shop')) ?>" id="profileconnect" target="_blank">
+    <div class="seller_product_view">
+        <i class="fa fa-user"></i>
+        <div class="info_rating_container">
+            <div class="shop_info">
+                <?= $this->escapeHtml($shopTitle); ?>
+            </div>
+            <div class="rating">
+                <?= $rating_total_percentage ?>%
+                comentarios a la tienda (<?= $rating_number_votes ?>)
+            </div>
+        </div>
+        <i class="fa fa-angle-right"></i>
+    </div>
+</a>
+
 <style>
     .fa-user {
         font-size: 24px;
@@ -72,19 +88,3 @@ $rating_number_votes = $rating_data['feedcount'];
 
     
 </style>
-
-<a href="<?= $this->escapeUrl($profilePageUrl); ?>" title="<?= $this->escapeHtml(__('Visit Shop')) ?>" id="profileconnect" target="_blank">
-    <div class="seller_product_view">
-        <i class="fa fa-user"></i>
-        <div class="info_rating_container">
-            <div class="shop_info">
-                <?= $this->escapeHtml($shopTitle); ?>
-            </div>
-            <div class="rating">
-                <?= $rating_total_percentage ?>%
-                comentarios a la tienda (<?= $rating_number_votes ?>)
-            </div>
-        </div>
-        <i class="fa fa-angle-right"></i>
-    </div>
-</a>
