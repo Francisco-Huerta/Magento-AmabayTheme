@@ -2,13 +2,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="page.main.title">
-            <block class="Webkul\Marketplace\Block\Sellerblock" name="seller.block" template="Magento_Catalog::seller_product_view.phtml" after="bidder.socialshare">
+            <block class="Webkul\Marketplace\Block\Sellerblock" name="seller.block" template="Magento_Catalog::seller_product_view.phtml" after="-">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Webkul\Marketplace\ViewModel\HelperViewModel</argument>
                 </arguments>
             </block>
             <block class="Webkul\MpAuction\Block\ViewOnProduct" name="buy.block" template="Magento_Catalog::price_buy_product_view.phtml" after="seller.block">
-                <block class="Bidder\SocialShare\Block\Share" name="bidder.socialshare" as="bidder_socialshare" template="Bidder_SocialShare::share.phtml"/>
                 <arguments>
                     <argument name="mp_auction_viewmodel" xsi:type="object">Webkul\MpAuction\ViewModel\MpAuction</argument>
                 </arguments>
