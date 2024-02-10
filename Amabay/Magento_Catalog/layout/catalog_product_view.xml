@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="page.main.title">
-            <block class="Webkul\Marketplace\Block\Sellerblock" name="seller.block" template="Magento_Catalog::seller_product_view.phtml" after="bidder.socialshare">
+            <block class="Webkul\Marketplace\Block\Sellerblock" name="seller.block" template="Magento_Catalog::seller_product_view.phtml">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Webkul\Marketplace\ViewModel\HelperViewModel</argument>
                 </arguments>

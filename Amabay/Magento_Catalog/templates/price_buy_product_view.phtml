@@ -85,7 +85,7 @@ $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
     <div class="price-info">
         CLP $ <?= $formattedPrice ?: 'No disponible' ?>
     </div>
-    <?php echo $this->getChildHtml('bidder_socialshare'); ?>
+    <?= $this->getChildHtml('bidder_socialshare'); ?>
     <div class="auction-end">
         <div class="label-auction-end"><?= $labelAuctionEnd ?></div>
         <div id="auctionCountdown"><span id="timeLeft"><?= $initialCountdown ?></span></div>

@@ -1,5 +1,16 @@
 // product_view.css
 .catalog-product-view {
+
+    // show heart just after the image
+    .page-title-wrapper.product {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .under_image_info-container {
+        order: -1;
+    }
+
     @media screen and (max-width: 768px) {
 
         // #ajaxquestion-answertemplate .answer .answ.more {
@@ -172,9 +183,9 @@
         .product-info-main {
             margin-top: 15px;
 
-            .page-title-wrapper {
-                display: block;
-            }
+            // .page-title-wrapper {
+            //     display: block;
+            // }
 
             .page-title .base {
                 font-weight: @font-weight__semibold;
