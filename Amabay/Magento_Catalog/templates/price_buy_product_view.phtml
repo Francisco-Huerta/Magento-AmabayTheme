@@ -1,6 +1,7 @@
 <?php
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+$helper = $this->helper('Bidder\Core\Helper\Data');
 $product_id = $product->getId();
 $viewModel = $objectManager->get(\Bidder\Core\ViewModel\Customer::class);
 $price = $product->getPrice();
@@ -50,19 +51,11 @@ if (isset($auctionData['stop_auction_time_stamp'])) {
     // Convert timestamp to date and time
     $endDate = date('d/m/Y', $stop_time_stamp);
     $endTime = date('H:i', $stop_time_stamp);
-    $labelAuctionEnd = "Esta subasta termina en";
-    $auctionEndMessage = "la subasta termina el {$endDate} a las {$endTime}hrs";
+    $labelAuctionEnd = "Termina";
+    $auctionEndMessage = "{$endDate} a las {$endTime}hrs";
 
     // PHP code to calculate time remaining
-    if (isset($auctionData['stop_auction_time_stamp'])) {
-        $days = floor($timeRemainingInSeconds / (3600 * 24));
-        $hours = floor(($timeRemainingInSeconds % (3600 * 24)) / 3600);
-        $minutes = floor(($timeRemainingInSeconds % 3600) / 60);
-        $seconds = $timeRemainingInSeconds % 60;
-
-        // Format for initial rendering
-        $initialCountdown = sprintf("%dd %02dh %02dm %02ds", $days, $hours, $minutes, $seconds);
-    }
+    $initialCountdown = $helper->formatTimeRemaining($auctionData['stop_auction_time_stamp']);
 }
 
 ?>
@@ -74,16 +67,16 @@ $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
 ?>
 
 <div class="<?= $divClass ?>">
-    <div class="best-offer-number">
+    <!-- <div class="best-offer-number">
         <span class="offer-square">
             <?= $label ?>
         </span>
-        <span class="number-of-offers" style="padding: 3x 6px; font-size: 10px;">
+    </div> -->
+    <div class="price-info">
+        $ <?= $formattedPrice ?: 'No disponible' ?>
+        <span class="number-of-offers" style="padding: 3x 6px; font-size: 10px; color: black; margin-left: 5px;">
             <?= $number_of_offers . ' ' . $oneOffer ?>
         </span>
-    </div>
-    <div class="price-info">
-        CLP $ <?= $formattedPrice ?: 'No disponible' ?>
     </div>
     <?= $this->getChildHtml('bidder_socialshare'); ?>
     <div class="auction-end">
@@ -101,10 +94,10 @@ $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
 <script>
     function updateCountdown() {
         var now = new Date().getTime();
-        var timeRemaining = auctionEndTimeStamp - now;
+        var timeRemaining = auctionEndTimeStamp - now; // Ensure auctionEndTimeStamp is defined and holds the end time in milliseconds
 
         if (timeRemaining <= 0) {
-            document.getElementById('timeLeft').innerHTML = 'Auction ended';
+            document.getElementById('timeLeft').innerHTML = 'Terminada';
             clearInterval(interval);
         } else {
             var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
@@ -112,13 +105,17 @@ $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
             var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-            // Pad hours, minutes, and seconds with leading zeros if needed
-            hours = String(hours).padStart(2, '0');
-            minutes = String(minutes).padStart(2, '0');
-            seconds = String(seconds).padStart(2, '0');
+            // Format the output based on the remaining time
+            var formattedTime;
+            if (days > 0) {
+                formattedTime = days + "d " + String(hours).padStart(2, '0') + "h";
+            } else if (hours > 0) {
+                formattedTime = String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m";
+            } else {
+                formattedTime = String(minutes).padStart(2, '0') + "m " + String(seconds).padStart(2, '0') + "s";
+            }
 
-            document.getElementById('timeLeft').innerHTML = days + 'd ' + hours + 'h ' +
-                minutes + 'm ' + seconds + 's';
+            document.getElementById('timeLeft').innerHTML = formattedTime;
         }
     }
 

@@ -100,19 +100,3 @@ function joinAttributes($a, $b, $c, $d)
         display: flex;
     }
 </style>
-<script>
-    require(['jquery', 'Magento_Ui/js/modal/modal'], function($, modal) {
-        var options = {
-            type: 'popup',
-            responsive: true,
-            innerScroll: true,
-            title: 'Características del vehículo',
-            buttons: []
-        };
-
-        var popup = modal(options, $('#attributesModal'));
-        $("#show-more-button").on('click', function() {
-            $("#attributesModal").modal("openModal");
-        });
-    });
-</script>
