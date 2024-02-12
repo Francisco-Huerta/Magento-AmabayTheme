@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Webkul Software.
  *
@@ -25,111 +26,113 @@ if ($helper->checkLogin()) {
 }
 $collection = $block->getQuestions();
 ?>
-<?php if ($create->isEnable()): ?>
-<div class="box-collateral box-description">
-    <?php if ($collection->getSize()) {?>
-        <div id="search-bar">
-            <div class="search_bar">
-                <input type="text" placeholder="<?=/* @noEscape */__('Search or Ask Question')?>"
-                name="searchqa" id="searchqa" >
+<?php if ($create->isEnable()) : ?>
+    <div class="box-collateral box-description">
+        <?php if ($collection->getSize()) { ?>
+            <div id="search-bar">
+                <div class="search_bar">
+                    <input type="text" placeholder="<?=/* @noEscape */ __('Search or Ask Question') ?>" name="searchqa" id="searchqa">
+                </div>
+                <div class="search_action"><button class="search_button action primary">
+                        <span><?=/* @noEscape */ __('Search') ?></span></button></div>
+                <span class="wk-header-count">
+                    <?=/* @noEscape */ $block->getQuestionsCount() ?>
+                </span><span class="wk-header-text">
+                    <?=/* @noEscape */ __('Questions') ?>
+                </span>
+                <span class="wk-header-count" id="wk-header-anscount">
+                    <?=/* @noEscape */ $block->getAnswersCount() ?>
+                </span><span class="wk-header-text"><?=/* @noEscape */ __('Answers') ?></span>
             </div>
-            <div class="search_action"><button class="search_button action primary">
-                <span><?=/* @noEscape */__('Search')?></span></button></div>
-            <span class="wk-header-count">
-                <?=/* @noEscape */$block->getQuestionsCount()?>
-            </span><span class="wk-header-text">
-                <?=/* @noEscape */__('Questions')?>
-            </span>
-            <span class="wk-header-count" id="wk-header-anscount">
-                <?=/* @noEscape */$block->getAnswersCount()?>
-            </span><span class="wk-header-text"><?=/* @noEscape */__('Answers')?></span>
-        </div>
-        <div class="question-header">
-            <h4><a href = "<?=/* @noEscape */$block->getUrl('mpqa/customer/viewall/') . 'id/' . $productId;?>"
-            class = "view-all" target="_black"><?=/* @noEscape */__('View All')?></a></h4>
-            <span class="wk-qa-action" id="wk-qa-action-search">
-                <span class="wk-qa-action-label-search"></span>
-                <button class="wk-qa-action-button">
-                    <span class="wk-qa-action-button-close"><?=/* @noEscape */__('Close')?></span>
-                </button>
-            </span>
-            <span class="wk-qa-action" id="wk-qa-action-helpful">
-                <span class="wk-qa-action-label"><?=/* @noEscape */__('Most Helpful')?></span>
-                <button class="wk-qa-action-button">
-                    <span class="wk-qa-action-button-close"><?=/* @noEscape */__('Close')?></span>
-                </button>
-            </span>
-            <span class="wk-qa-action" id="wk-qa-action-recent">
-                <span class="wk-qa-action-label"><?=/* @noEscape */__('Most Recent')?></span>
-                <button class="wk-qa-action-button">
-                    <span class="wk-qa-action-button-close"><?=/* @noEscape */__('Close')?></span>
-                </button>
-            </span>
-            <a href="#mpqa.tab" class="header-links"
-            id="recent"><button class="action primary">
-                <?=/* @noEscape */__('Most Recent')?></button></a>
-            <a href="#mpqa.tab" class="header-links" id="helpful">
-                <button class="action primary"><?=/* @noEscape */__('Most Helpful')?>
-            </button></a>
-        </div>
-    <?php /* @noEscape */} ?>
-    <div class="all-questions">
-
-        <div class="mainprt">
-        <a class="qa-question"><button class="action primary">
-            <span><?=/* @noEscape */__('Ask Question');?></span>
-        </button></a>
-        </div>
-
-    </div>
-    <?=/* @noEscape */$block->getPagerHtml();?>
-</div>
-<!-- answer pop up -->
-<div class="ask-que">
-    <div id="wk-qa-ask-data" style="display:none">
-        <form id="qa-ans-form" method="post" action="#" class="fieldset">
-            <div class="form-list field required">
-                <?=/* @noEscape */$block->getBlockHtml('formkey');?>
-                <label class="label"><?=/* @noEscape */__('Your Answer')?> :</label>
-                <textarea  name="qa_answer" class="queryquestion wk-contact_input_fields required-entry"
-                style="width:100%;"></textarea>
-                <label class="label"><?=/* @noEscape */__('Name to Display')?> :</label>
-                <input type="text" name="qa_nickname" class="wk-contact_input_fields required-entry"/>
-                <input type="hidden" name="customer_id" value="<?=/* @noEscape */$buyerId;?>" >
-                <input type="hidden" name="seller_id" value="<?=/* @noEscape */$sellerId;?>"/>
-                <input type="hidden" name="product_id" value="<?=/* @noEscape */$productId;?>" />
-                <input type="hidden" name="question_id" value="" id="question-id">
+            <div class="question-header">
+                <h4><a href="<?=/* @noEscape */ $block->getUrl('mpqa/customer/viewall/') . 'id/' . $productId; ?>" class="view-all" target="_black"><?=/* @noEscape */ __('View All') ?></a></h4>
+                <span class="wk-qa-action" id="wk-qa-action-search">
+                    <span class="wk-qa-action-label-search"></span>
+                    <button class="wk-qa-action-button">
+                        <span class="wk-qa-action-button-close"><?=/* @noEscape */ __('Close') ?></span>
+                    </button>
+                </span>
+                <span class="wk-qa-action" id="wk-qa-action-helpful">
+                    <span class="wk-qa-action-label"><?=/* @noEscape */ __('Most Helpful') ?></span>
+                    <button class="wk-qa-action-button">
+                        <span class="wk-qa-action-button-close"><?=/* @noEscape */ __('Close') ?></span>
+                    </button>
+                </span>
+                <span class="wk-qa-action" id="wk-qa-action-recent">
+                    <span class="wk-qa-action-label"><?=/* @noEscape */ __('Most Recent') ?></span>
+                    <button class="wk-qa-action-button">
+                        <span class="wk-qa-action-button-close"><?=/* @noEscape */ __('Close') ?></span>
+                    </button>
+                </span>
+                <a href="#mpqa.tab" class="header-links" id="recent"><button class="action primary">
+                        <?=/* @noEscape */ __('Most Recent') ?></button></a>
+                <a href="#mpqa.tab" class="header-links" id="helpful">
+                    <button class="action primary"><?=/* @noEscape */ __('Most Helpful') ?>
+                    </button></a>
             </div>
-        </form>
+        <?php /* @noEscape */ } ?>
+        <div class="all-questions">
+            <?php if ($buyerId) { ?>
+                <div class="mainprt">
+                    <a class="qa-question"><button class="action primary">
+                            <span><?=/* @noEscape */ __('Ask Question'); ?></span>
+                        </button></a>
+                </div>
+            <?php } else { ?>
+                <div class="mainprt authorization-link">
+                    <a href="/customer/account/login/" class="qa-question">
+                        <button class="action primary">
+                            <span><?=/* @noEscape */ __('Ask Question'); ?></span>
+                        </button>
+                    </a>
+                </div>
+            <?php } ?>
+
+        </div>
+        <?=/* @noEscape */ $block->getPagerHtml(); ?>
     </div>
-</div>
-<!-- question pop up -->
-<div class="ask-que">
-    <div id="wk-qa-ask-qa" style="display:none">
-        <form id="qa-ques-form" method="post" action="#" class="fieldset">
-            <?=/* @noEscape */$block->getBlockHtml('formkey');?>
-            <div class="form-list field required">
-                <label class="label"><?=/* @noEscape */__('Subject')?> :</label>
-                <input type="text" name="qa_subject" id="sub"
-                class="wk-contact_input_fields required-entry"/>
-                <label class="label"><?=/* @noEscape */__('Query')?> :</label>
-                <textarea  name="qa_content" id="content"
-                class="queryquestion wk-contact_input_fields required-entry" style="width:100%;">
+    <!-- answer pop up -->
+    <div class="ask-que">
+        <div id="wk-qa-ask-data" style="display:none">
+            <form id="qa-ans-form" method="post" action="#" class="fieldset">
+                <div class="form-list field required">
+                    <?=/* @noEscape */ $block->getBlockHtml('formkey'); ?>
+                    <label class="label"><?=/* @noEscape */ __('Your Answer') ?> :</label>
+                    <textarea name="qa_answer" class="queryquestion wk-contact_input_fields required-entry" style="width:100%;"></textarea>
+                    <label class="label"><?=/* @noEscape */ __('Name to Display') ?> :</label>
+                    <input type="text" name="qa_nickname" class="wk-contact_input_fields required-entry" />
+                    <input type="hidden" name="customer_id" value="<?=/* @noEscape */ $buyerId; ?>">
+                    <input type="hidden" name="seller_id" value="<?=/* @noEscape */ $sellerId; ?>" />
+                    <input type="hidden" name="product_id" value="<?=/* @noEscape */ $productId; ?>" />
+                    <input type="hidden" name="question_id" value="" id="question-id">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- question pop up -->
+    <div class="ask-que">
+        <div id="wk-qa-ask-qa" style="display:none">
+            <form id="qa-ques-form" method="post" action="#" class="fieldset">
+                <?=/* @noEscape */ $block->getBlockHtml('formkey'); ?>
+                <div class="form-list field required">
+                    <label class="label"><?=/* @noEscape */ __('Subject') ?> :</label>
+                    <input type="text" name="qa_subject" id="sub" class="wk-contact_input_fields required-entry" />
+                    <label class="label"><?=/* @noEscape */ __('Query') ?> :</label>
+                    <textarea name="qa_content" id="content" class="queryquestion wk-contact_input_fields required-entry" style="width:100%;">
             </textarea>
-                <label class="label"><?=/* @noEscape */__('Name to Display')?> :</label>
-                <input type="text" name="qa_nickname" id="qa_nickname"
-                class="wk-contact_input_fields required-entry"/>
-                <input type="hidden" name="customer_id" value="<?=/* @noEscape */$buyerId;?>" >
-                <input type="hidden" name="seller_id" value="<?=/* @noEscape */$sellerId;?>"/>
-                <input type="hidden" name="product_id" value="<?=/* @noEscape */$productId;?>" />
-            </div>
-        </form>
+                    <label class="label"><?=/* @noEscape */ __('Name to Display') ?> :</label>
+                    <input type="text" name="qa_nickname" id="qa_nickname" class="wk-contact_input_fields required-entry" />
+                    <input type="hidden" name="customer_id" value="<?=/* @noEscape */ $buyerId; ?>">
+                    <input type="hidden" name="seller_id" value="<?=/* @noEscape */ $sellerId; ?>" />
+                    <input type="hidden" name="product_id" value="<?=/* @noEscape */ $productId; ?>" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-<div id="ajaxquestion-answertemplate" class="all-questions"></div>
+    <div id="ajaxquestion-answertemplate" class="all-questions"></div>
 
-<script id="question-answertemplate" type="text/x-magento-template">
-    <div  id="q-<%- data.question_id %>">
+    <script id="question-answertemplate" type="text/x-magento-template">
+        <div  id="q-<%- data.question_id %>">
     <div class="question">
         <div class="qlogo"><span>Q</span></div>
         <div class="ques">
@@ -145,15 +148,15 @@ $collection = $block->getQuestions();
                     </span>
                     <a data-id=<%- data.question_id %> class="set-content"
                     href="javascript:void(0)">
-                        <?=/* @noEscape */__('View More');?>
+                        <?=/* @noEscape */ __('View More'); ?>
                     </a>
                 <% }else{ %>
                     <span class="wk_prewrap"><%- (data.content) %></span>
                 <% }%>
             </div>
-            <div class="ques-user-info"><span><?=/* @noEscape */__('by ')?></span>
+            <div class="ques-user-info"><span><?=/* @noEscape */ __('by ') ?></span>
             <span><%- data.qa_nickname %></span>
-            <span><?=/* @noEscape */__(' on ')?></span>
+            <span><?=/* @noEscape */ __(' on ') ?></span>
             <span><%- data.qa_date %></span><br/>
                     </div>
         </div>
@@ -176,10 +179,10 @@ $collection = $block->getQuestions();
                         <%- data.answer %>
                     <% }%>
 
-                    <div class="user-info"><span><?=/* @noEscape */__('by ')?>
+                    <div class="user-info"><span><?=/* @noEscape */ __('by ') ?>
                 </span>
                 <span class="wk_bold"><%- data.nickname %></span>
-                <span><?=/* @noEscape */__(' on ')?></span>
+                <span><?=/* @noEscape */ __(' on ') ?></span>
                 <span><%- data.createdat %></span><br/>
                         <div class="reviews">
                             <span class="<%- data.like_class %>" title="like" dataid='<%- data.answer_id %>' >
@@ -193,16 +196,16 @@ $collection = $block->getQuestions();
                     </div>
                 <% }else{ %>
                     <a class="qa-ans"><button class="action primary">
-                        <span><?=/* @noEscape */__('Give Answer')?></span></button></a>
+                        <span><?=/* @noEscape */ __('Give Answer') ?></span></button></a>
                 <% }%>
             </div>
             <%if ((typeof(data.answer_id) !== "undefined")&&(data.answer_count>1)) {%>
                 <div class="answ more"><a class="qa-ansmore" dataid='<%- data.question_id %>' >
-                    <span><?=/* @noEscape */__('View More')?>(<%- data.answer_count-1 %>)
+                    <span><?=/* @noEscape */ __('View More') ?>(<%- data.answer_count-1 %>)
                 </span></a></div>
             <% } else if(data.answer_count==1){ %>
                     <div class="answe"><a class="qa-ans">
-                        <button class="action primary"><span><?=/* @noEscape */__('Give Answer')?>
+                        <button class="action primary"><span><?=/* @noEscape */ __('Give Answer') ?>
                     </span></button></a></div>
             <% }%>
         </div>
@@ -226,13 +229,13 @@ $collection = $block->getQuestions();
         'islogin' => $login,
         'seller_id' => $sellerId,
         'login_url' => $loginUrl,
-          ];
+    ];
     $serializedFormData = $block->getJsonHelper()->jsonEncode($formData); ?>
-<script type="text/x-magento-init">
-    {
+    <script type="text/x-magento-init">
+        {
         "*": {
-            "mpqa_tab": <?=/* @noEscape */$serializedFormData;?>
+            "mpqa_tab": <?=/* @noEscape */ $serializedFormData; ?>
         }
     }
 </script>
-<?php endif;?>
+<?php endif; ?>
