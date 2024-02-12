@@ -74,21 +74,26 @@ $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
     </div> -->
     <div class="price-info">
         $ <?= $formattedPrice ?: 'No disponible' ?>
-        <span class="number-of-offers" style="padding: 3x 6px; font-size: 10px; color: black; margin-left: 5px;">
-            <?= $number_of_offers . ' ' . $oneOffer ?>
-        </span>
+
     </div>
     <?= $this->getChildHtml('bidder_socialshare'); ?>
     <div class="auction-end">
         <div class="label-auction-end"><?= $labelAuctionEnd ?></div>
-        <div id="auctionCountdown"><span id="timeLeft"><?= $initialCountdown ?></span></div>
+        <div id="auctionCountdown">
+            <span id="timeLeft">
+                <?= $initialCountdown ?>
+            </span>
+            <span class="number-of-offers" style="padding: 3x 6px; font-size: 10px; color: black; margin-left: 5px;">
+                <?= $number_of_offers . ' ' . $oneOffer ?>
+            </span>
+        </div>
         <?= $auctionEndMessage ?>
     </div>
 
-    <div class="minprice_inmidiatebuy">
+    <!-- <div class="minprice_inmidiatebuy">
         <span class="label">Precio mínimo </span><span class="price">CLP $<?= $formattedStartingPrice ?: 'No disponible' ?><br></span>
         <span class="label">Venta inmediata </span><span class="price">CLP $<?= $formattedBuyPrice ?: 'No disponible' ?></span>
-    </div>
+    </div> -->
 </div>
 
 <script>
