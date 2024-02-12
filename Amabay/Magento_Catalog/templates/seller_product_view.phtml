@@ -24,6 +24,12 @@ $rating_total_percentage = isset($rating_data['totalfeed']) ? round($rating_data
 $rating_number_votes = $rating_data['feedcount'];
 // var_dump($rating);
 // die();
+$commentLabel = $rating_number_votes . ' comentarios';
+if ($rating_number_votes === 0) {
+    $commentLabel = 'Sin comentarios';
+} else if ($rating_number_votes === 1) {
+    $commentLabel = '1 comentario';
+}
 ?>
 
 <a href="<?= $this->escapeUrl($profilePageUrl); ?>" title="<?= $this->escapeHtml(__('Visit Shop')) ?>" id="profileconnect" target="_blank">
@@ -34,8 +40,7 @@ $rating_number_votes = $rating_data['feedcount'];
                 <?= $this->escapeHtml($shopTitle); ?>
             </div>
             <div class="rating">
-                <?= $rating_total_percentage ?>%
-                comentarios a la tienda (<?= $rating_number_votes ?>)
+                <?= $commentLabel ?>
             </div>
         </div>
         <i class="fa fa-angle-right"></i>
@@ -85,6 +90,4 @@ $rating_number_votes = $rating_data['feedcount'];
         align-items: flex-start;
         /* Left alignment of children */
     }
-
-    
 </style>
