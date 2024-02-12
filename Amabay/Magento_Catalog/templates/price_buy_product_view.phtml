@@ -31,10 +31,11 @@ $formattedBuyPrice = '';
 $endDate = '';
 $endTime = '';
 $auctionEndMessage = 'La subasta ha finalizado o la fecha de finalización no está disponible.';
-
+$day = '';
 // Check if 'stop_auction_time_stamp' is set in the auctionData array
 if (isset($auctionData['stop_auction_time_stamp'])) {
     $stop_time_stamp = $auctionData['stop_auction_time_stamp'];
+    $day = $helper->getDay($stop_time_stamp);
     $starting_price = $auctionData['starting_price'];
     $current_time_stamp = time();
     $timeRemainingInSeconds = $stop_time_stamp - $current_time_stamp;
@@ -87,7 +88,7 @@ $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
                 <?= $number_of_offers . ' ' . $oneOffer ?>
             </span>
         </div>
-        <?= $auctionEndMessage ?>
+        <?= $day . ', ' . $auctionEndMessage ?>
     </div>
 
     <!-- <div class="minprice_inmidiatebuy">
