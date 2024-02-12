@@ -30,8 +30,8 @@
                     <argument name="sort_order" xsi:type="string">10</argument>
                 </arguments>
             </block>
-            <block class="Magento\Framework\View\Element\Template" name="questions.title" template="Magento_Catalog::productQuestionsTitle.phtml" after="product.info.description"/>
-            <block class="Webkul\Mpqa\Block\Mpqaproductquestion" name="mpqa.tab" template="Webkul_Mpqa::tab.phtml" group="detailed_info" after="questions.title">
+            <!-- <block class="Magento\Framework\View\Element\Template" name="questions.title" template="Magento_Catalog::productQuestionsTitle.phtml" after="product.info.description"/> -->
+            <block class="Webkul\Mpqa\Block\Mpqaproductquestion" name="mpqa.tab" template="Webkul_Mpqa::tab.phtml" group="detailed_info" after="product.info.description">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Webkul\Mpqa\ViewModel\Navigation</argument>
                     <argument translate="true" name="title" xsi:type="string">View Q/A</argument>

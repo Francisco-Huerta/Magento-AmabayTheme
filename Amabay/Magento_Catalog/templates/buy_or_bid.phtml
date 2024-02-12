@@ -4,6 +4,7 @@ $formKey = $block->getFormKey();
 $actionUrl = $block->getUrl('checkout/cart/add', ['product' => $_product->getId()]);
 $checkoutUrl = $block->getUrl('checkout'); // URL to redirect for the fast purchase
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$viewModel = $objectManager->get(\Bidder\Core\ViewModel\Customer::class);
 $blockInstance = $objectManager->get('Webkul\MpAuction\Block\ViewOnProduct');
 $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 $isLoggedIn = $customerSession->isLoggedIn();
@@ -13,8 +14,8 @@ $auctionData = $blockInstance->getAuctionDetail();
 $curAucAmount = $auctionData['current_auction_amount'];
 $starting_price = isset($auctionData['starting_price']) ? $auctionData['starting_price'] : $auctionData['min_amount'];
 $displayPrice = $curAucAmount > 0 ? $curAucAmount : $starting_price;
-$formattedPrice = number_format($displayPrice, 0, ',', '.');
-
+$formattedAuctionPrice = number_format($displayPrice, 0, ',', '.');
+$formattedProductPrice = number_format($_product->getPrice(), 0, ',', '.');
 $entityId = isset($auctionData['entity_id']) ? $auctionData['entity_id'] : '';
 $productId = isset($auctionData['product_id']) ? $auctionData['product_id'] : '';
 $proName = isset($auctionData['pro_name']) ? $auctionData['pro_name'] : '';
@@ -25,29 +26,54 @@ $endDate = date('d/m/Y', $stopAuctionTimeStamp);
 $endTime = date('H:i', $stopAuctionTimeStamp);
 $auctionEndMessage = "la subasta termina el {$endDate} a las {$endTime}hrs";
 $product = \Magento\Framework\App\ObjectManager::getInstance()
-                ->get('Magento\Framework\Registry')
-                ->registry('current_product');
+    ->get('Magento\Framework\Registry')
+    ->registry('current_product');
+$auctionStatusMessages = $viewModel->getAuctionStatusMessages(
+    $auctionData,
+);
+$auctionInfoMessage = isset($auctionStatusMessages['message1']) ? $auctionStatusMessages['message1'] : $auctionStatusMessages['message2'];
+$auctionTypeString = $_product->getData('auction_type');
+$productPrice = $_product->getPrice();
+$auctionTypeArray = explode(',', $auctionTypeString);
+$productHasBuyNow = false;
+if (in_array("1", $auctionTypeArray)) {
+    $productHasBuyNow = true;
+}
 ?>
+
+
 <div id="ajax-messages" class="messages">
     <div class="message-placeholder"></div>
 </div>
+<div class="auction-status-message">
+    <span><?= $auctionInfoMessage ?></span>
+</div>
 <div class="normal-div buy-or-bid-buttons">
-    <form action="<?= /* @noEscape */ $actionUrl ?>" method="post" id="buy-now-form">
-        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>">
-        <input type="hidden" name="form_key" value="<?= /* @noEscape */ $formKey ?>">
-        <button type="submit" title="<?= __('Comprar ahora!') ?>" class="buy-now-button">
-            Comprar ahora!
-        </button>
-    </form>
+
     <div class="authorization-link">
         <?php if ($isLoggedIn) : ?>
             <!-- If the user is logged in, set href to javascript:void(0); -->
-            <a href="javascript:void(0);" class="default-style-button offer-modal buy-now-button">Hacer oferta</a>
+            <a href="javascript:void(0);" class="default-style-button offer-modal buy-now-button"><?= $auctionStatusMessages['callToAction'] ? $auctionStatusMessages['callToAction'] : 'Ofertar' ?></a>
         <?php else : ?>
             <!-- If the user is not logged in, keep the original href -->
-            <a href="/customer/account/login/" class="default-style-button offer-modal buy-now-button">Hacer oferta</a>
+            <a href="/customer/account/login/" class="default-style-button offer-modal buy-now-button"><?= $auctionStatusMessages['callToAction'] ?></a>
         <?php endif; ?>
     </div>
+    <?php if ($productHasBuyNow) : ?>
+        <div class="authorization-link">
+            <form action="<?= /* @noEscape */ $actionUrl ?>" method="post" id="buy-now-form">
+                <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>">
+                <input type="hidden" name="form_key" value="<?= /* @noEscape */ $formKey ?>">
+                <?php if ($isLoggedIn) : ?>
+                    <button type="submit" title="<?= __('Comprar ahora!') ?>" class="buy-now-button default-style-button">
+                        Compralo ahora por $ <?= $formattedProductPrice ?>
+                    </button>
+                <?php else : ?>
+                    <a href="/customer/account/login/" class="buy-now-button default-style-button">Compralo ahora por $ <?= $formattedProductPrice ?></a>
+                <?php endif; ?>
+            </form>
+        </div>
+    <?php endif; ?>
     <!-- This div will be converted into a modal -->
     <div id="bid-modal" style="display:none;">
         <form action="<?= /* @noEscape */ $blockInstance->getAuctionFormAction() ?>" method="post" id="bid-form">
@@ -62,7 +88,7 @@ $product = \Magento\Framework\App\ObjectManager::getInstance()
                 <?= /* @noEscape */ __('MEJOR OFERTA ACTUAL') ?>
             </div>
             <div class="price-info">
-                CLP $ <?= $formattedPrice ?: 'No disponible' ?>
+                CLP $ <?= $formattedAuctionPrice ?: 'No disponible' ?>
             </div>
             <div class="auction-end">
                 <?= $auctionEndMessage ?>
@@ -114,7 +140,10 @@ $product = \Magento\Framework\App\ObjectManager::getInstance()
         cursor: pointer;
     }
 
-    .buy-or-bid-buttons a, .buy-or-bid-buttons a:visited, .buy-or-bid-buttons a:hover, .buy-or-bid-buttons a:focus {
+    .buy-or-bid-buttons a,
+    .buy-or-bid-buttons a:visited,
+    .buy-or-bid-buttons a:hover,
+    .buy-or-bid-buttons a:focus {
         color: white;
         background-color: #00adbb;
     }
@@ -285,6 +314,7 @@ $product = \Magento\Framework\App\ObjectManager::getInstance()
     ], function($, customerData) {
         // Function to update the event handler
         var customer = customerData.get('customer');
+
         function updateEventHandler() {
             var customer = customerData.get('customer')
 
