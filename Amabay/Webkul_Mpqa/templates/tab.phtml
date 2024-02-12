@@ -16,15 +16,22 @@ $marhelper = $block->getMpHelper();
 $productId = $block->getCurrentProductId();
 $sellerId = $block->getSellerId();
 $login = 0;
+$readonly = '';
+$buyerId = '';
+$loginClass = "authorization-link";
+$loginUrl = "/customer/account/login/";
+
 if ($helper->checkLogin()) {
     $buyerId = $helper->getCustomerId();
     $readonly = 'readonly';
     $login = 1;
-} else {
-    $readonly = '';
-    $buyerId = '';
+    $loginUrl = '';
+    $loginClass = '';
 }
+
 $collection = $block->getQuestions();
+
+
 ?>
 <?php if ($create->isEnable()) : ?>
     <div class="box-collateral box-description">
@@ -72,22 +79,13 @@ $collection = $block->getQuestions();
             </div>
         <?php /* @noEscape */ } ?>
         <div class="all-questions">
-            <?php if ($buyerId) { ?>
-                <div class="mainprt">
-                    <a class="qa-question"><button class="action primary">
-                            <span><?=/* @noEscape */ __('Ask Question'); ?></span>
-                        </button></a>
-                </div>
-            <?php } else { ?>
-                <div class="mainprt authorization-link">
-                    <a href="/customer/account/login/" class="qa-question">
-                        <button class="action primary">
-                            <span><?=/* @noEscape */ __('Ask Question'); ?></span>
-                        </button>
-                    </a>
-                </div>
-            <?php } ?>
-
+            <div class="mainprt <?= $loginClass ?>">
+                <a href="<?= $loginUrl ?>" class="qa-question">
+                    <button class="action primary">
+                        <span><?=/* @noEscape */ __('Ask Question'); ?></span>
+                    </button>
+                </a>
+            </div>
         </div>
         <?=/* @noEscape */ $block->getPagerHtml(); ?>
     </div>
