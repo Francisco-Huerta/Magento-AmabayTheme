@@ -3,6 +3,11 @@
     <body>
         <referenceContainer name="before.body.end">
             <block class="Magento\Framework\View\Element\Template" name="slider.script" template="Magento_Cms::script.phtml" cacheable="false" />
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="bid.modal" template="Magento_Theme::modal/bid-modal.phtml">
+                <arguments>
+                    <argument name="myViewModel" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>
