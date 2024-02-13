@@ -28,8 +28,10 @@ $auctionEndMessage = "la subasta termina el {$endDate} a las {$endTime}hrs";
 $product = \Magento\Framework\App\ObjectManager::getInstance()
     ->get('Magento\Framework\Registry')
     ->registry('current_product');
+
+$auctionVariables = $viewModel->getAuctionStatusVariables($auctionData);
 $auctionStatusMessages = $viewModel->getAuctionStatusMessages(
-    $auctionData,
+    $auctionVariables,
 );
 $auctionInfoMessage = isset($auctionStatusMessages['message1']) ? $auctionStatusMessages['message1'] : $auctionStatusMessages['message2'];
 $auctionTypeString = $_product->getData('auction_type');

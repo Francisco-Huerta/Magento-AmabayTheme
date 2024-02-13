@@ -11,7 +11,7 @@
         font-weight: 600;
     }
 
-    h2.product-view-details-title  {
+    h2.product-view-details-title {
         margin-bottom: 1rem;
     }
 
@@ -265,10 +265,10 @@
 // design/frontend/Bidder/Amabay/Magento_Catalog/templates/price_buy_product_view.phtml
 .catalog-product-view,
 .catalog-category-view {
-    .auction-end {
-        // margin-top: 10px;
-        font-size: @font-size__xs;
-    }
+    // .auction-end {
+    //     // margin-top: 10px;
+    //     font-size: @font-size__xs;
+    // }
 
     .highest .offer-square {
         background-color: @secondary__color;
@@ -309,100 +309,40 @@
             font-weight: @font-weight__bold;
         }
     }
-
-    .price-info {
-        font-size: @font-size__xl;
-        // margin-top: @margin-top__base;
-        color: @secondary__color;
-        font-weight: @font-weight__extrabold;
-        margin-bottom: @margin-vertical__base;
-    }
-
-    // .price_product_view {
-    //     margin-top: @primary__margin_top;
-    // }
 }
 
 .catalog-product-view,
 .catalog-category-view {
     .modal-slide.modal-popup {
-        top: 20px;
-        left: 10px;
-        right: 10px;
-        bottom: auto;
-        border-radius: 10px;
-        text-align: center;
-
         .modal-header {
             text-align: center;
-
-            .modal-title {
-                font-size: 16px;
-                font-weight: 600;
-                color: grey;
-            }
-        }
-
-        #bid-form {
-            .auction-end {
-                margin-bottom: 15px;
-            }
-
-            .offer-square {
-                font-weight: 600;
-            }
-        }
-
-        h1 {
-            font-size: 2.3rem;
-            font-weight: 600;
-            color: #000;
-        }
-
-        .mpbidding_amount {
-            margin-bottom: 15px;
-        }
-
-        #bidding_amount {
-            border-radius: 15px;
-            border-width: 1.5px;
-            border-color: @secondary__color;
-        }
-
-        .input-text {
-            text-align: center;
-            /* Other styles for the input element */
-        }
-
-        .input-text::placeholder {
-            text-align: center;
-            /* Additional styling for the placeholder text */
-        }
-
-        .price-info {
-            font-size: @font-size__xxxl;
-        }
-
-        .message.error {
-            margin: 0;
         }
     }
 
-    .catalog-product-view {
-        .buy-now-button {
-            background-color: @secondary__color;
-            border-width: 0;
-            padding: 7px 25px;
-        }
+    .input-text::placeholder {
+        text-align: center;
+        /* Additional styling for the placeholder text */
+    }
 
-        .buy-now-button,
-        .buy-now-button:hover {
-            background-color: @secondary__color;
-            border-color: @secondary__color;
-            border-width: 2px;
-            border-radius: 25px;
-            color: white;
-        }
+    .message.error {
+        margin: 0;
+    }
+}
+
+.catalog-product-view {
+    .buy-now-button {
+        background-color: @secondary__color;
+        border-width: 0;
+        // padding: 7px 25px;
+    }
+
+    .buy-now-button,
+    .buy-now-button:hover {
+        background-color: @secondary__color;
+        border-color: @secondary__color;
+        border-width: 2px;
+        border-radius: 25px;
+        color: white;
     }
 }
 

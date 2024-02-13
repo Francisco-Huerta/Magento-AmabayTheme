@@ -60,8 +60,9 @@ if (isset($auctionData['stop_auction_time_stamp'])) {
     $initialCountdown = $timeData[0];
     $timeColorClass = $timeData[1];
     // $initialCountdown = $helper->formatTimeRemaining($auctionData['stop_auction_time']);
+    $auctionVariables = $viewModel->getAuctionStatusVariables($auctionData);
     $auctionStatusMessages = $viewModel->getAuctionStatusMessages(
-        $auctionData,
+        $auctionVariables,
     );
     $auctionInfoMessage = isset($auctionStatusMessages['message1']) ? $auctionStatusMessages['message1'] : $auctionStatusMessages['message2'];
 }
