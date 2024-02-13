@@ -45,6 +45,8 @@ $autoAuctionOpt = isset($auctionData['auto_auction_opt']) ? $auctionData['auto_a
 $endTime = $viewModel->dateToLocalTimeZone($auctionData['stop_auction_time']);
 $isoEndTime = $endTime->format(DateTime::ATOM);
 $highestBid = $viewModel->formatPrice($auctionData['min_amount']);
+$auctionMessageCallToAction = $auctionStatusMessages['callToAction'] ? $auctionStatusMessages['callToAction'] : 'Ofertar';
+$allAuctionMessages = $auctionVariables['allAuctionMessages'];
 ?>
 
 
@@ -56,11 +58,23 @@ $highestBid = $viewModel->formatPrice($auctionData['min_amount']);
 </div>
 <div class="normal-div buy-or-bid-buttons">
 
-    <div class="authorization-link product-item-link auction-message default-style-button buy-now-button" style="cursor: pointer;" data-entity-id="<?= $block->escapeHtmlAttr($auctionId) ?>" data-product-id="<?= $block->escapeHtmlAttr($productId) ?>" data-product-name="<?= $block->escapeHtmlAttr($_product->getName()) ?>" data-auto-auction-opt="<?= $block->escapeHtmlAttr($autoAuctionOpt) ?>" data-pro-url="<?= $block->escapeUrl($block->getProductUrl($_product)) ?>" data-stop-auction-time="<?= $block->escapeHtmlAttr($isoEndTime) ?>" data-auction-price="<?= $block->escapeHtmlAttr($highestBid) ?>" data-image-url="<?= $block->escapeUrl($block->getImage($_product, 'product_page_image_large')->getImageUrl()) ?>">
+    <div class="authorization-link product-item-link auction-message default-style-button buy-now-button"
+        style="cursor: pointer;" data-entity-id="<?= $block->escapeHtmlAttr($auctionId) ?>"
+        data-product-id="<?= $block->escapeHtmlAttr($productId) ?>"
+        data-product-name="<?= $block->escapeHtmlAttr($_product->getName()) ?>"
+        data-auto-auction-opt="<?= $block->escapeHtmlAttr($autoAuctionOpt) ?>"
+        data-pro-url="<?= $block->escapeUrl($block->getProductUrl($_product)) ?>"
+        data-stop-auction-time="<?= $block->escapeHtmlAttr($isoEndTime) ?>"
+        data-auction-price="<?= $block->escapeHtmlAttr($highestBid) ?>"
+        data-image-url="<?= $block->escapeUrl($block->getImage($_product, 'product_page_image_large')->getImageUrl()) ?>"
+        data-reserve-price-met="<?= $auctionVariables['reservePriceMet'] ?>"
+        data-message-reserve-price-not-met= "<?= $allAuctionMessages['goalPriceNotMet'] ?>"	
+        data-brand-model-can-be-yours="<?= $auctionMessageCallToAction ?>"
+    >
         <?php if ($isLoggedIn) : ?>
             <!-- If the user is logged in, set href to javascript:void(0); -->
             <a href="javascript:void(0);" class="offer-modal">
-                <?= $auctionStatusMessages['callToAction'] ? $auctionStatusMessages['callToAction'] : 'Ofertar' ?>
+                <?= $auctionMessageCallToAction ?>
             </a>
         <?php else : ?>
             <!-- If the user is not logged in, keep the original href -->
