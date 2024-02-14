@@ -23,7 +23,7 @@
             <?= '$auctionEndMessage'; ?>
         </div>
         <div class="input-box">
-            <input type="text" name="bidding_amount" id="bidding_amount" class="input-text required-entry mpbidding_amount" placeholder="<?= /* @noEscape */ __('Ingresa tu oferta'); ?>" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;" />
+            <input type="text" name="bidding_amount_shown" id="bidding_amount_shown" class="input-text required-entry mpbidding_amount" placeholder="<?= /* @noEscape */ __('Ingresa tu oferta'); ?>" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;" />
             <button class="action primary buy-now-button" title="<?= /* @noEscape */ __('Bidding') ?>" type="submit">
                 <span><?= /* @noEscape */ __('Hacer oferta') ?></span>
             </button>
@@ -36,6 +36,7 @@
         <input type="hidden" name="auto_auction_opt" value="" />
         <input type="hidden" name="pro_url" value="" />
         <input type="hidden" name="stop_auction_time_stamp" value="">
+        <input type="hidden" name="bidding_amount" id="bidding_amount" value="">
     </form>
 </div>
 
@@ -56,17 +57,28 @@
         };
 
         var popup = modal(options, $('#bid-modal'));
+
+        // Format the bidding amount input for display
+        $('#bidding_amount_shown').on('input', function() {
+            var input = $(this);
+            var unformattedValue = input.val().replace(/[^\d]/g, ''); // Remove any non-numeric characters
+            var formattedValue = parseInt(unformattedValue).toLocaleString('de-DE');
+
+            $('#bidding_amount').val(unformattedValue); // Update the hidden field with the unformatted value
+            input.val(formattedValue); // Update the input display text
+        });
+
         $('#bid-form').submit(function(event) {
             event.preventDefault();
-
             var bidForm = $(this);
+            var biddingAmount = parseFloat($('#bidding_amount').val()); // Use the unformatted value for the logic
             console.log('ajax url', bidForm.attr('action'));
             var bidButton = bidForm.find('.action.primary');
             var originalButtonText = bidButton.text();
-            var biddingAmount = parseFloat(bidForm.find('#bidding_amount').val());
+            // var biddingAmount = parseFloat(bidForm.find('#bidding_amount').val());
 
             // Instantly update the button text when clicked
-            bidButton.text($.mage.__('Bidding...'));
+            bidButton.text($.mage.__('Ofertando...'));
             bidButton.attr('disabled', true);
 
             $.ajax({
