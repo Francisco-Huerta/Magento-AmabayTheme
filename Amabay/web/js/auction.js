@@ -40,6 +40,7 @@ require(['jquery', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-da
             // productNameElement.text(dataAttributes.productName);
             productNameElement.text(dataAttributes.brandModelCanBeYours);
             remainingTimeInfoElement.text(dataAttributes.remainingTime);
+            remainingTimeInfoElement.addClass(dataAttributes.timeColorClass)
             numberOffersElement.text(dataAttributes.numberOffers);
             priceInfoElement.text(auctionPrice);
             modalImagePhotoElement.attr('src', dataAttributes.imageUrl);

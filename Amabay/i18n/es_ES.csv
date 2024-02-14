@@ -52,7 +52,7 @@ show_auto_outbid_msg,muestra_mensaje_auto_outbid
 "Your auto bid amount successfully saved","Tu cantidad de oferta automática se guardó con éxito"
 "A total of %1 record(s) have been canceled successfully.","Un total de %1 registro(s) se ha(n) cancelado con éxito."
 "Invalid request.","Solicitud inválida."
-"Auction information saved successfully.","Estamos revisando los datos para subastar tu %1, si todo está ok, la subasta se publicará mañana, Mantente Atento"
+"We are reviewing the details for auctioning your car. If everything is okay, the auction will be published tomorrow. Stay tuned.","Estamos revisando los datos para subastar tu auto, si todo está ok, la subasta se publicará mañana, Mantente Atento"
 "Auction type has to selected.","Se debe seleccionar el tipo de subasta."
 "Starting price should contain only decimal numbers.","El precio inicial debe contener solo números decimales."
 "Reserve price should contain only decimal numbers.","El precio de reserva debe contener solo números decimales."
