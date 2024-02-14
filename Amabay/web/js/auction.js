@@ -17,7 +17,10 @@ require(['jquery', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-da
             // Cache the modal elements for better performance
             var bidModal = $("#bid-modal");
             var inputElements = bidModal.find('input');
+            var reservePriceElement = bidModal.find('.reserve-price');
             var productNameElement = bidModal.find('.product-name');
+            var remainingTimeInfoElement = bidModal.find('#timeLeft');
+            var numberOffersElement = bidModal.find('#number-of-offers');
             var priceInfoElement = bidModal.find('.price-info');
             var modalImagePhotoElement = bidModal.find('.modal-image-photo');
 
@@ -28,7 +31,16 @@ require(['jquery', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-da
             inputElements.filter('[name="auto_auction_opt"]').val(dataAttributes.autoAuctionOpt);
             inputElements.filter('[name="pro_url"]').val(dataAttributes.proUrl);
             inputElements.filter('[name="stop_auction_time_stamp"]').val(stopAuctionTimeStamp);
-            productNameElement.text(dataAttributes.productName);
+            if (dataAttributes.hasReservePrice) {
+                reservePriceElement.text('Tiene precio de reserva');
+            } else {
+                reservePriceElement.text('Sin precio de reserva');
+            }
+
+            // productNameElement.text(dataAttributes.productName);
+            productNameElement.text(dataAttributes.brandModelCanBeYours);
+            remainingTimeInfoElement.text(dataAttributes.remainingTime);
+            numberOffersElement.text(dataAttributes.numberOffers);
             priceInfoElement.text(auctionPrice);
             modalImagePhotoElement.attr('src', dataAttributes.imageUrl);
 

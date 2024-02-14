@@ -1,4 +1,5 @@
 <?php
+$helper = $this->helper('Bidder\Core\Helper\Data');
 $_product = $block->getProduct();
 $formKey = $block->getFormKey();
 $actionUrl = $block->getUrl('checkout/cart/add', ['product' => $_product->getId()]);
@@ -47,6 +48,9 @@ $isoEndTime = $endTime->format(DateTime::ATOM);
 $highestBid = $viewModel->formatPrice($auctionData['min_amount']);
 $auctionMessageCallToAction = $auctionStatusMessages['callToAction'] ? $auctionStatusMessages['callToAction'] : 'Ofertar';
 $allAuctionMessages = $auctionVariables['allAuctionMessages'];
+$timeData = $helper->formatTimeRemaining($auctionData['stop_auction_time']);
+$remainingTime = $timeData[0];
+$timeColorClass = $timeData[1];
 ?>
 
 
@@ -70,6 +74,10 @@ $allAuctionMessages = $auctionVariables['allAuctionMessages'];
         data-reserve-price-met="<?= $auctionVariables['reservePriceMet'] ?>"
         data-message-reserve-price-not-met= "<?= $allAuctionMessages['goalPriceNotMet'] ?>"	
         data-brand-model-can-be-yours="<?= $auctionMessageCallToAction ?>"
+        data-remaining-time="<?= $remainingTime ?>"
+        data-remaining-class="<?= $timeColorClass ?>"
+        data-number-offers="<?= $auctionVariables['numberOfOffersAuction'] ?>"
+        data-has-reserve-price="<?= $auctionVariables['hasReservePrice'] ?>"
     >
         <?php if ($isLoggedIn) : ?>
             <!-- If the user is logged in, set href to javascript:void(0); -->

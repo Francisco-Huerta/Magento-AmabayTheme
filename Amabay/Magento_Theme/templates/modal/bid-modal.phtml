@@ -3,9 +3,18 @@
         <div class="modal-image-container">
             <img class="modal-image-photo" src="" loading="lazy" width="700" height="525" alt="">
         </div>
+        <div class="reserve-price">
+        </div>
         <h1 class="product-name"></h1>
-        <div class="offer-square">
-            <?= /* @noEscape */ __('MEJOR OFERTA ACTUAL') ?>
+        <div class="remaining-time-info">
+            <?= /* @noEscape */ __('Termina en ') ?>
+            <span id="timeLeft">
+                <?= '$initialCountdown' ?>
+            </span>
+        </div>
+        <div class="number-of-offers">
+            <span id="number-of-offers"></span>
+            <span> Ofertas</span>
         </div>
         <div class="price-info">
             CLP $ <?= '$formattedPrice' ?: 'No disponible' ?>
@@ -101,7 +110,7 @@
             });
         });
         // Assuming you're using a Magento 2 modal initialized on an element with id 'bid-modal'
-        
+
 
         // Initialize your modal here if it's not already initialized
         // For example, bidModal.modal();
@@ -117,6 +126,7 @@
             $('#bid-modal input[name="stop_auction_time_stamp"]').val('');
 
             // Clear text and image src
+            $('#bid-modal .reserve-price').text('');
             $('#bid-modal .product-name').text('');
             $('#bid-modal .price-info').text('');
             $('#bid-modal .modal-image-photo').attr('src', '');
