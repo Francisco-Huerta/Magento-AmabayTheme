@@ -53,6 +53,9 @@ if (isset($auctionData['stop_auction_time_stamp'])) {
     $endDate = date('d/m/Y', $stop_time_stamp);
     $endTime = date('H:i', $stop_time_stamp);
     $labelAuctionEnd = "Termina";
+    if ($timeRemainingInSeconds <= 0) {
+        $labelAuctionEnd = "";
+    }
     $auctionEndMessage = "{$endDate} a las {$endTime}hrs";
 
     // PHP code to calculate time remaining
@@ -67,9 +70,6 @@ if (isset($auctionData['stop_auction_time_stamp'])) {
     $auctionInfoMessage = isset($auctionStatusMessages['message1']) ? $auctionStatusMessages['message1'] : $auctionStatusMessages['message2'];
 }
 
-?>
-
-<?php
 $label = $current_user_highest_bidder ? 'TIENES LA MEJOR OFERTA' : 'MEJOR OFERTA';
 $divClass = $current_user_highest_bidder ? 'price_product_view highest' : 'price_product_view';
 $oneOffer = $number_of_offers == 1 ? 'oferta' : 'ofertas';
