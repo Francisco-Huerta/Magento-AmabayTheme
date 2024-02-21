@@ -265,6 +265,69 @@ $timeColorClass = $timeData[1];
                 }
             });
         });
+        // Convert div into modal
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: $.mage.__('Realizar oferta por'),
+            buttons: [] // No buttons, as we have them inside our form already
+        };
+
+        var popup = modal(options, $('#bid-modal'));
+
+        $('#bid-form').submit(function(event) {
+            event.preventDefault();
+
+            var bidForm = $(this);
+            var bidButton = bidForm.find('.action.primary');
+            var originalButtonText = bidButton.text();
+            var biddingAmount = parseFloat(bidForm.find('#bidding_amount').val());
+
+            // Instantly update the button text when clicked
+            bidButton.text($.mage.__('Bidding...'));
+            bidButton.attr('disabled', true);
+
+            $.ajax({
+                url: bidForm.attr('action'),
+                data: bidForm.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                complete: function(xhr, textStatus) {
+                    // Fetch the message from cookie
+                    var messages = $.cookieStorage.get('mage-messages');
+
+                    if (messages && messages.length) {
+                        var lastMessage = messages[messages.length - 1]; // Get the last message
+                        // Display the message in the modal
+                        $('.bid-message-placeholder').html('<div class="message ' + lastMessage.type + '"><div>' + lastMessage.text + '</div></div>');
+
+                        // If the bid was successful
+                        if (lastMessage.type === "success") {
+                            // Format the bidding amount
+                            var formattedBidAmount = biddingAmount.toLocaleString('de-DE', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
+                            });
+                            // Update the price-info div
+                            $('.price-info').html('CLP $ ' + formattedBidAmount);
+                        }
+
+                        // Clear the messages from the cookie
+                        $.cookieStorage.set('mage-messages', '');
+                    }
+
+                    // Refresh customer data related to messages
+                    customerData.reload(['messages']);
+
+                    // Reset the bid button after displaying the message
+                    // setTimeout(function() {
+                    bidButton.text(originalButtonText);
+                    bidButton.attr('disabled', false);
+                    // }, 2000); // Reset button text after 2 seconds
+                }
+            });
+        });
     });
 </script>
 <script>
