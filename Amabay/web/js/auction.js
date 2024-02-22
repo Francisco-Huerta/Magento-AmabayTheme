@@ -14,48 +14,50 @@ require(['jquery', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-da
             var auctionPrice = '$ ' + dataAttributes.auctionPrice;
             console.log('auctionPrice:', auctionPrice);
 
-            // Cache the modal elements for better performance
-            var bidModal = $("#bid-modal");
-            var inputElements = bidModal.find('input');
-            var reservePriceElement = bidModal.find('.reserve-price');
-            var productNameElement = bidModal.find('.product-name');
-            var remainingTimeInfoElement = bidModal.find('#timeLeft');
-            var numberOffersElement = bidModal.find('#number-of-offers');
-            var priceInfoElement = bidModal.find('.price-info');
-            var modalImagePhotoElement = bidModal.find('.modal-image-photo');
-
-            // Set the values and text content
-            inputElements.filter('[name="entity_id"]').val(dataAttributes.entityId);
-            inputElements.filter('[name="product_id"]').val(dataAttributes.productId);
-            inputElements.filter('[name="pro_name"]').val(dataAttributes.productName);
-            inputElements.filter('[name="auto_auction_opt"]').val(dataAttributes.autoAuctionOpt);
-            inputElements.filter('[name="pro_url"]').val(dataAttributes.proUrl);
-            inputElements.filter('[name="stop_auction_time_stamp"]').val(stopAuctionTimeStamp);
-            if (dataAttributes.hasReservePrice) {
-                reservePriceElement.text('Tiene precio de reserva');
-            } else {
-                reservePriceElement.text('Sin precio de reserva');
-            }
-
-            // productNameElement.text(dataAttributes.productName);
-            productNameElement.text(dataAttributes.brandModelCanBeYours);
-            remainingTimeInfoElement.text(dataAttributes.remainingTime);
-            remainingTimeInfoElement.addClass(dataAttributes.timeColorClass)
-            numberOffersElement.text(dataAttributes.numberOffers);
-            priceInfoElement.text(auctionPrice);
-            modalImagePhotoElement.attr('src', dataAttributes.imageUrl);
-
             if (currentTime < stopAuctionTimeStamp) {
                 // Auction is active
+                // Cache the modal elements for better performance
+                var bidModal = $("#bid-modal");
+                var inputElements = bidModal.find('input');
+                var reservePriceElement = bidModal.find('.reserve-price');
+                var productNameElement = bidModal.find('.product-name');
+                var remainingTimeInfoElement = bidModal.find('#timeLeft');
+                var numberOffersElement = bidModal.find('#number-of-offers');
+                var priceInfoElement = bidModal.find('.price-info');
+                var modalImagePhotoElement = bidModal.find('.modal-image-photo');
+
+                // Set the values and text content
+                inputElements.filter('[name="entity_id"]').val(dataAttributes.entityId);
+                inputElements.filter('[name="product_id"]').val(dataAttributes.productId);
+                inputElements.filter('[name="pro_name"]').val(dataAttributes.productName);
+                inputElements.filter('[name="auto_auction_opt"]').val(dataAttributes.autoAuctionOpt);
+                inputElements.filter('[name="pro_url"]').val(dataAttributes.proUrl);
+                inputElements.filter('[name="stop_auction_time_stamp"]').val(stopAuctionTimeStamp);
+                if (dataAttributes.hasReservePrice) {
+                    reservePriceElement.text('Tiene precio de reserva');
+                } else {
+                    reservePriceElement.text('Sin precio de reserva');
+                }
+
+                // productNameElement.text(dataAttributes.productName);
+                productNameElement.text(dataAttributes.brandModelCanBeYours);
+                remainingTimeInfoElement.text(dataAttributes.remainingTime);
+                remainingTimeInfoElement.addClass(dataAttributes.timeColorClass)
+                numberOffersElement.text(dataAttributes.numberOffers);
+                priceInfoElement.text(auctionPrice);
+                modalImagePhotoElement.attr('src', dataAttributes.imageUrl);
                 $('.auction-end').text($.mage.__('La subasta está activa, puedes hacer una oferta!'));
                 $('#bid-form .action.primary').prop('disabled', false);
+                bidModal.modal("openModal");
+
             } else {
                 // Auction has ended
+                var notSoldModal = $("#notSold-modal");
                 $('.auction-end').text($.mage.__('La subasta termino, no se pueden poner más ofertas'));
                 $('#bid-form .action.primary').prop('disabled', true);
+                notSoldModal.modal("openModal");
             }
             // Open the modal
-            bidModal.modal("openModal");
         } else {
             console.log('User is not logged in');
             return;
