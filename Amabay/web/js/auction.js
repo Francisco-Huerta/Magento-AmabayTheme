@@ -13,6 +13,12 @@ require(['jquery', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-da
             console.log('stopAuctionTimeStamp:', stopAuctionTimeStamp);
             var auctionPrice = '$ ' + dataAttributes.auctionPrice;
             console.log('auctionPrice:', auctionPrice);
+            var isSold = dataAttributes.sold;
+
+            if (isSold) {
+                console.log('Product is sold');
+                return;
+            }
 
             if (currentTime < stopAuctionTimeStamp) {
                 // Auction is active
