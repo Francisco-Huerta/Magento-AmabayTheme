@@ -42,6 +42,16 @@
                     <argument name="search_terms_log" xsi:type="object">Magento\CatalogSearch\Block\SearchTermsLog</argument>
                 </arguments>
             </block>
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="bid.modal" template="Magento_Theme::modal/bid-modal.phtml">
+                <arguments>
+                    <argument name="myViewModel" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
+                </arguments>
+            </block>
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="notsold.modal" template="Magento_Theme::modal/notSold-modal.phtml">
+                <arguments>
+                    <argument name="myViewModel" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

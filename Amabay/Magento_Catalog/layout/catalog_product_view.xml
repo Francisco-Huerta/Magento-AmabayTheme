@@ -7,6 +7,11 @@
                     <argument name="myViewModel" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
                 </arguments>
             </block>
+            <block class="Webkul\MpAuction\Block\ViewOnProduct" name="notsold.modal" template="Magento_Theme::modal/notSold-modal.phtml">
+                <arguments>
+                    <argument name="myViewModel" xsi:type="object">Bidder\Core\ViewModel\Customer</argument>
+                </arguments>
+            </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.attributes.custom" template="Magento_Catalog::product/view/attributes_custom.phtml" before="-"/>
             <block class="Webkul\MpAuction\Block\ViewOnProduct" name="buy.block" template="Magento_Catalog::price_buy_product_view.phtml" after="product.attributes.custom">
                 <block class="Bidder\SocialShare\Block\Share" name="bidder.socialshare" as="bidder_socialshare" template="Bidder_SocialShare::share.phtml"/>
