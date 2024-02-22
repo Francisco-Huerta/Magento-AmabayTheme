@@ -1,0 +1,88 @@
+<div id="notSold-modal" style="display:none;">
+    Modal for showing why the auction was not successful
+    <div class="modal-image-container">
+        <img class="modal-image-photo" src="" loading="lazy" width="700" height="525" alt="">
+    </div>
+    <div class="reserve-price">
+    </div>
+    <h1 class="product-name"></h1>
+    <div class="remaining-time-info">
+        <?= /* @noEscape */ __('Termina en ') ?>
+        <span id="timeLeft">
+            <?= '$initialCountdown' ?>
+        </span>
+    </div>
+    <div class="number-of-offers">
+        <span id="number-of-offers"></span>
+        <span> Ofertas</span>
+    </div>
+    <div class="price-info">
+        CLP $ <?= '$formattedPrice' ?: 'No disponible' ?>
+    </div>
+    <div class="auction-end">
+        <?= '$auctionEndMessage'; ?>
+    </div>
+    <div class="input-box">
+        <input type="text" name="bidding_amount_shown" id="bidding_amount_shown" class="input-text required-entry mpbidding_amount" placeholder="<?= /* @noEscape */ __('Ingresa tu oferta'); ?>" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;" />
+        <button class="action primary buy-now-button" title="<?= /* @noEscape */ __('Bidding') ?>" type="submit">
+            <span><?= /* @noEscape */ __('Hacer oferta') ?></span>
+        </button>
+        <div class="bid-message-placeholder" style="min-height: 50px;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Customer/js/customer-data',
+        'Magento_Ui/js/modal/modal',
+        'mage/translate'
+    ], function($, customerData, modal) {
+        // Convert div into modal
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            // title: $.mage.__('Realizar oferta por'),
+            buttons: [] // No buttons, as we have them inside our form already
+        };
+
+        var popup = modal(options, $('#notSold-modal'));
+
+        // Format the bidding amount input for display
+        $('#bidding_amount_shown').on('input', function() {
+            var input = $(this);
+            var unformattedValue = input.val().replace(/[^\d]/g, ''); // Remove any non-numeric characters
+            var formattedValue = parseInt(unformattedValue).toLocaleString('de-DE');
+
+            $('#bidding_amount').val(unformattedValue); // Update the hidden field with the unformatted value
+            input.val(formattedValue); // Update the input display text
+        });
+
+        // Initialize your modal here if it's not already initialized
+        // For example, bidModal.modal();
+
+        // Event listener for modal close
+        $('#notSold-modal').on('modalclosed', function() {
+            // Clear input fields
+            $('#notSold-modal input[name="entity_id"]').val('');
+            $('#notSold-modal input[name="product_id"]').val('');
+            $('#notSold-modal input[name="pro_name"]').val('');
+            $('#notSold-modal input[name="auto_auction_opt"]').val('');
+            $('#notSold-modal input[name="pro_url"]').val('');
+            $('#notSold-modal input[name="stop_auction_time_stamp"]').val('');
+
+            // Clear text and image src
+            $('#notSold-modal .reserve-price').text('');
+            $('#notSold-modal .product-name').text('');
+            $('#notSold-modal .price-info').text('');
+            $('#notSold-modal .modal-image-photo').attr('src', '');
+
+            // Clear the auction amount
+            $('#notSold-modal .mpbidding_amount').val('');
+            // Clear any message placeholder content
+            $('#notSold-modal .bid-message-placeholder').empty(); // or .text('') if you prefer
+
+        });
+    });
+</script>
