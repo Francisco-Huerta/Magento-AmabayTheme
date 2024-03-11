@@ -95,35 +95,63 @@ $viewModel = $block->getData('customer_view_model');
     </div>
     <div class="user-profile notlogged link authorization-link" id="notLoggedInDiv" data-label="o">
         <div class="menu-category-container">
-            <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">INICIAR SESIÓN</a>
+            <!-- <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">INICIAR SESIÓN</a>
             <a href="customer/account/create" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top">CREAR UNA CUENTA</a>
-            <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top" id="venderButton">VENDER</a>
+            <a href="/customer/account/login/" class="user-profile__button social-login-btn" data-effect="mfp-move-from-top" id="venderButton">VENDER</a> -->
+            <a href="/customer/account/login/" class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="menu-link user-sales-info">
+                    <span>Iniciar sesión</span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </a>
+            <a href="customer/account/create" class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="menu-link user-sales-info">
+                    <span>Crear una cuenta</span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </a>
+            <a href="/customer/account/login/" class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="menu-link user-sales-info">
+                    <span>Vender</span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </a>
+            <a href="<?php echo $block->getUrl('vehiculos.html'); ?>" class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="menu-link user-sales-info">
+                    <span>Mis Subastas</span>
+                </div>
+                <i class="fa fa-angle-right"></i>
+            </a>
         </div>
         <div class="menu-category-container">
-                <div class="user-profile__line">
-                    <span class="icon-placeholder"></span>
-                    <div class="user-sales-info menu-bids-subtitle">
-                        <span>Subastas terminadas</span>
-                    </div>
-                    <span class="icon-placeholder"></span>
-                    <!-- <i class="fa fa-angle-right"></i> -->
+            <div class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="user-sales-info menu-bids-subtitle">
+                    <span>Subastas terminadas</span>
                 </div>
-
-                <a href="<?php echo $block->getUrl('vehiculos.html?sold=true'); ?>" class="user-profile__line">
-                    <span class="icon-placeholder"></span>
-                    <div class="menu-link user-sales-info">
-                        <span>Con venta exitosa</span>
-                    </div>
-                    <span class="icon-placeholder"></span>
-                </a>
-                <a href="<?php echo $block->getUrl('vehiculos.html?sold=false'); ?>" class="user-profile__line">
-                    <span class="icon-placeholder"></span>
-                    <div class="menu-link user-sales-info">
-                        <span>Sin venta</span>
-                    </div>
-                    <span class="icon-placeholder"></span>
-                </a>
+                <span class="icon-placeholder"></span>
+                <!-- <i class="fa fa-angle-right"></i> -->
             </div>
+
+            <a href="<?php echo $block->getUrl('vehiculos.html?sold=true'); ?>" class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="menu-link user-sales-info">
+                    <span>Con venta exitosa</span>
+                </div>
+                <span class="icon-placeholder"></span>
+            </a>
+            <a href="<?php echo $block->getUrl('vehiculos.html?sold=false'); ?>" class="user-profile__line">
+                <span class="icon-placeholder"></span>
+                <div class="menu-link user-sales-info">
+                    <span>Sin venta</span>
+                </div>
+                <span class="icon-placeholder"></span>
+            </a>
+        </div>
     </div>
     <!-- <div class="sold-unsold">
         <span class="icon-placeholder"></span>
