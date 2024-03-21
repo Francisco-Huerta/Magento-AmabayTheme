@@ -1,33 +1,35 @@
 <div id="notSold-modal" style="display:none;">
-    Modal for showing why the auction was not successful
     <div class="modal-image-container">
         <img class="modal-image-photo" src="" loading="lazy" width="700" height="525" alt="">
     </div>
     <div class="reserve-price">
     </div>
     <h1 class="product-name"></h1>
-    <div class="remaining-time-info">
-        <?= /* @noEscape */ __('Termina en ') ?>
-        <span id="timeLeft">
-            <?= '$initialCountdown' ?>
+    <div class="message-container-not-sold">
+        <h1>
+        <?= /* @noEscape */ __('¿Por que no se vendió mi ') ?>
+        <span id="brand">
         </span>
+        ?
+        </h1>
     </div>
-    <div class="number-of-offers">
-        <span id="number-of-offers"></span>
-        <span> Ofertas</span>
+    <div class="message-container-sold">
+        <h2></h2>
+        <div class="user-data">
+            <div class="attribute">Nombre:</div>
+            <div class="attribute-value"><span id="modal-sold-text1"></span></div>
+            <div class="attribute">Email:</div>
+            <div class="attribute-value"><span id="modal-sold-text2"></span></div>
+            <div class="attribute">Teléfono:</div>
+            <div class="attribute-value"><span id="modal-sold-text3"></span></div>
+        </div>
+
+
+        <h3></h3>
+        <span id="modal-sold-text4"></span>
     </div>
-    <div class="price-info">
-        CLP $ <?= '$formattedPrice' ?: 'No disponible' ?>
-    </div>
-    <div class="auction-end">
-        <?= '$auctionEndMessage'; ?>
-    </div>
-    <div class="input-box">
-        <input type="text" name="bidding_amount_shown" id="bidding_amount_shown" class="input-text required-entry mpbidding_amount" placeholder="<?= /* @noEscape */ __('Ingresa tu oferta'); ?>" required="required" oncut="return false;" oncopy="return false;" onpaste="return false;" />
-        <button class="action primary buy-now-button" title="<?= /* @noEscape */ __('Bidding') ?>" type="submit">
-            <span><?= /* @noEscape */ __('Hacer oferta') ?></span>
-        </button>
-        <div class="bid-message-placeholder" style="min-height: 50px;"></div>
+    <div class="answer-container">
+        <span id="answer"></span>
     </div>
 </div>
 
@@ -86,3 +88,40 @@
         });
     });
 </script>
+
+<style>
+    .answer-container #answer {
+        text-align: left;
+
+        a {
+            display: inline-block;
+        }
+    }
+
+    .user-data {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-auto-rows: 1fr;
+        gap: 5px 10px;
+        /* Vertical and horizontal gap */
+        /* align-items: center; */
+    }
+
+    .attribute,
+    .attribute-value {
+        text-align: left;
+        /* Adjust as needed */
+    }
+
+    .message-container-sold {
+        h3,
+        h2,
+        #modal-sold-text4 {
+            text-align: left;
+        }
+    }
+
+    .modal-popup.modal-slide._inner-scroll._show {
+        text-align: left;
+    }
+</style>
