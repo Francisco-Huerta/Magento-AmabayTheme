@@ -10,6 +10,11 @@
  * @license   https://store.webkul.com/license.html
  */
 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+// Probable cache problem!
+$isLoggedIn = $customerSession->isLoggedIn();
+
 $create = $block->getViewModel()->getHelperObject();
 $helper = $block->getMpqaHelper();
 $marhelper = $block->getMpHelper();
@@ -80,11 +85,20 @@ $collection = $block->getQuestions();
         <?php /* @noEscape */ } ?>
         <div class="all-questions">
             <div class="mainprt <?= $loginClass ?>">
-                <a href="<?= $loginUrl ?>" class="qa-question">
-                    <button class="action primary">
-                        <span><?=/* @noEscape */ __('Ask Question'); ?></span>
-                    </button>
-                </a>
+                <?php if ($isLoggedIn) : ?>
+                    <a class="qa-question">
+                        <button class="action primary">
+                            <span><?=/* @noEscape */ __('Ask Question'); ?></span>
+                        </button>
+                    </a>
+                <?php else : ?>
+                    <!-- If the user is not logged in, keep the original href -->
+                    <a href="/customer/account/login/" class="qa-question">
+                        <button class="action primary">
+                            <span><?=/* @noEscape */ __('Ask Question'); ?></span>
+                        </button>
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
         <?=/* @noEscape */ $block->getPagerHtml(); ?>
