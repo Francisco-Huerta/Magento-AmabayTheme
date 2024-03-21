@@ -8,6 +8,7 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $viewModel = $objectManager->get(\Bidder\Core\ViewModel\Customer::class);
 $blockInstance = $objectManager->get('Webkul\MpAuction\Block\ViewOnProduct');
 $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+// Probable cache problem!
 $isLoggedIn = $customerSession->isLoggedIn();
 $aucConfig = $blockInstance->getAuctionConfiguration();
 
@@ -34,6 +35,8 @@ $auctionVariables = $viewModel->getAuctionStatusVariables($auctionData);
 $auctionStatusMessages = $viewModel->getAuctionStatusMessages(
     $auctionVariables,
 );
+$qaSector = $auctionStatusMessages['qaSector'];
+$auctionVariables['publicity'] = null;
 $auctionInfoMessage = isset($auctionStatusMessages['message1']) ? $auctionStatusMessages['message1'] : $auctionStatusMessages['message2'];
 $auctionTypeString = $_product->getData('auction_type');
 $productPrice = $_product->getPrice();
@@ -79,6 +82,9 @@ $timeColorClass = $timeData[1];
         data-number-offers="<?= $auctionVariables['numberOfOffersAuction'] ?>"
         data-has-reserve-price="<?= $auctionVariables['hasReservePrice'] ?>"
         data-sold="<?= $auctionVariables['sold'] ?>"
+        data-situation="<?= $qaSector ?>"
+        data-brand="<?= $auctionVariables['productBrand'] ?>"
+        data-publicity="<?= $auctionVariables['publicity'] ?>"
     >
         <?php if ($isLoggedIn) : ?>
             <!-- If the user is logged in, set href to javascript:void(0); -->
@@ -285,14 +291,12 @@ $timeColorClass = $timeData[1];
             var customer = customerData.get('customer')
 
             if (customer() && customer().firstname) {
-                console.log('User is logged in');
                 $('.offer-modal').off('click').on('click', function(event) {
                     event.preventDefault();
                     $("#bid-modal").modal("openModal");
                 });
             } else {
                 console.log('User is not logged in');
-                // $('.offer-modal').off('click').attr('href', '/customer/account/login/');
             }
         }
 
