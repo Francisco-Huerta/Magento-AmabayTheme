@@ -35,7 +35,7 @@ $isSold = $this->getRequest()->getParam('sold', null);
 $isNotSold = $this->getRequest()->getParam('not_sold', false);
 $query = $this->getRequest()->getParam('q', false);
 $qa = $this->getRequest()->getParam('qa', false);
-
+$sellerId = $block->getSellerId() ?? false;
 
 if ($qa) {
     if (in_array($userId, [3, 4, 8]) && !$_onHomePage) {
@@ -166,6 +166,18 @@ if ($isSold !== null) {
     $auctionsSortedByRegion[0]->load();
     $auctionBlocks = [
         ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
+    ];
+} elseif ($sellerId) {
+    $auctionsData = $viewModel->prepareAuctionsData(
+        userRegion: $userRegion,
+        searchTerm: $query,
+        sellerId: $sellerId
+    );
+    extract($auctionsData);
+    // Prepare data for the loop
+    $auctionBlocks = [
+        ['data' => $auctionsSortedByRegion, 'title' => 'Subastas vigentes'],
+        ['data' => $auctionsWithProductExpiredOrSold, 'title' => 'Subastas terminadas'],
     ];
 } else {
     $auctionsData = $viewModel->prepareAuctionsData(
@@ -564,7 +576,7 @@ endif; ?>
     });
 </script> -->
 <script type="text/x-magento-init">
-{
+    {
     "*": {
         "auction": {}
     }
