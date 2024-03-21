@@ -144,13 +144,18 @@
     }
 
     @height-horizontal-grid-bottom-message: (@font-size__s * 2) + 5px * 2;
+
     .grid-ending-soon .homepage-horizontal-grid-bottom-message {
         width: 100%;
         text-align: center;
         background-color: @secondary__color;
         height: @height-horizontal-grid-bottom-message;
         overflow: hidden;
-        padding-top: 2px;
+        // padding-top: 2px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .grid-ending-soon .homepage-horizontal-grid-bottom-message span {

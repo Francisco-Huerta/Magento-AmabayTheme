@@ -1,7 +1,3 @@
-.profile-page {
-    display: none;
-}
-
 @media screen and (max-width: 768px) {
     .profile-page.visible {
         display: block;
@@ -33,6 +29,10 @@
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
 
+        .user-info {
+            margin-bottom: @margin-top__s;
+        }
+
         .bottom-section {
             position: relative;
             /* Make sure this is relative so the pseudo-element is positioned in relation to it */
@@ -54,14 +54,15 @@
             /* Or whatever color you want */
         }
 
-        h3 {
-            color: white;
-            text-align: center;
-        }
+        // h3 {
+        //     color: white;
+        //     text-align: center;
+        // }
 
         .bottom-buttons {
             display: flex;
             flex-direction: column;
+
             button {
                 text-align: center;
                 margin-bottom: 10px;
@@ -71,6 +72,7 @@
                 align-self: center;
                 font-weight: @font-weight__semibold;
             }
+
             button:hover,
             button:active,
             button:focus,
@@ -81,70 +83,65 @@
             }
         }
 
-        .bottom-section h3 {
-            position: relative;
-            padding-left: 30px;
-            /* Give space for the icon */
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: 1px solid white;
-            /* Line above the h3 */
-            border-bottom: none;
-            margin-top: 0px;
-            /* Spacing above the h3 */
-            margin-bottom: 0px;
-            /* Spacing below the h3 */
-            font-size: @font-size__base;
-        }
+        // .bottom-section h3 {
+        //     position: relative;
+        //     /* Give space for the icon */
+        //     padding-top: 10px;
+        //     padding-bottom: 10px;
+        //     border-top: 1px solid white;
+        //     /* Line above the h3 */
+        //     border-bottom: none;
+        //     margin-top: 0px;
+        //     /* Spacing above the h3 */
+        //     margin-bottom: 0px;
+        //     /* Spacing below the h3 */
+        //     font-size: @font-size__base;
+        // }
 
-        .bottom-section h3::before {
-            content: "\f078";
-            /* This is the FontAwesome code for 'fa-chevron-down' */
-            font-family: 'FontAwesome';
-            position: absolute;
-            left: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            /* Adjust size as necessary */
-            font-weight: 100;
-            color: white;
-            /* Set the color */
-            pointer-events: none;
-            /* Make it non-interactive */
-            // margin-left: 5px;
-        }
+        // .bottom-section h3::before {
+        //     content: "\f078";
+        //     /* This is the FontAwesome code for 'fa-chevron-down' */
+        //     font-family: 'FontAwesome';
+        //     position: absolute;
+        //     left: 5px;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     font-size: 16px;
+        //     /* Adjust size as necessary */
+        //     font-weight: 100;
+        //     color: white;
+        //     /* Set the color */
+        //     pointer-events: none;
+        //     /* Make it non-interactive */
+        //     // margin-left: 5px;
+        // }
 
-        .toggle-info::before {
-            content: "\f078";
-            /* This is the FontAwesome code for 'fa-chevron-down' */
-            font-family: 'FontAwesome';
-            position: absolute;
-            left: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            /* Adjust size as necessary */
-            font-weight: 100;
-            color: white;
-            /* Set the color */
-            pointer-events: none;
-            /* Make it non-interactive */
-            // margin-left: 5px;
-        }
+        // .toggle-info::before {
+        //     content: "\f078";
+        //     /* This is the FontAwesome code for 'fa-chevron-down' */
+        //     font-family: 'FontAwesome';
+        //     position: absolute;
+        //     left: 5px;
+        //     top: 50%;
+        //     transform: translateY(-50%);
+        //     font-size: 16px;
+        //     /* Adjust size as necessary */
+        //     font-weight: 100;
+        //     color: white;
+        //     /* Set the color */
+        //     pointer-events: none;
+        //     /* Make it non-interactive */
+        //     // margin-left: 5px;
+        // }
 
-        .toggle-info.is-expanded::before {
-            content: "\f077";
-            /* Unicode for 'fa-chevron-up' */
-            /* Your styling for the icon when the section is expanded */
-        }
 
-        .bottom-section h3:first-child {
+
+        .bottom-section .expandable-section:first-child {
             margin-top: 20px !important;
             /* Add bottom border to the last h3 */
         }
 
-        .bottom-section h3:last-child {
+        .bottom-section .expandable-section:last-child {
             border-bottom: 1px solid white;
             /* Add bottom border to the last h3 */
             margin-bottom: 20px;
@@ -197,7 +194,7 @@
             /* Lower z-index to keep it at the bottom of the stack */
         }
 
-        .image-container .icon-center {
+        .image-container .profile-center {
             position: absolute;
             top: 50%;
             /* Align the top of the icon to the center of the container */
@@ -221,12 +218,16 @@
             /* The rest of your image styling */
         }
 
-        #personal-info {
-            margin: 0px 20px;
-            color: white;
+        .profile-info {
+            margin-bottom: @margin__xl;
 
-            p {
-                font-weight: @font-weight__bold;
+            .user-info {
+                margin: 0px 20px;
+                color: white;
+    
+                p {
+                    font-weight: @font-weight__bold;
+                }
             }
         }
 
@@ -234,6 +235,10 @@
             --header-height: 0px;
             /* Initial value if JavaScript hasn't run yet */
         }
+
+        
     }
+
+    
 
 }

@@ -1,0 +1,67 @@
+.faq-header-description {
+    margin-bottom: @margin__l;
+}
+
+.answer-truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Number of lines you want to display */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2em;
+    /* Adjust based on your design */
+    max-height: 3.6em;
+    margin-bottom: unset;
+    transition: max-height 0.3s ease;
+}
+
+.bidder-flex-centered .fa-chevron-right {
+    font-size: @font-size__xxl;
+    font-weight: @font-weight__bold;
+    color: @secondary__color;
+    padding-left: @margin__base;
+    transition: transform 0.3s ease;
+}
+
+.question-answer h4 {
+    margin-top: 0;
+    font-weight: @font-weight__semibold;
+    font-size: @font-size__base;
+}
+
+.question-answer p {
+    font-size: @font-size__s;
+}
+
+.faq-header h2 {
+    font-weight: 600;
+    color: @secondary__color;
+    margin-top: 0;
+}
+
+.faq-header .centered-allwidth {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.answer-expanded {
+    -webkit-line-clamp: none;
+    -webkit-box-orient: unset;
+    overflow: visible;
+    text-overflow: clip;
+    max-height: none;
+    /* Remove the max-height restriction */
+}
+
+.faq-question-answer-container {
+    transition: margin-bottom 0.3s ease;
+    padding-top: @margin__xl;
+}
+
+.chevron-rotate {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+    /* Smooth rotation */
+}

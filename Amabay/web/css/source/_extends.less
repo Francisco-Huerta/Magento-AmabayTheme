@@ -21,10 +21,19 @@
 @third__color-darker: #666666; // Your third color
 @fourth__color: #ff9d00; // Your fourth color
 @primary__border_radius: 3%; // Your primary border radius
+@border-radius__base: 5px; // Your base border radius
+@border-radius__s: 3px; // Your small border radius
+@border-radius__l: 10px; // Your large border radius
+@border-radius__xl: 15px; // Your extra large border radius
 @primary__margin_top: 10px; // Your primary margin top
 @seconday__margin_top: 20px; // Your secondary margin top
 @margin-top__base: 10px; // Your base margin top
 @margin-top__s: 5px; // Your small margin top
+@margin__base: 10px; // Your base margin
+@margin__s: 5px; // Your small margin
+@margin__l: 15px; // Your large margin
+@margin__xl: 20px; // Your extra large margin
+@margin__xxl: 25px; // Your extra extra large margin
 @margin-vertical__base: 7px; // Your primary margin left
 @font-size__xxl: ceil(1.75 * @font-size__base);
 @font-size__xxxl: ceil(2.25 * @font-size__base);
@@ -45,10 +54,203 @@
 @import 'sections/_wizard.less';
 @import 'sections/_review_product.less';
 @import 'sections/_bid_modal.less';
-// @import 'sections/_custom.less';
+@import 'sections/_faq_page.less';
+@import 'sections/_product_card.less';
+
+h2 {
+    font-size: @font-size__xl;
+}
+
+.bidder-flex-centered {
+    display: flex;
+    align-items: center;
+}
+
+
+.bidder-button-blueBackground-whiteBorder {
+    background-color: @secondary__color;
+    border: 1px solid white;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: @font-size__s;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+
+    &:hover,
+    &:visited,
+    &:active {
+        background-color: @secondary__color; // Assuming you want to keep the background color unchanged on hover
+        color: #fff; // Keeping text color unchanged
+        text-decoration: none;
+        // No changes to border, padding, border-radius, font-size, or font-weight
+    }
+}
+
+.bidder-button-whiteBackground-secondaryColorBorder {
+    background-color: white;
+    border: 2px solid @secondary__color;
+    color: @secondary__color;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: @font-size__s;
+    font-weight: @font-weight__bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+
+    &:hover,
+    &:visited,
+    &:active {
+        background-color: white; // Assuming you want to keep the background color unchanged on hover
+        color: @secondary__color; // Keeping text color unchanged
+        text-decoration: none;
+        // No changes to border, padding, border-radius, font-size, or font-weight
+    }
+}
+
+.bidder-grey-line {
+    border-bottom: 1px solid @third__color-lighter;
+    padding-bottom: @margin__xl;
+}
+
+.container-buttons-column-same-size {
+    display: grid;
+    grid-template-rows: repeat(3, max-content);
+    justify-content: center;
+    gap: 12px;
+    margin-top: @margin__s;
+    margin-bottom: @margin__xxl;
+}
+
+.container-buttons-row-same-size {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    gap: 12px;
+    margin-top: @margin__s;
+    margin-bottom: @margin__xxl;
+}
 
 .auction-message {
     height: @height-auctions-grid-bottom-button;
+}
+
+.expandable-section {
+    .fa-solid {
+        position: absolute;
+        color: white;
+    }
+
+    .toggle-info {
+        position: relative;
+        /* Give space for the icon */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        // border-top: 1px solid white;
+        /* Line above the h3 */
+        border-bottom: none;
+        margin-top: 0px;
+        /* Spacing above the h3 */
+        margin-bottom: 0px;
+        /* Spacing below the h3 */
+        font-size: @font-size__base;
+        color: white;
+        text-align: center;
+        font-weight: 600;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+// .expandable-section .toggle-info::before {
+//     content: "\f078";
+//     /* This is the FontAwesome code for 'fa-chevron-down' */
+//     font-family: 'FontAwesome';
+//     position: absolute;
+//     left: 5px;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     font-size: 16px;
+//     /* Adjust size as necessary */
+//     font-weight: 100;
+//     color: white;
+//     /* Set the color */
+//     pointer-events: none;
+//     /* Make it non-interactive */
+//     // margin-left: 5px;
+// }
+
+.expandable-section.is-expanded .fa-chevron-down::before {
+    content: "\f077";
+    /* Unicode for 'fa-chevron-up' */
+    /* Your styling for the icon when the section is expanded */
+}
+
+.expandable-section {
+    border-top: 1px solid white;
+    display: flex;
+    align-items: center;
+}
+
+.expandable-section:last-child {
+    border-bottom: 1px solid white;
+    /* Add bottom border to the last h3 */
+    margin-bottom: 20px;
+}
+
+.expandable-child {
+    margin: 0 20px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.bidder-bottom-line {
+    border-bottom: 1.5px solid white;
+    padding-bottom: @margin__xl;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.circle-over-image.image-container::before {
+    content: "";
+    display: block;
+    width: 130%;
+    height: 14vh;
+    position: absolute;
+    bottom: -8vh;
+    left: 50%;
+    transform: translateX(-50%) scaleY(2);
+    border-radius: 50%;
+    background-color: #00adbb;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.circle-over-image.image-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    height: 20vh;
+    /* Lower z-index to keep it at the bottom of the stack */
+
+    .name-container {
+        margin-top: auto;
+        width: 100%;
+        margin-bottom: 0px;
+    }
+
+    h1 {
+        color: white;
+        text-align: center;
+        font-weight: 600;
+        margin-top: auto;
+        z-index: 4;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 html,
