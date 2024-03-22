@@ -57,6 +57,7 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+    overflow: hidden;
 }
 
 .marketplace-product-add,
@@ -310,6 +311,7 @@
     #step-2 .step-2_inputs {
         height: 100%;
         overflow-y: auto;
+        flex-grow: 1;
     }
 
     .step-2_inputs-container::after {
@@ -328,6 +330,9 @@
         overflow-y: hidden;
         position: relative;
         flex-grow: 1;
+        display: flex;
+        flex-shrink: 1;
+        min-height: 0;
     }
 
     #step-2,
@@ -360,7 +365,10 @@
 
     .bidder-to-bottom {
         flex-grow: 1;
-        margin-bottom: 30px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        padding-bottom: 20px;
+        padding-top: 10px;
         position: fixed;
         bottom: 0;
         left: 50%;
