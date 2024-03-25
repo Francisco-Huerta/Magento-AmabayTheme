@@ -89,11 +89,14 @@ function renderAuctionBlock($auctionCollections, $title, $viewModel, $viewMode, 
             if (is_object($auctionCollection)) {
                 $auctionCollection->load();
             }
-            $itHasItems = (count($auctionCollection->getItems()) > 0);
+            if (count($auctionCollection->getData()) > 0) {
+                $itHasItems = true;
+                break;
+            }
         }
     }
     if ($itHasItems) {
-?>
+        ?>
         <div class="products-<?= /* @noEscape */ $viewMode ?>">
             <p class="block-subtitle"><?= /* @noEscape */ $block->escapeHtml(__($title)) ?></p>
             <ol class="product-items widget-product-grid">
